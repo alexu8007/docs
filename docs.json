@@ -35,13 +35,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "#"
+        "href": "mailto:support@polarity.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "#"
+      "href": "https://dashboard.polarity.com"
     }
   },
   "contextual": {
