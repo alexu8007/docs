@@ -1,0 +1,68 @@
+---
+title: "Dashboard"
+description: "Understand the Polarity dashboard and how to use it day‑to‑day."
+---
+
+<Info>
+  Polarity is dashboard‑only — there is no API. Make sure the GitHub App is installed so Polarity can analyze your repositories and open PRs automatically.
+  <a href="https://github.com/apps/polarity-ai/installations/select_target">Install GitHub App</a>
+</Info>
+
+## Overview page
+
+The Overview page gives you a real‑time snapshot across all connected repositories.
+
+- **Analysis Success Rate**: Percentage of successful analyses vs total attempts. Use this to monitor stability of analyses across repos.
+- **Code Improvements**: Count of files improved by Polarity across your repositories.
+- **Monthly Credits**: Credits used vs monthly quota. Credits are consumed when Polarity simulates behavior, traces dependencies, and prepares improvements.
+- **Active Repositories**: Number of repositories currently enabled for analysis.
+
+Below the KPIs, the **Analysis Activity** chart shows volume over time. Use the range controls to switch between the last 7 days, 30 days, or 3 months.
+
+At the bottom, **Recent Activity** lists the latest PRs and optimization events from Polarity.
+
+<Tip>
+  If you see a banner about system load, analyses may take longer. They will resume automatically — no action needed.
+</Tip>
+
+## Connect repositories
+
+<Steps>
+<Step title="Install the GitHub App">
+  From the navbar, click <strong>Install GitHub App</strong> or go directly to the
+  <a href="https://github.com/apps/polarity-ai/installations/select_target">install page</a> and grant access to your organization.
+</Step>
+<Step title="Add orgs and repos">
+  Click <strong>Add Repository</strong> in the left sidebar. Select the organizations and repositories you want Polarity to analyze.
+</Step>
+<Step title="Choose the model">
+  Use the Polarity default model, or bring your own. You can override per repository or branch from the dashboard.
+</Step>
+</Steps>
+
+## Daily use guide
+
+- **Refresh**: Use the refresh button in the Overview to fetch the latest results.
+- **Projects**: Group related repositories to track improvements together.
+- **Team**: Invite teammates with their work email to collaborate and approve PRs.
+- **Reports**: Access summary insights and exportable reports for stakeholders.
+
+## Credits and usage
+
+Credits represent Polarity’s compute for simulations, dependency tracing, and preparing PRs. Your plan defines a monthly credit allocation. See the **Monthly Credits** card for current usage; visit the Plans page to compare limits and features.
+
+## Troubleshooting
+
+- No data appearing?
+  - Ensure the GitHub App is installed and has access to the intended repositories.
+  - Confirm the repositories are selected in <strong>Add Repository</strong>.
+  - Click <strong>Refresh</strong> on the Overview.
+- PRs not opening?
+  - Check repository branch protection settings.
+  - Ensure Polarity has write permissions to create branches and PRs.
+
+<Note>
+  For help, contact Support from the navbar or visit the Dashboard: <a href="https://home.polarity.cc">home.polarity.cc</a>
+</Note>
+
+
