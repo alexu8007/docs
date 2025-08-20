@@ -34,6 +34,10 @@
   "navbar": {
     "links": [
       {
+        "label": "Install GitHub App",
+        "href": "https://github.com/apps/polarity-ai/installations/select_target"
+      },
+      {
         "label": "Support",
         "href": "mailto:support@polarity.com"
       }
@@ -41,7 +45,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.polarity.com"
+      "href": "https://home.polarity.cc"
     }
   },
   "contextual": {
