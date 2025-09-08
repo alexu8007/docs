@@ -1,0 +1,85 @@
+---
+title: "Context and Rules"
+description: "Define custom rules and repository‑specific context to guide Polarity’s behavior."
+---
+
+## Overview
+
+Use Context and Rules to tailor how Polarity and Paragon behave in your repositories. You can add organization‑wide or repo‑specific guidance, plus file‑pattern targeting to scope where rules apply. Typical use cases include code style preferences, dependency policies, performance budgets, and review emphasis.
+
+<Note>
+  Rules are descriptive guidance that influences analysis and suggestions. They do not auto‑edit your code unless you request a command that yields suggestions.
+</Note>
+
+## Creating rules
+
+1. Open the dashboard and go to <strong>Context and Rules</strong>.
+2. Click <strong>Add Context</strong>.
+3. Enter a concise rule using clear language.
+4. Choose the scope: organization‑wide or a specific repository.
+5. Optionally add file patterns (for example, <code>src/**/*.tsx</code>) to narrow scope.
+6. Save.
+
+### Examples
+
+#### Organization‑wide style rule
+
+```
+Prefer early returns over deeply nested conditionals. Use guard clauses for invalid inputs and exit early.
+```
+
+Scope: All Active repositories
+
+File pattern: <code>**/*</code>
+
+#### Security rule for Python
+
+```
+Disallow broad exception catches. Replace bare `except:` with specific exceptions. Validate and sanitize all user input.
+```
+
+Scope: Selected repository
+
+File pattern: <code>**/*.py</code>
+
+#### Performance rule for front‑end
+
+```
+Avoid rendering lists over 1000 items without virtualization. Use react-window or react-virtualized.
+```
+
+Scope: Selected repository
+
+File pattern: <code>src/**/*.{tsx,ts,jsx,js}</code>
+
+## How rules are applied
+
+- Rules are attached to your active repositories and retrieved during analysis.
+- When you invoke Paragon in a PR (for example, <code>@polarity suggest lint</code>), rules help guide the suggestions and the risk analysis.
+- File patterns ensure rules apply only where relevant.
+
+## Tips
+
+- Keep rules short and specific. Use imperative language.
+- Prefer a handful of high‑signal rules over long documents.
+- Start broad (org‑wide), then add repo‑local rules to refine.
+
+## Screenshots
+
+The UI includes a search bar and an empty state when no rules exist, plus a form with fields for the rule body, repository selector, and file pattern.
+
+<Frame caption="Empty state: no context or rules yet">
+  <img src="/images/hero-dark.png" alt="Empty state for Context and Rules" />
+</Frame>
+
+<Frame caption="Create rule: repository scope and file pattern">
+  <img src="/images/checks-passed.png" alt="Create rule form with repository and file pattern" />
+</Frame>
+
+## Best practices
+
+- Treat rules as guardrails, not rigid constraints.
+- Periodically review rules for relevance and remove stale ones.
+- Use specific file patterns to avoid unintended scope.
+
+

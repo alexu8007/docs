@@ -1,0 +1,29 @@
+---
+title: "FAQ"
+description: "Common questions and troubleshooting for Polarity and Paragon."
+---
+
+## Why did Polarity fail?
+
+Polarity may fail for one of the following reasons:
+
+1. **Your original code doesn’t compile or run.**
+   - Ensure the repository builds and tests pass locally. Fix baseline issues before re‑running Polarity.
+
+2. **Your code only runs with local secrets or environment restrictions** Polarity can’t access.
+   - Avoid relying on local <code>.env</code> files or machine‑specific configuration. Use safe mock values or CI‑compatible defaults.
+
+3. **Polarity made a mistake and the Verifier can’t repair it.**
+   - In this case, Polarity will not push changes to avoid breaking your codebase. Review the PR or logs, and re‑run after addressing constraints.
+
+<Tip>
+  If failures persist, open a support ticket from the navbar or attach logs to help us diagnose.
+</Tip>
+
+## General troubleshooting
+
+- Confirm the GitHub App is installed and has required permissions.
+- Make sure the repository and branch are enabled in the dashboard.
+- Re‑run the analysis after addressing compile/test errors.
+
+

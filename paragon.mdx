@@ -1,0 +1,195 @@
+---
+title: "Paragon"
+description: "Insights and automation for your pull requests. Use @polarity commands for on‑demand code review."
+---
+
+## What is Paragon?
+
+Paragon analyzes your pull requests to surface risks, security concerns, and code quality issues, and it provides actionable, low‑risk suggestions. It runs entirely inside the PR conversation thread when explicitly invoked, so it never spams your reviews and remains scoped to your changes.
+
+<Info>
+  Paragon is on‑demand. It only replies when you mention <code>@polarity</code> with a command.
+</Info>
+
+## Paragon demo
+
+<Frame caption="Paragon — Code Reviewer demo">
+  <iframe
+    className="w-full aspect-video rounded-xl"
+    src="https://drive.google.com/file/d/1SZE9Vi0QSoh7RXAllCd4CC_BlTHhZb0G/preview"
+    title="PARAGON DEMO (Code Reviewer)"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+</Frame>
+
+<Tip>
+  If your network blocks Google Drive embeds, open the video directly: <a href="https://drive.google.com/file/d/1SZE9Vi0QSoh7RXAllCd4CC_BlTHhZb0G/view?usp=sharing">PARAGON DEMO (Code Reviewer)</a>.
+</Tip>
+
+## PR Comment Commands (Polarity)
+
+This section documents the supported <code>@polarity</code> commands you can use inside Pull Request conversations. Each command is on‑demand (no auto‑replies) and designed to be precise and helpful for real review workflows.
+
+### General usage
+
+- **How to mention**: Type <code>@polarity &lt;command&gt;</code>. Commands are case‑insensitive.
+- **Targets**: Append a file or function name where supported.
+- **Chaining**: You can chain a single subcommand (for example, <code>tests add &lt;target&gt;</code>).
+- **Examples**:
+  - <code>@polarity diff</code>
+  - <code>@polarity files</code>
+  - <code>@polarity explain app/services/payment.py</code>
+  - <code>@polarity hotspots</code>
+  - <code>@polarity impact</code>
+  - <code>@polarity risks</code>
+  - <code>@polarity alt app/api/users.py</code>
+  - <code>@polarity suggest lint</code>
+  - <code>@polarity tighten-errors</code>
+  - <code>@polarity import-fix</code>
+  - <code>@polarity tests add app/utils/parse.py</code>
+  - <code>@polarity tests explain</code>
+  - <code>@polarity coverage</code>
+  - <code>@polarity perf budget</code>
+  - <code>@polarity sec scan</code>
+  - <code>@polarity licenses</code>
+
+### Syntax conventions
+
+- **<code>&lt;file&gt;</code>**: Repository‑relative path, for example, <code>app/services/payment.py</code>
+- **<code>&lt;function&gt;</code>**: Function name optionally with module path, for example, <code>app/utils/parse.py::parse_amount</code> or just <code>parse_amount</code>
+- **Aliases**: Shown per command; all accept hyphen/space variants (for example, <code>tighten-errors</code> ≈ <code>tighten errors</code>).
+
+---
+
+### On‑demand code insights
+
+#### 1) diff
+- **Purpose**: Summarize function/class additions/removals/renames in this PR (py/js/ts)
+- **Aliases**: <code>diff</code>, <code>function diff</code>, <code>summary</code>
+- **Usage**: <code>@polarity diff</code>
+- **Output**: Per‑file bullets: added, removed, renamed items
+- **Notes**: Based on patch hunks; large files are summarized conservatively
+
+#### 2) hotspots
+- **Purpose**: Identify risky changed files
+- **Heuristics**: Churn (added+removed lines), rough complexity (occurrences of <code>def</code>/<code>function</code>/<code>class</code>)
+- **Usage**: <code>@polarity hotspots</code>
+- **Output**: Prioritized list with churn/complexity and priority
+- **Notes**: Use as a triage signal; confirm with CI and reviews
+
+#### 3) impact
+- **Purpose**: Show downstream dependents of changed Python modules
+- **Usage**: <code>@polarity impact</code>
+- **Output**: <em>file → dependents</em> (first N) inferred from import graph
+- **Notes**: Python‑only; heuristics map modules to file paths; extendable to other languages
+
+---
+
+### Targeted reviews
+
+#### 4) explain <code>&lt;file|function&gt;</code>
+- **Purpose**: Plain‑English what/why centered on a file/function
+- **Aliases**: <code>explain</code>, <code>review</code>, <code>why</code>
+- **Usage**: <code>@polarity explain app/services/payment.py</code>
+- **Output**: Concise explanation grounded in PR patches
+- **Notes**: Keeps it high‑signal; pastes snippets only if essential
+
+#### 5) risks
+- **Purpose**: Flag likely breaking changes (API signatures, constructor changes, schema)
+- **Usage**: <code>@polarity risks</code>
+- **Output**: Bullets per file with a short rationale
+- **Notes**: Heuristic; confirm with tests and consumers
+
+#### 6) alt <code>&lt;file&gt;</code>
+- **Purpose**: Suggest a cleaner refactor path for a single file
+- **Usage**: <code>@polarity alt app/api/users.py</code>
+- **Output**: Before/after sketch, key steps, minimal‑risk plan
+- **Notes**: High‑level; no bulk code churn
+
+---
+
+### Quick fixes via suggestions
+
+#### 7) suggest <code>&lt;kind&gt;</code>
+- **Purpose**: Inline suggestion blocks for small hygiene fixes
+- **Kinds**: <code>lint</code>, <code>typing</code>, <code>naming</code> (defaults to <code>lint</code>)
+- **Usage**: <code>@polarity suggest typing</code>
+- **Output**: GitHub suggestion blocks (copy/paste into review) limited to changed files
+- **Notes**: Conservative by design; avoids refactors
+
+#### 8) tighten-errors (a.k.a. tighten errors)
+- **Purpose**: Replace broad excepts; add minimal input guards
+- **Usage**: <code>@polarity tighten-errors</code>
+- **Output**: Suggestion blocks where applicable
+- **Notes**: Safety‑first; suggests specific exceptions where clear
+
+#### 9) import-fix (a.k.a. import fix)
+- **Purpose**: Propose minimal import repairs
+- **Usage**: <code>@polarity import-fix</code>
+- **Output**: Suggestion blocks; only when high‑confidence hints exist
+
+---
+
+### Tests on demand
+
+#### 10) tests add <code>&lt;file|function&gt;</code>
+- **Purpose**: Provide skeletal unit tests to start coverage
+- **Usage**: <code>@polarity tests add app/utils/parse.py</code> or <code>@polarity tests add parse_amount</code>
+- **Output**: Minimal pytest/jest skeletons (language‑aware), limited to scope
+- **Notes**: Keep/extend locally; not auto‑committed
+
+#### 11) tests explain
+- **Purpose**: Explain failing CI checks (if available)
+- **Usage**: <code>@polarity tests explain</code>
+- **Output**: List of statuses with states/descriptions; maps probable cause when present
+
+#### 12) coverage
+- **Purpose**: Quick coverage delta signal
+- **Usage**: <code>@polarity coverage</code>
+- **Output**: Count of touched test files and changed lines; rough estimate only
+
+---
+
+### Performance checks
+
+#### 13) perf budget
+- **Purpose**: LOC delta snapshot to keep change budgets in check
+- **Usage**: <code>@polarity perf budget</code>
+- **Output**: <code>+added</code> / <code>-removed</code> lines across the PR
+
+---
+
+### Security & compliance
+
+#### 15) sec scan
+- **Purpose**: Indicate/queue security scan scope (Python focus)
+- **Usage**: <code>@polarity sec scan</code>
+- **Output**: Which files/scopes will be scanned or were scanned (Bandit)
+
+#### 16) licenses
+- **Purpose**: Surface dependency manifest changes for license review
+- **Usage**: <code>@polarity licenses</code>
+- **Output**: List of changed manifests (for example, <code>package.json</code>, <code>requirements.txt</code>, <code>poetry.lock</code>)
+
+---
+
+### Principles & safety rails
+
+- **On‑demand only**: Paragon replies only when explicitly asked with a command
+- **Scope‑limited**: Edits or suggestions target changed files only; config/env files are excluded by policy
+- **Minimal risk**: Any generated suggestions are small, local, and presented as suggestion blocks for human approval
+
+### Notes
+
+- Some advanced analyses use heuristics for responsiveness. For deep results, prefer running the full CI/tooling pipeline.
+- The import impact graph currently analyzes Python files; multi‑language dependency analysis can be extended later.
+
+### Troubleshooting
+
+- **No reply?** Ensure your GitHub App is subscribed to: <code>issue_comment</code>, <code>pull_request_review_comment</code>, <code>pull_request</code>
+- Mentions must include an actionable command, for example, <code>@polarity diff</code>; plain mentions are ignored by design
+- Large patches are summarized; for full detail, request a narrower target (for example, a specific file)
+
+

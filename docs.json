@@ -21,6 +21,14 @@
               "dashboard",
               "plans"
             ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "paragon",
+              "context",
+              "faq"
+            ]
           }
         ]
       }
