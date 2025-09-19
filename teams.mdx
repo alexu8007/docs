@@ -1,0 +1,248 @@
+---
+title: "Teams"
+description: "How team creation, administration, and member experiences appear across the Polarity dashboard."
+---
+
+# /dashboard/team - Team Management Page
+
+The Team page displays differently based on your role: Individual (no team), Team Admin, or Team Member.
+
+## View 1: Individual Users (Team Creation)
+
+### Page Header
+- **Title**: "Upgrade to add teammates"
+- **Subtitle**: "Free includes a team-of-one. Starter increases credits. Pro enables teammates."
+
+### Team Plan Card
+**What you see**: Large white card with plan details
+
+#### Plan Features Section
+- **Section title**: "Team Plan"
+- **Description**: "Pro unlocks collaboration. Starter only increases credits."
+- **Feature list** (green checkmarks):
+  - Unlimited repositories
+  - Unlimited credits
+  - Team management (Pro)
+  - Advanced analytics
+  - Priority support
+  - API access
+
+#### Team Size Selector
+**What you see**: Interactive counter section
+- **Minus button**: Decreases team size (minimum 2)
+- **Large number**: Current team size (e.g., "2")
+- **Label**: "team members" below number
+- **Plus button**: Increases team size (maximum 50)
+
+#### Billing Toggle
+**What you see**: Two buttons to switch billing
+- **Monthly button**: "$52/seat" - Selected shows blue
+- **Yearly button**: "$40/seat/mo" - Shows savings
+
+#### Team Details Form
+- **Team name field**:
+  - Label: "Team name"
+  - Input: Text field (e.g., "Acme Engineering Team")
+  - Required indicator: Red asterisk
+
+- **Description field**:
+  - Label: "What does your team work on? (optional)"
+  - Textarea: Multi-line input
+  - Gray placeholder text
+
+#### Create Team Button
+**What you see**: Large blue button at bottom
+- **Disabled state**: Gray when no team name
+- **Enabled state**: Blue with price (e.g., "Create Team - $104/month")
+- **Loading state**: Spinner with "Creating team..."
+- **Warning text**: "Please enter a team name to continue" (if empty)
+
+## View 2: Team Admin Dashboard
+
+### Page Header
+- **Title**: "Team Dashboard"
+- **Subtitle**: "Manage your team and monitor performance"
+- **Badges** (right side):
+  - Plan badge (e.g., "Pro")
+  - "Admin" badge in blue
+
+### Team Overview Card
+**What you see**: Main team information card
+
+#### Card Header
+- **Team name**: Large bold text
+- **Description**: Gray text below name
+- **Member count**: "Members 3/5 • Pending 1"
+- **Note**: Small text about plan limitations
+- **Action buttons** (right):
+  - "Team Size" - Opens seat management
+  - "Settings" - Opens team settings
+
+### Management Tabs
+Three tabs to switch between sections:
+
+#### 1. Team Members Tab
+**What you see**: Member management interface
+
+##### Member Table
+- **Headers**: Name, Email, Role, Joined, Last Active, Actions
+- **Member rows**:
+  - Avatar (circular profile picture)
+  - Name in bold
+  - Email in gray
+  - Role badge (Admin/Member)
+  - Join date
+  - Last active time
+  - Remove button (red X icon)
+
+##### Invite Status Bar
+**When at capacity**:
+- **Warning bar**: Yellow background
+- **Message**: "Upgrade required to invite members. Increase your Pro seats to continue."
+- **Button**: "Upgrade Required"
+
+#### 2. Invitations Tab
+**What you see**: Invitation management
+
+##### Invite Form
+- **Email input**: "Enter email addresses"
+- **Helper text**: "Separate multiple emails with commas"
+- **Role selector**: Dropdown (default: Member)
+- **Message field**: Optional invitation message
+- **Send button**: "Send Invitations"
+
+##### Pending Invites List
+- **Table headers**: Email, Invited By, Sent, Actions
+- **Invite rows**:
+  - Email address
+  - Who sent the invite
+  - Time sent
+  - Actions:
+    - "Resend" link
+    - "Cancel" button (red)
+
+#### 3. Analytics Tab
+**What you see**: Team performance metrics
+
+##### Stats Grid
+Four metric cards:
+1. **Total Repositories**: Number and trend
+2. **Active Members**: Count with avatars
+3. **Monthly Usage**: Credits/API calls
+4. **Success Rate**: Percentage with graph
+
+##### Member Activity Table
+- **Headers**: Member, Usage, Last Active, Repositories
+- **Data rows**: Individual member statistics
+
+### Modals
+
+#### Team Settings Modal
+**Opens when**: Click Settings button
+- **Team name field**: Editable
+- **Description field**: Editable
+- **Save button**: Applies changes
+- **Cancel button**: Discards changes
+- **Delete team**: Red danger zone section
+
+#### Team Size Modal
+**Opens when**: Click Team Size button
+- **Current usage**: "3 of 5 seats used"
+- **Seat adjuster**: Plus/minus buttons
+- **Price calculator**: Shows cost change
+- **Immediate effect note**: For increases
+- **Next billing note**: For decreases
+- **Update button**: Confirms changes
+
+## View 3: Team Member View
+
+### Page Header
+- **Title**: "Team Information"
+- **Subtitle**: "Your team workspace details"
+- **Badges** (right side):
+  - Plan badge
+  - "Member" badge in gray
+
+### Team Info Card
+**What you see**: Basic team information
+- **Team icon**: Building icon in blue square
+- **Team name**: Large text
+- **Admin info**: "Team admin: [name/email]"
+- **Member badge**: Shows your role
+
+### Team Overview Card
+**What you see**: Quick statistics
+
+#### Stats Grid
+Three stat boxes:
+1. **Team Members**:
+   - Blue users icon
+   - Label: "Team Members"
+   - Count number
+
+2. **Pending Invites**:
+   - Yellow clock icon
+   - Label: "Pending Invites"
+   - Count number
+
+3. **Plan**:
+   - Green infinity icon
+   - Label: "Plan"
+   - Plan name (Starter/Pro)
+
+#### Member Avatars
+- **Row of circles**: First 8 member profile pictures
+- **Overlap style**: Slightly overlapped
+- **Fallback**: Initials if no picture
+
+### Leave Team Section
+**What you see**: Bottom action area
+- **Leave Team button**: Red outline button
+- **Confirmation dialog**: "Leave this team? You will lose access to team resources."
+
+## Common Visual Elements
+
+### Loading States
+- **Initial load**: Spinning circle with pulsing team icon
+- **Message**: "Loading team information..."
+
+### Empty States
+- **No team**: Shows creation flow
+- **No members**: "No team members yet"
+- **No invites**: "No pending invitations"
+
+### Color Coding
+- **Blue**: Primary actions, admin elements
+- **Green**: Success, active states
+- **Yellow**: Warnings, pending states
+- **Red**: Danger actions, remove buttons
+- **Gray**: Inactive, member role
+
+### Status Indicators
+- **Admin badge**: Blue background
+- **Member badge**: Gray background
+- **Plan badges**: Outline style
+- **Seat usage**: "X/Y" format
+
+### Forms
+- **Required fields**: Red asterisk
+- **Validation**: Red error messages
+- **Success**: Green checkmarks
+- **Loading**: Spinner in buttons
+
+### Responsive Design
+- **Mobile**: Single column, stacked elements
+- **Tablet**: Two-column grid for stats
+- **Desktop**: Full width with sidebars
+
+### Pricing Display
+- **Per seat**: "$52/month" or "$40/month yearly"
+- **Total**: Calculated automatically
+- **Savings**: "Save 23%" badge for yearly
+- **Currency**: USD with $ symbol
+
+### Action Confirmations
+- **Delete team**: Modal with typed confirmation
+- **Remove member**: Confirmation dialog
+- **Leave team**: Warning about lost access
+- **Plan changes**: Cost impact shown

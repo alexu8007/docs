@@ -1,0 +1,250 @@
+---
+title: "Reports"
+description: "Detailed reference for the analytics and reporting views in the Polarity dashboard."
+---
+
+# /dashboard/reports - Reports Page
+
+## Visual Components
+
+### Page Header
+**What you see**: Top section with title and actions
+- **Title**: "Reports" (large text)
+- **Subtitle**: "Monthly analytics and performance reports"
+- **Action buttons** (right side):
+  - "PDF Report" (with file icon) - Generates PDF
+  - "Email Reports" (with mail icon) - Coming soon
+  - "Refresh Reports" (with refresh icon) - Blue primary
+
+### Current Month Overview Section
+**What you see**: Four metric cards in a row
+
+#### Metric Cards (4 Cards)
+Each card shows:
+
+1. **Runs This Month Card**:
+   - **Icon**: Trending up icon (right side)
+   - **Label**: "Runs This Month" (gray text)
+   - **Number**: Large bold (e.g., "1,247")
+   - **Trend indicator**:
+     - Green arrow up if positive
+     - Red arrow down if negative
+   - **Change text**: "+12.5% from last month" (colored)
+
+2. **Tokens This Month Card**:
+   - **Icon**: Coin icon
+   - **Label**: "Tokens This Month"
+   - **Number**: "45K" format
+   - **Trend**: Same as above
+
+3. **Credits This Month Card**:
+   - **Icon**: Credit card icon
+   - **Label**: "Credits This Month"
+   - **Number**: Standard format
+   - **Trend**: Same as above
+
+4. **Files This Month Card**:
+   - **Icon**: File chart icon
+   - **Label**: "Files This Month"
+   - **Number**: Standard format
+   - **Trend**: Same as above
+
+### Interactive Chart Area
+**What you see**: Line chart below metrics
+- **Component**: ChartAreaInteractive
+- **Default view**: Last 30 days
+- **Multiple lines**: Different colored lines for metrics
+- **Hover tooltip**: Shows exact values
+- **Legend**: Below chart
+- **Time selector**: Daily/Weekly/Monthly buttons
+
+### Filter Controls
+**What you see**: Dropdown filters in a row
+- **Year filter**:
+  - Dropdown: "All Years", "2024", "2023"
+  - Default: "All Years"
+- **Month filter**:
+  - Dropdown: All months January-December
+  - Default: "All Months"
+- **Clear filters link**: When filters active
+
+### Monthly Reports Table
+**What you see**: Main data table
+
+#### Section Header
+- **Title**: "Monthly Reports"
+- **Count**: "X reports available" (right side)
+
+#### Table Headers
+- **Period** - Month and year
+- **Total Queries** - Query count
+- **Total Tokens** - Token usage
+- **Success Rate** - Percentage
+- **Top Categories** - Usage categories
+- **Generated** - Creation date
+- **Size** - File size
+- **Actions** - Buttons
+
+#### Table Rows
+Each row displays:
+- **Period**: "November 2024" format
+- **Total Queries**: Number with commas (e.g., "12,345")
+- **Total Tokens**: "1.2M" format
+- **Success Rate**:
+  - Green badge if >98%
+  - Yellow badge if 95-98%
+  - Red badge if <95%
+- **Top Categories**:
+  - First 2 as small badges
+  - "+3 more" if additional
+- **Generated**: Date format
+- **Size**: "1.2MB" format
+- **Actions**:
+  - "View" button (with chart icon)
+  - Download icon button
+
+#### Row Hover
+- Light gray background
+- Cursor pointer indication
+
+### Empty States
+
+#### No Reports Available
+**What you see**: Centered message
+- **Icon**: Large file chart icon (gray)
+- **Title**: "No monthly reports available"
+- **Message**: Varies based on filters:
+  - With filters: "Try adjusting your filters..."
+  - No filters: "Your tracker needs monthly breakdown data..."
+- **Actions**:
+  - "Refresh Reports" button
+  - "Clear Filters" button (if filtered)
+
+#### Loading State
+**What you see**: While loading
+- **Spinner**: Animated circle
+- **Title**: "Loading Reports"
+- **Message**: "Generating reports from your analytics data..."
+
+## Modals and Overlays
+
+### PDF Report Generator Modal
+**Opens when**: Click "PDF Report" button
+- **Title**: "Generate PDF Report"
+- **Date range selector**: Start and end date
+- **Include options** (checkboxes):
+  - Executive Summary
+  - Detailed Metrics
+  - Charts and Graphs
+  - Recommendations
+- **Generate button**: Blue primary
+- **Cancel button**: Gray outline
+
+### Download Progress
+**What you see**: When downloading
+- **Toast notification**: "Downloading November 2024 report..."
+- **Progress bar**: If large file
+- **Success message**: "Download complete"
+
+## Visual States
+
+### Loading States
+- **Table**: Skeleton rows with shimmer
+- **Metrics**: Pulsing placeholders
+- **Chart**: Loading spinner
+- **Buttons**: Disabled gray
+
+### Success States
+- **Toast**: Green with checkmark
+- **Updated badge**: Brief highlight
+- **Refresh complete**: Brief green border
+
+### Error States
+- **Toast**: Red with X icon
+- **Error message**: In place of content
+- **Retry button**: Appears on error
+
+## Color Coding
+
+### Metrics
+- **Green**: Positive trends, high success
+- **Red**: Negative trends, low success
+- **Yellow**: Warning levels
+- **Gray**: Neutral/no change
+
+### Table Elements
+- **Blue**: Links and primary actions
+- **Gray**: Secondary information
+- **Green/Yellow/Red**: Success rate badges
+
+## Responsive Design
+
+### Mobile
+- **Metrics**: 2x2 grid
+- **Table**: Horizontal scroll
+- **Chart**: Full width
+- **Filters**: Stack vertically
+
+### Tablet
+- **Metrics**: 2x2 or 4x1 based on width
+- **Table**: Responsive columns
+- **Chart**: Maintains ratio
+
+### Desktop
+- **Metrics**: 4 cards horizontal
+- **Table**: All columns visible
+- **Chart**: Optimal height
+- **Filters**: Horizontal layout
+
+## Interactive Elements
+
+### Clickable Items
+- Refresh button (reloads data)
+- PDF Report button (opens modal)
+- Filter dropdowns (show options)
+- View buttons (navigate to detail)
+- Download icons (trigger download)
+- Chart points (show tooltips)
+
+### Hover Effects
+- Table rows highlight
+- Buttons darken
+- Links underline
+- Chart shows crosshair
+
+### Animations
+- Metrics count up on load
+- Chart lines animate in
+- Trend arrows pulse briefly
+- Success badge flash
+
+## Data Display Formats
+
+### Numbers
+- **Large numbers**: Comma separated (1,234)
+- **Tokens**: "K" or "M" suffix (45K, 1.2M)
+- **Percentages**: One decimal (98.5%)
+- **File sizes**: "MB" or "KB" suffix
+
+### Dates
+- **Month format**: "November 2024"
+- **Full date**: "Nov 15, 2024"
+- **Generated**: Relative or absolute
+
+### Status Indicators
+- **Generating**: Yellow spinner
+- **Ready**: Green check
+- **Error**: Red X icon
+
+## Chart Features
+- **Interactive**: Hover for details
+- **Zoomable**: Click and drag
+- **Multiple series**: Different colors
+- **Grid lines**: Light gray
+- **Responsive**: Adapts to container
+
+## Navigation
+- **Breadcrumbs**: Not present
+- **Back button**: Not needed
+- **Deep links**: Direct to filtered views
+- **Export options**: PDF, JSON reports

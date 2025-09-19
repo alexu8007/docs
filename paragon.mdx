@@ -1,195 +1,270 @@
 ---
 title: "Paragon"
-description: "Insights and automation for your pull requests. Reviews code automatically, Use @polarity commands for on‑demand code review."
+description: "Visual guide to the Paragon AI code review experience."
 ---
 
-## What is Paragon?
+# /paragon - AI Code Review Page
 
-Paragon analyzes your pull requests to surface risks, security concerns, and code quality issues, and it provides actionable, low‑risk suggestions. It runs entirely inside the PR conversation thread when explicitly invoked, so it never spams your reviews and remains scoped to your changes.
+## Visual Components
 
-<Info>
-  Paragon is on‑demand. It only replies when you mention <code>@polarity</code> with a command.
-</Info>
+### Page Header
+**What you see**: Top section with branding and status
+- **Title**: "Paragon" in large text
+- **Subtitle**: "AI-powered code review for your pull requests"
+- **Status indicator**: Green dot "Online" or red dot "Offline"
+- **Stats badges** (right side):
+  - "Reviews today: 12"
+  - "Avg response: 45s"
 
-## Paragon demo
+### PR Review Queue Section
+**What you see**: Main content area with PR list
 
-<Frame caption="Paragon — Code Reviewer demo">
-  <iframe
-    className="w-full aspect-video rounded-xl"
-    src="https://drive.google.com/file/d/1SZE9Vi0QSoh7RXAllCd4CC_BlTHhZb0G/preview"
-    title="PARAGON DEMO (Code Reviewer)"
-    frameBorder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowFullScreen
-  ></iframe>
-</Frame>
+#### Section Header
+- **Title**: "Pull Requests Ready for Review"
+- **Count badge**: Shows number (e.g., "8 PRs")
+- **Refresh button**: Circular arrow icon
+- **Filter dropdown**: "All", "Urgent", "Ready", "Draft"
 
-<Tip>
-  If your network blocks Google Drive embeds, open the video directly: <a href="https://drive.google.com/file/d/1SZE9Vi0QSoh7RXAllCd4CC_BlTHhZb0G/view?usp=sharing">PARAGON DEMO (Code Reviewer)</a>.
-</Tip>
+#### PR Cards Grid
+**What you see**: Cards arranged in a grid (2-3 per row)
 
-## PR Comment Commands (Polarity)
+Each PR card contains:
+- **Repository name**: Top left with repo icon
+- **PR title**: Bold text, main focus
+- **PR number**: "#123" in gray
+- **Author**: Small avatar + username
+- **Status badges**:
+  - "Urgent" (red) - Requested reviews
+  - "Ready" (green) - Can be reviewed
+  - "Draft" (gray) - Work in progress
+  - "Reviewed" (blue) - Already analyzed
+- **Metrics row**:
+  - Files changed (e.g., "12 files")
+  - Lines changed (e.g., "+245 -89")
+  - Comments (e.g., "3 comments")
+- **Review button**:
+  - "Run AI Review" (purple) - Not reviewed
+  - "Re-run Review" (outline) - Already reviewed
+  - "View Review" (blue) - Has results
 
-This section documents the supported <code>@polarity</code> commands you can use inside Pull Request conversations. Each command is on‑demand (no auto‑replies) and designed to be precise and helpful for real review workflows.
+#### Card States
+- **Hover**: Slight elevation with shadow
+- **Loading**: Pulsing animation during review
+- **Error**: Red border with error message
 
-### General usage
+### Recent Reviews Section
+**What you see**: History of AI reviews below queue
 
-- **How to mention**: Type <code>@polarity &lt;command&gt;</code>. Commands are case‑insensitive.
-- **Targets**: Append a file or function name where supported.
-- **Chaining**: You can chain a single subcommand (for example, <code>tests add &lt;target&gt;</code>).
-- **Examples**:
-  - <code>@polarity diff</code>
-  - <code>@polarity files</code>
-  - <code>@polarity explain app/services/payment.py</code>
-  - <code>@polarity hotspots</code>
-  - <code>@polarity impact</code>
-  - <code>@polarity risks</code>
-  - <code>@polarity alt app/api/users.py</code>
-  - <code>@polarity suggest lint</code>
-  - <code>@polarity tighten-errors</code>
-  - <code>@polarity import-fix</code>
-  - <code>@polarity tests add app/utils/parse.py</code>
-  - <code>@polarity tests explain</code>
-  - <code>@polarity coverage</code>
-  - <code>@polarity perf budget</code>
-  - <code>@polarity sec scan</code>
-  - <code>@polarity licenses</code>
+#### Section Header
+- **Title**: "Recent AI Reviews"
+- **Time filter**: "Today", "This Week", "All Time"
+- **Export button**: Download icon
 
-### Syntax conventions
+#### Reviews Table
+- **Columns**:
+  - PR (title + number, clickable)
+  - Repository (owner/repo)
+  - Review Time (e.g., "2 hours ago")
+  - Model Used (e.g., "GPT-4", "Claude")
+  - Score (0-100 with color)
+  - Findings (count badges)
+  - Actions (View, Export, Re-run)
 
-- **<code>&lt;file&gt;</code>**: Repository‑relative path, for example, <code>app/services/payment.py</code>
-- **<code>&lt;function&gt;</code>**: Function name optionally with module path, for example, <code>app/utils/parse.py::parse_amount</code> or just <code>parse_amount</code>
-- **Aliases**: Shown per command; all accept hyphen/space variants (for example, <code>tighten-errors</code> ≈ <code>tighten errors</code>).
+- **Row colors**:
+  - Green row: Score > 85
+  - Yellow row: Score 70-85
+  - Red row: Score < 70
 
----
+- **Score display**:
+  - Number with circular progress
+  - Green/yellow/red based on value
 
-### On‑demand code insights
+- **Findings badges**:
+  - Red "3 critical"
+  - Yellow "5 warnings"
+  - Blue "8 info"
 
-#### 1) diff
-- **Purpose**: Summarize function/class additions/removals/renames in this PR (py/js/ts)
-- **Aliases**: <code>diff</code>, <code>function diff</code>, <code>summary</code>
-- **Usage**: <code>@polarity diff</code>
-- **Output**: Per‑file bullets: added, removed, renamed items
-- **Notes**: Based on patch hunks; large files are summarized conservatively
+### AI Review Modal
+**Opens when**: Click "View Review" or after review completes
 
-#### 2) hotspots
-- **Purpose**: Identify risky changed files
-- **Heuristics**: Churn (added+removed lines), rough complexity (occurrences of <code>def</code>/<code>function</code>/<code>class</code>)
-- **Usage**: <code>@polarity hotspots</code>
-- **Output**: Prioritized list with churn/complexity and priority
-- **Notes**: Use as a triage signal; confirm with CI and reviews
+#### Modal Header
+- **PR title**: Large text
+- **Close button**: X in corner
+- **Status bar**: Green/yellow/red based on score
 
-#### 3) impact
-- **Purpose**: Show downstream dependents of changed Python modules
-- **Usage**: <code>@polarity impact</code>
-- **Output**: <em>file → dependents</em> (first N) inferred from import graph
-- **Notes**: Python‑only; heuristics map modules to file paths; extendable to other languages
+#### Review Summary Section
+- **Overall Score**: Large number (0-100)
+- **Grade**: Letter grade (A+, B, C, etc.)
+- **Risk Level**: Low/Medium/High/Critical badge
+- **Review Time**: How long analysis took
 
----
+#### Key Findings Tabs
+Tabbed interface with:
 
-### Targeted reviews
+1. **Overview Tab**:
+   - Summary paragraph
+   - Top 3-5 issues
+   - Recommendations list
 
-#### 4) explain <code>&lt;file|function&gt;</code>
-- **Purpose**: Plain‑English what/why centered on a file/function
-- **Aliases**: <code>explain</code>, <code>review</code>, <code>why</code>
-- **Usage**: <code>@polarity explain app/services/payment.py</code>
-- **Output**: Concise explanation grounded in PR patches
-- **Notes**: Keeps it high‑signal; pastes snippets only if essential
+2. **Security Tab**:
+   - Vulnerability list with severity
+   - Each item shows:
+     - Issue title
+     - File and line number
+     - Description
+     - Suggested fix
 
-#### 5) risks
-- **Purpose**: Flag likely breaking changes (API signatures, constructor changes, schema)
-- **Usage**: <code>@polarity risks</code>
-- **Output**: Bullets per file with a short rationale
-- **Notes**: Heuristic; confirm with tests and consumers
+3. **Performance Tab**:
+   - Performance issues found
+   - Optimization suggestions
+   - Complexity warnings
 
-#### 6) alt <code>&lt;file&gt;</code>
-- **Purpose**: Suggest a cleaner refactor path for a single file
-- **Usage**: <code>@polarity alt app/api/users.py</code>
-- **Output**: Before/after sketch, key steps, minimal‑risk plan
-- **Notes**: High‑level; no bulk code churn
+4. **Quality Tab**:
+   - Code style issues
+   - Best practice violations
+   - Documentation gaps
 
----
+5. **Tests Tab**:
+   - Test coverage analysis
+   - Missing test cases
+   - Test quality issues
 
-### Quick fixes via suggestions
+#### Line-by-Line Comments Section
+**What you see**: Detailed file feedback
+- **File headers**: Collapsible sections
+- **Line comments**:
+  - Line number highlighted
+  - Issue description
+  - Severity icon (🔴🟡🔵)
+  - "Apply Fix" button (when available)
 
-#### 7) suggest <code>&lt;kind&gt;</code>
-- **Purpose**: Inline suggestion blocks for small hygiene fixes
-- **Kinds**: <code>lint</code>, <code>typing</code>, <code>naming</code> (defaults to <code>lint</code>)
-- **Usage**: <code>@polarity suggest typing</code>
-- **Output**: GitHub suggestion blocks (copy/paste into review) limited to changed files
-- **Notes**: Conservative by design; avoids refactors
+#### Action Buttons
+- **Post to GitHub**: Adds as PR comment
+- **Download Report**: PDF/Markdown
+- **Share**: Copy link
+- **Re-run**: New analysis
 
-#### 8) tighten-errors (a.k.a. tighten errors)
-- **Purpose**: Replace broad excepts; add minimal input guards
-- **Usage**: <code>@polarity tighten-errors</code>
-- **Output**: Suggestion blocks where applicable
-- **Notes**: Safety‑first; suggests specific exceptions where clear
+### Settings Panel
+**What you see**: Slide-out panel from right
 
-#### 9) import-fix (a.k.a. import fix)
-- **Purpose**: Propose minimal import repairs
-- **Usage**: <code>@polarity import-fix</code>
-- **Output**: Suggestion blocks; only when high‑confidence hints exist
+#### Review Configuration
+- **Model Selection**:
+  - Dropdown: "Fast", "Balanced", "Deep"
+  - Description of each
 
----
+- **Focus Areas** (checkboxes):
+  - ✅ Security
+  - ✅ Performance
+  - ✅ Code Quality
+  - ✅ Tests
+  - ✅ Documentation
 
-### Tests on demand
+- **Severity Threshold**:
+  - Slider: 0-100
+  - "Only show issues above: 70"
 
-#### 10) tests add <code>&lt;file|function&gt;</code>
-- **Purpose**: Provide skeletal unit tests to start coverage
-- **Usage**: <code>@polarity tests add app/utils/parse.py</code> or <code>@polarity tests add parse_amount</code>
-- **Output**: Minimal pytest/jest skeletons (language‑aware), limited to scope
-- **Notes**: Keep/extend locally; not auto‑committed
+- **Auto-review** (toggle):
+  - "Automatically review new PRs"
 
-#### 11) tests explain
-- **Purpose**: Explain failing CI checks (if available)
-- **Usage**: <code>@polarity tests explain</code>
-- **Output**: List of statuses with states/descriptions; maps probable cause when present
+#### Repository Rules
+- **List of repos**: With toggle switches
+- **Add rule button**: Opens rule editor
+- **Rule examples**:
+  - "Always check for SQL injection"
+  - "Enforce TypeScript strict"
 
-#### 12) coverage
-- **Purpose**: Quick coverage delta signal
-- **Usage**: <code>@polarity coverage</code>
-- **Output**: Count of touched test files and changed lines; rough estimate only
+### Loading States
 
----
+#### During Review
+**What you see**: While AI analyzes
+- **Spinner**: Animated AI brain icon
+- **Progress messages**:
+  - "Analyzing code structure..."
+  - "Checking for vulnerabilities..."
+  - "Evaluating performance..."
+  - "Generating recommendations..."
+- **Progress bar**: Shows completion %
 
-### Performance checks
+#### Results Loading
+- **Skeleton loaders**: For sections
+- **Fade-in animation**: When complete
 
-#### 13) perf budget
-- **Purpose**: LOC delta snapshot to keep change budgets in check
-- **Usage**: <code>@polarity perf budget</code>
-- **Output**: <code>+added</code> / <code>-removed</code> lines across the PR
+### Empty States
 
----
+#### No PRs
+**What you see**: When queue is empty
+- **Icon**: Large robot illustration
+- **Message**: "No pull requests to review"
+- **Subtext**: "PRs will appear here when created"
+- **Action**: "Check Repositories" button
 
-### Security & compliance
+#### No Reviews
+**What you see**: When no history
+- **Message**: "No reviews yet"
+- **Suggestion**: "Select a PR above to start"
 
-#### 15) sec scan
-- **Purpose**: Indicate/queue security scan scope (Python focus)
-- **Usage**: <code>@polarity sec scan</code>
-- **Output**: Which files/scopes will be scanned or were scanned (Bandit)
+### Visual Indicators
 
-#### 16) licenses
-- **Purpose**: Surface dependency manifest changes for license review
-- **Usage**: <code>@polarity licenses</code>
-- **Output**: List of changed manifests (for example, <code>package.json</code>, <code>requirements.txt</code>, <code>poetry.lock</code>)
+#### Status Colors
+- **Green**: Passing, good, safe
+- **Yellow**: Warning, needs attention
+- **Red**: Critical, failing, urgent
+- **Blue**: Information, neutral
+- **Purple**: AI/Paragon branded elements
 
----
+#### Priority Indicators
+- **Urgent badge**: Red with exclamation
+- **High badge**: Orange
+- **Medium badge**: Yellow
+- **Low badge**: Gray
 
-### Principles & safety rails
+#### Confidence Levels
+- **High confidence**: Solid border
+- **Medium confidence**: Dashed border
+- **Low confidence**: Dotted border
 
-- **On‑demand only**: Paragon replies only when explicitly asked with a command
-- **Scope‑limited**: Edits or suggestions target changed files only; config/env files are excluded by policy
-- **Minimal risk**: Any generated suggestions are small, local, and presented as suggestion blocks for human approval
+### Interactive Elements
 
-### Notes
+#### Hover Effects
+- PR cards lift with shadow
+- Buttons darken
+- Table rows highlight
+- Links underline
 
-- Some advanced analyses use heuristics for responsiveness. For deep results, prefer running the full CI/tooling pipeline.
-- The import impact graph currently analyzes Python files; multi‑language dependency analysis can be extended later.
+#### Click Actions
+- PR title → Polarity PR viewer
+- Review button → Start analysis
+- Score → Show breakdown
+- File name → Jump to file
 
-### Troubleshooting
+### Navigation
+- **PR links**: Route to `/dashboard/pr/[owner]/[repo]/[number]`
+- **Back button**: Return to queue
+- **Breadcrumbs**: Paragon > PR Title
 
-- **No reply?** Ensure your GitHub App is subscribed to: <code>issue_comment</code>, <code>pull_request_review_comment</code>, <code>pull_request</code>
-- Mentions must include an actionable command, for example, <code>@polarity diff</code>; plain mentions are ignored by design
-- Large patches are summarized; for full detail, request a narrower target (for example, a specific file)
+### Responsive Design
 
+#### Mobile
+- Cards stack vertically
+- Modal becomes full screen
+- Sidebar becomes bottom sheet
+- Touch-friendly buttons
 
+#### Desktop
+- Multi-column card grid
+- Side-by-side comparisons
+- Keyboard shortcuts active
+- Hover previews enabled
+
+### Real-time Updates
+- **Status changes**: Badge updates live
+- **New PRs**: Appear automatically
+- **Review progress**: Live percentage
+- **Results**: Stream in as ready
+
+### Action Notifications
+**What you see**: Toast messages
+- **Success**: "Review completed successfully"
+- **Error**: "Review failed: [reason]"
+- **Info**: "New PR detected"
+- **Warning**: "Rate limit approaching"

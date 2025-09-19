@@ -17,16 +17,28 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "quickstart",
-              "dashboard",
-              "plans"
+              "quickstart"
             ]
           },
           {
-            "group": "Features",
+            "group": "Platform",
             "pages": [
+              "dashboard",
               "paragon",
+              "pull-requests",
+              "billing",
+              "projects",
+              "teams",
               "context",
+              "reports",
+              "feedback",
+              "user",
+              "polarity-cli"
+            ]
+          },
+          {
+            "group": "Support",
+            "pages": [
               "faq"
             ]
           }
@@ -60,14 +72,14 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   }
 }

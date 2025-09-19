@@ -1,85 +1,275 @@
 ---
-title: "Context and Rules"
-description: "Define custom rules and repository‑specific context to guide Polarity’s behavior."
+title: "Context"
+description: "Interface guide for managing contexts and rules within the Polarity dashboard."
 ---
 
-## Overview
+# /dashboard/context - Context and Rules Page
 
-Use Context and Rules to tailor how Polarity and Paragon behave in your repositories. You can add organization‑wide or repo‑specific guidance, plus file‑pattern targeting to scope where rules apply. Typical use cases include code style preferences, dependency policies, performance budgets, and review emphasis.
+## Visual Components
 
-<Note>
-  Rules are descriptive guidance that influences analysis and suggestions. They do not auto‑edit your code unless you request a command that yields suggestions.
-</Note>
+### Page Header
+**What you see**: Top section with icon and title
+- **Icon**: Settings gear in gray square
+- **Title**: "Context and Rules"
+- **Description**: "Manage repository contexts and rules for Paragon AI code reviews"
 
-## Creating rules
+### Action Bar
+**What you see**: Search and action buttons row
+- **Search bar** (left):
+  - Placeholder: "Search contexts and rules..."
+  - Magnifying glass icon
+  - Real-time filtering as you type
+- **Buttons** (right):
+  - "Add Context" (blue with + icon) - Primary action
+  - "Custom Rule" (outline with code icon) - Secondary
 
-1. Open the dashboard and go to <strong>Context and Rules</strong>.
-2. Click <strong>Add Context</strong>.
-3. Enter a concise rule using clear language.
-4. Choose the scope: organization‑wide or a specific repository.
-5. Optionally add file patterns (for example, <code>src/**/*.tsx</code>) to narrow scope.
-6. Save.
+### Rules Table
+**What you see**: Main content table
 
-### Examples
+#### Table Headers
+- **Rule/Repository** - Repository and rule info
+- **Created** - Date created
+- **Type** - Guided or Custom
+- **File Patterns** - Target files
+- **Actions** - Manage options
 
-#### Organization‑wide style rule
+#### Table Rows
+Each row displays:
+- **Repository name**: Bold text
+- **Rule description**: Gray text below repo name
+- **Type badge**:
+  - "Guided" (gray with lightbulb icon)
+  - "Custom" (blue)
+- **Created date**: MM/DD/YYYY format
+- **File patterns**:
+  - Shows first 2 patterns as badges (e.g., "*.js", "src/**")
+  - "+3" badge if more patterns
+  - "All files" if no patterns specified
+- **Status**: Green "Active" badge
+- **Delete button**: Red trash icon
 
-```
-Prefer early returns over deeply nested conditionals. Use guard clauses for invalid inputs and exit early.
-```
+#### Empty State
+**When no rules exist**:
+- **Icon**: Large lightbulb icon (dimmed)
+- **Message**: "No contexts found"
+- **Subtext**: "Click 'Add Context' to get started"
 
-Scope: All Active repositories
+### Table Footer
+- **Left side**: "Total Contexts: X"
+- **Right side**: "Refresh" button with icon
 
-File pattern: <code>**/*</code>
+## Modal 1: Guided Context Configuration
 
-#### Security rule for Python
+### Modal Header
+- **Title**: "Add Guided Context"
+- **Description**: "Configure your repository's code review preferences through guided questions."
+- **Close X**: Top right corner
 
-```
-Disallow broad exception catches. Replace bare `except:` with specific exceptions. Validate and sanitize all user input.
-```
+### Repository Selection
+- **Label**: "Repository *" (asterisk = required)
+- **Dropdown field**:
+  - "Select repository to configure" placeholder
+  - Special option: "All Repositories - Apply to all active repositories"
+  - Divider line
+  - Repository list with name and full path
 
-Scope: Selected repository
+### Project Configuration Section
+**Section title**: "Project Configuration" with underline
 
-File pattern: <code>**/*.py</code>
+#### Grid Layout (2 columns)
 
-#### Performance rule for front‑end
+**Left Column**:
+1. **Project Type**:
+   - Dropdown with options:
+     - Web Application
+     - API/Backend Service
+     - Library/Package
+     - Mobile Application
+     - Desktop Application
+     - Microservice
+     - CLI Tool
+     - Custom
+   - If "Custom" selected: Text input appears below
 
-```
-Avoid rendering lists over 1000 items without virtualization. Use react-window or react-virtualized.
-```
+2. **Testing Framework**:
+   - Dropdown with options:
+     - Jest, Vitest, Mocha, Jasmine
+     - Cypress (E2E), Playwright (E2E)
+     - Testing Library
+     - No Testing Framework
+     - Custom
+   - If "Custom" selected: Text input appears
 
-Scope: Selected repository
+**Right Column**:
+1. **Code Style Preference**:
+   - Dropdown with options:
+     - Strict - Enforce all best practices
+     - Standard - Common conventions
+     - Relaxed - Flexible approach
+     - Airbnb Style Guide
+     - Google Style Guide
+     - Custom
+   - If "Custom" selected: Text input appears
 
-File pattern: <code>src/**/*.{tsx,ts,jsx,js}</code>
+2. **Linting Preferences**:
+   - Dropdown with options:
+     - ESLint - Strict Rules
+     - ESLint - Recommended
+     - Prettier + ESLint
+     - TypeScript Strict Mode
+     - Minimal Linting
+     - No Linting
+     - Custom
+   - If "Custom" selected: Text input appears
 
-## How rules are applied
+### Quality & Standards Section
+**Section title**: "Quality & Standards" with underline
 
-- Rules are attached to your active repositories and retrieved during analysis.
-- When you invoke Paragon in a PR (for example, <code>@polarity suggest lint</code>), rules help guide the suggestions and the risk analysis.
-- File patterns ensure rules apply only where relevant.
+#### Grid Layout (2 columns)
 
-## Tips
+**Left Column**:
+1. **Documentation Level**:
+   - Comprehensive - All functions documented
+   - Public APIs Only
+   - Complex Logic Only
+   - Minimal Documentation
+   - README Only
+   - Custom
 
-- Keep rules short and specific. Use imperative language.
-- Prefer a handful of high‑signal rules over long documents.
-- Start broad (org‑wide), then add repo‑local rules to refine.
+2. **Security Level**:
+   - Enterprise - Maximum security
+   - High - Strict security practices
+   - Standard - Common security practices
+   - Basic - Minimal requirements
+   - Internal Tool - Relaxed security
+   - Custom
 
-## Screenshots
+**Right Column**:
+1. **Performance Priority**:
+   - Critical - Performance first
+   - High - Important consideration
+   - Balanced - Performance vs readability
+   - Low - Readability first
+   - Not Applicable
+   - Custom
 
-The UI includes a search bar and an empty state when no rules exist, plus a form with fields for the rule body, repository selector, and file pattern.
+### Additional Notes
+- **Label**: "Additional Notes"
+- **Textarea**: 4 rows, resizable
+- **Placeholder**: "Any additional context, special requirements, or team preferences..."
 
-<Frame caption="Empty state: no context or rules yet">
-  <img src="/images/hero-dark.png" alt="Empty state for Context and Rules" />
-</Frame>
+### Modal Footer
+- **Cancel button**: Gray outline
+- **Save button**: "Save Context Configuration" (blue)
+- **Loading state**: Spinner in save button
 
-<Frame caption="Create rule: repository scope and file pattern">
-  <img src="/images/checks-passed.png" alt="Create rule form with repository and file pattern" />
-</Frame>
+## Modal 2: Custom Rule Creation
 
-## Best practices
+### Modal Header
+- **Title**: "Add Custom Rule"
+- **Description**: "Create specific coding rules and guidelines for your repository."
 
-- Treat rules as guardrails, not rigid constraints.
-- Periodically review rules for relevance and remove stale ones.
-- Use specific file patterns to avoid unintended scope.
+### Repository Selection
+(Same as Guided Context)
 
+### Custom Rule Section
+- **Label**: "Custom Rule *"
+- **Textarea**: 5 rows
+- **Placeholder**: "e.g., Always use async/await instead of .then() promises for better readability and error handling"
+- **Helper text**: "Be specific about what should be done, avoided, or how code should be structured."
 
+### File Patterns Section
+**Header row**:
+- **Label**: "File Patterns"
+- **Subtext**: "Specify which files this rule applies to (optional)"
+- **Add Pattern button**: Small with + icon
+
+**Pattern inputs**:
+- Multiple text fields (one per pattern)
+- Placeholder: "e.g., *.ts, src/**/*.js, components/*.tsx"
+- X button to remove (if more than 1)
+
+**Info box** (gray background):
+- **Title**: "Pattern Examples:"
+- **Examples list**:
+  - `*.js` - All JavaScript files
+  - `src/**/*.ts` - All TypeScript files in src directory
+  - `components/*.tsx` - All TSX files in components folder
+  - `**/*.test.js` - All test files
+
+### Modal Footer
+- **Cancel button**: Gray outline
+- **Save button**: "Save Custom Rule" (blue)
+
+## Visual States
+
+### Loading
+- **Table**: Shows spinner with "Loading contexts..."
+- **Modals**: Button spinner when saving
+
+### Hover Effects
+- **Table rows**: Light gray background
+- **Buttons**: Darker shade
+- **Delete icon**: Becomes darker red
+
+### Form Validation
+- **Required fields**: Red asterisk (*)
+- **Error state**: Red border on invalid fields
+- **Error message**: Red text below field
+- **Success**: Green checkmark after save
+
+### Dropdown Behavior
+- **Closed**: Shows selected value or placeholder
+- **Open**: Dropdown panel with options
+- **Selected**: Blue background on current option
+- **Hover**: Light blue on option
+- **Custom selected**: Shows additional input field
+
+## Color Coding
+- **Blue**: Primary actions, selected items
+- **Gray**: Secondary elements, guided type
+- **Green**: Active status, success
+- **Red**: Delete actions, errors
+- **Yellow/Orange**: Warnings (not used here)
+
+## Responsive Design
+
+### Mobile
+- **Table**: Becomes card layout
+- **Modals**: Full screen
+- **Grid**: Single column
+- **Buttons**: Full width
+
+### Tablet
+- **Table**: Horizontal scroll
+- **Modals**: Centered with margin
+- **Grid**: Maintains 2 columns
+
+### Desktop
+- **Table**: Full width
+- **Modals**: Centered, 60% width
+- **Grid**: 2 columns as designed
+
+## Interactive Elements
+
+### Clickable Items
+- Table rows (view details)
+- Add Context button (opens modal)
+- Custom Rule button (opens modal)
+- Delete icon (removes rule)
+- Refresh button (reloads data)
+- Dropdowns (show options)
+- Save/Cancel (modal actions)
+
+### Real-time Features
+- Search filters instantly
+- Form validation on blur
+- Success toast after save
+- Table updates after actions
+
+## Tooltips
+**Hover to see**:
+- File pattern badges show full pattern
+- Truncated text shows full content
+- Delete button shows "Delete rule"
+- Type badges explain guided vs custom

@@ -1,0 +1,559 @@
+---
+title: "Polarity CLI"
+description: "Comprehensive guide to installing, configuring, and operating the Polarity CLI."
+---
+
+# Polarity CLI Comprehensive Guide
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [System Requirements & Dependencies](#system-requirements--dependencies)
+3. [Installation & First-Time Setup](#installation--first-time-setup)
+4. [Authentication & Accounts](#authentication--accounts)
+5. [Core Concepts](#core-concepts)
+6. [Quick Start Workflow](#quick-start-workflow)
+7. [Root Command Reference](#root-command-reference)
+8. [Namespace Command Reference](#namespace-command-reference)
+9. [Automation & AI Features](#automation--ai-features)
+10. [Configuration & Metadata Files](#configuration--metadata-files)
+11. [Troubleshooting & Recovery](#troubleshooting--recovery)
+12. [Frequently Asked Questions](#frequently-asked-questions)
+13. [Further Resources](#further-resources)
+
+---
+
+## Introduction
+Polarity CLI (`pt`) is a Git-based workflow assistant designed to make stacked pull request development ergonomic, predictable, and fast. The CLI layers a rich metadata, automation, and UX experience over your existing Git repository and GitHub remote. It focuses on:
+
+- Keeping pull requests small, comprehensible, and easy to review by encouraging stacked branching.
+- Automating repetitive tasks like restacking, submitting PRs, updating PR descriptions, and cleaning up after merges.
+- Providing safe escape hatches (rewind, unrewind, undo) and clear status reporting to help you recover quickly when something goes wrong.
+- Integrating tightly with GitHub (via the `gh` CLI) and Polarity's API for authentication, analytics, and AI-powered helpers.
+
+If you have never used Polarity before, this guide walks through everything you need: how the CLI is structured, how to authenticate, how to run core workflows, and what each command does. The goal is to enable you to manage your entire development life cycle—branch creation, stacked PRs, reviews, landing, and cleanup—without leaving the terminal.
+
+---
+
+## System Requirements & Dependencies
+Before installing Polarity CLI, verify your system meets the following requirements:
+
+- **Operating System**: macOS, Linux, or Windows (WSL2 recommended). The CLI depends on standard POSIX Git tooling.
+- **Node.js**: Version 18.17.x (enforced via `.nvmrc`). Use `nvm` to install and switch versions.
+- **Yarn**: Yarn 3 (Berry) workspaces are used to manage the monorepo. Install globally with `npm install -g yarn` if needed.
+- **Git**: Standard Git CLI is required and expected on your PATH.
+- **GitHub CLI (`gh`)**: Used for PR operations, API calls, and authentication. Install from https://cli.github.com/.
+- **Polarity account** (optional but recommended): Enables AI features, analytics, and repository monitoring.
+
+Optional dependencies:
+
+- **OpenAI or Polarity API credentials**: Required for AI-assisted command output.
+- **`supabase` CLI**: Required only if you are developing or deploying backend functions from this repo.
+
+---
+
+## Installation & First-Time Setup
+Follow these steps to install and configure the CLI locally:
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-org/polarity-cli.git
+   cd polarity-cli
+   ```
+
+2. **Select the correct Node version** (using `nvm`):
+
+   ```bash
+   nvm use
+   ```
+
+   If you do not have Node 18.17.x installed, run `nvm install 18.17.1` (or the version listed in `.nvmrc`).
+
+3. **Install dependencies**:
+
+   ```bash
+   yarn install
+   ```
+
+   This installs all workspace dependencies, including CLI packages, libraries, and test tooling.
+
+4. **Build the CLI**:
+
+   ```bash
+   yarn workspace @polarityinc/polarity build
+   ```
+
+   The build artifacts appear under `apps/cli/dist`. After building you can run the CLI via:
+
+   ```bash
+   yarn workspace @polarityinc/polarity cli -- <command>
+   # or directly
+   node apps/cli/dist/src/index.js <command>
+   ```
+
+5. **Optional: Install globally for local testing**:
+
+   ```bash
+   yarn workspace @polarityinc/polarity build:install
+   pt help
+   ```
+
+   This exposes the `pt` command globally in your shell.
+
+6. **Verify installation** by running:
+
+   ```bash
+   pt help
+   ```
+
+   You should see the Polarity help output with version information and core command summaries.
+
+---
+
+## Authentication & Accounts
+Authentication happens on two fronts: GitHub and Polarity.
+
+### GitHub Authentication
+Polarity CLI relies on the GitHub CLI (`gh`) for operations like viewing, editing, and merging pull requests.
+
+1. Install GH CLI if not already present.
+2. Run `pt auth` to trigger the GitHub authentication flow. The CLI will:
+   - Check your `gh` version.
+   - Prompt you through `gh auth login` (with logout retry if necessary).
+   - Confirm that Polarity has the permissions it needs.
+
+### Polarity Authentication (API Token)
+Some features—particularly AI operations, repository monitoring (`pt add`), and analytics—require a Polarity API token.
+
+1. Visit [https://app.polarity.dev/settings/cli](https://app.polarity.dev/settings/cli) (or the updated domain) and generate an API key.
+2. Run `pt auth login` (found under `pt auth login <token>` in the `auth-commands`) to store the token securely under `~/.polarity/auth.json`.
+3. After successful login, `pt auth status` shows the stored account and plan.
+4. To log out, run `pt auth logout`.
+
+The stored token is used automatically for API operations (e.g. AI features; repository sync via Supabase; analytics).
+
+---
+
+## Core Concepts
+Understanding Polarity’s mental model will help every command make more sense.
+
+### Stack
+A **stack** is an ordered chain of branches/pull requests. Each branch builds on its parent to form an incremental story. Example:
+
+```
+main <- feat/api <- feat/frontend <- docs/update
+```
+
+This stack contains three dependent branches, ending in `docs/update`.
+
+### Trunk
+The **trunk** is your base branch: usually `main` or `master`. Polarity records the trunk name in `.graphite_repo_config`. Commands like `pt restack`, `pt submit`, and `pt merge` compare branches against trunk.
+
+### Upstack / Downstack
+- **Downstack**: Ancestors between your current branch and trunk.
+- **Upstack**: Descendants stacked on top of your current branch.
+
+### Metadata Cache
+Polarity keeps metadata in Git refs (`refs/branch-metadata/*`) along with local files like `.graphite_repo_config`. This cache tracks branch relationships, PR numbers, and state. Many commands load and persist this cache; it is safe to rebuild with `pt repo init` if it becomes inconsistent.
+
+### PR Integration
+Polarity syncs PR data with GitHub via the `gh` CLI and Supabase. Commands like `pt submit`, `pt merge`, and `pt add` rely on PR association metadata stored for each branch.
+
+---
+
+## Quick Start Workflow
+The following sequence illustrates a common daily flow for a developer adopting Polarity:
+
+1. **Initialize repository** (once per repo):
+
+   ```bash
+   pt repo init
+   ```
+
+   This ensures `.graphite_repo_config` exists, identifies trunk, and sets defaults.
+
+2. **Create an initial branch**:
+
+   ```bash
+   git checkout main
+   pt create feat/initial-setup -m "feat: set up project"
+   ```
+
+3. **Work on a stack**:
+
+   ```bash
+   pt create feat/add-endpoint --ai
+   # edit files, stage changes
+   git add src/new-feature.ts
+   git commit -m "feat: add API endpoint"
+
+   pt create feat/ui -m "feat: build UI"
+   # commit additional UI changes
+   ```
+
+4. **Restack if trunk changed**:
+
+   ```bash
+   pt restack --stack
+   ```
+
+5. **Submit PRs**:
+
+   ```bash
+   pt submit --stack --ai
+   ```
+
+   Each branch gets a corresponding PR (created or updated) with optional AI-generated titles/descriptions.
+
+6. **Sync with latest trunk & clean up**:
+
+   ```bash
+   pt sync --restack
+   ```
+
+   Pulls trunk, rebases, and optionally deletes merged branches.
+
+7. **Merge via automation**:
+
+   After approvals, use:
+
+   ```bash
+   pt merge
+   ```
+
+   This merges all PRs from trunk up to the current branch sequentially.
+
+8. **Cleanup stale working tree**:
+
+   ```bash
+   pt rewind       # stash and reset if you need a clean tree
+   pt unrewind     # recover stashed work if needed
+   ```
+
+---
+
+## Root Command Reference
+This section details the top-level commands you can execute directly (`pt <command>`). Commands within namespaces (e.g. `pt branch <subcommand>`) are covered in the next section.
+
+### `pt help`
+- **Usage**: `pt help` or `pt help <command>`
+- **Purpose**: Display the custom Polarity help page with definitions, workflow guides, and resource links.
+- **Tips**: Use `pt --help --all` to list every available command registered with yargs.
+
+### `pt init`
+- **Usage**: `pt init`
+- **Purpose**: Initialize a new repository for Polarity. Equivalent to `pt repo init` but accessible at the root.
+- **Actions**:
+  - Detect trunk branch.
+  - Generate `.graphite_repo_config` if missing.
+  - Reset cache files when necessary.
+
+### `pt create`
+- **Usage**: `pt create [name] [flags]`
+- **Key Flags**: `-m/--message`, `--ai`, `--no-ai`, `-a/--all`, `-u/--update`, `-p/--patch`, `-i/--insert`.
+- **Purpose**: Create a new branch stacked on the current branch and create or amend a commit in one step.
+- **Workflow**:
+  1. Optionally stage changes (automatic with `--all` or `--update`).
+  2. Prompt for commit message or use provided/AI-generated message.
+  3. Create a new branch with the chosen name (auto-generated if omitted and AI is enabled).
+
+### `pt modify`
+- **Usage**: `pt modify [flags]`
+- **Key Flags**: `--commit`, `--amend`, `--ai`, `--no-ai`, `-a/--all`, `-p/--patch`, `-u/--update`, `-m/--message`.
+- **Purpose**: Amend the current branch’s latest commit or create a new commit, optionally restacking descendants.
+- **Notes**: Often used mid-stack when you need to adjust an earlier branch without abandoning the stack.
+
+### `pt submit`
+- **Usage**: `pt submit [flags]`
+- **Key Flags**: `--stack`, `--downstack`, `--draft`, `--publish`, `--ai`, `--no-ai`, `--dry-run`, `--select`, `--update-only`, `--force`.
+- **Purpose**: Push branches to remote and create/update GitHub PRs.
+- **Behaviour**:
+  - Defaults to submitting the current branch and its upstack (`SCOPE.UPSTACK`).
+  - `--stack` includes both ancestors and descendants.
+  - Optional AI assistance fills in titles and descriptions for branches without PRs.
+  - Validates branch state (no uncommitted changes, no merged branches) before running.
+
+### `pt merge`
+- **Usage**: `pt merge [--dry-run]`
+- **Purpose**: Merge PRs from trunk up to the current branch sequentially.
+- **Details**:
+  - Refreshes PR metadata before merging.
+  - Retargets base branches to trunk if needed.
+  - Uses `gh pr merge --merge --delete-branch --yes` for each PR.
+  - Supports `--dry-run` to preview actions without merging.
+
+### `pt restack`
+- **Usage**: `pt restack [--branch <name>] [--upstack] [--downstack] [--only]`
+- **Purpose**: Rebase branches so each branch contains its parent’s commits.
+- **Use Cases**:
+  - Running `pt restack` after trunk changes ensures stacks replay cleanly.
+  - `--upstack` restacks current branch and descendants; `--downstack` restacks ancestors.
+
+### `pt sync`
+- **Usage**: `pt sync [flags]`
+- **Key Flags**: `--restack`, `--no-pull`, `--no-delete`, `--show-delete-progress`, `--force`.
+- **Purpose**: Pull trunk, restack stacks, optionally delete merged branches, and tidy metadata.
+- **Typical Flow**: Used daily or after code review merges to ensure local state matches remote.
+
+### `pt checkout`
+- **Usage**: `pt checkout [branch] [--stack] [--trunk]`
+- **Purpose**: Switch branches interactively or explicitly. Shows a fuzzy list if no branch is provided, with metadata context.
+
+### `pt log`
+- **Usage**: `pt log`, `pt log short`, `pt log long`
+- **Purpose**: Visualize stacks and branch relationships. `log` default shows structured stack view, `log short` prints condensed summary, `log long` displays commit graph.
+- **Flags**: `--stack`, `--reverse`, `--steps`, `--show-untracked` provide granular control.
+
+### `pt info`
+- **Usage**: `pt info [branch] [--patch] [--diff] [--body] [--stat]`
+- **Purpose**: Display branch metadata, parent/child relationships, PR status, and optionally a diff/patch summary.
+
+### `pt up`, `pt down`, `pt top`, `pt bottom`
+- **Usage**: `pt up [steps]`, `pt down [steps]`, `pt top`, `pt bottom`
+- **Purpose**: Navigate the stack quickly.
+  - `up`: Move to child branches.
+  - `down`: Move to parent branches.
+  - `top`: Jump to top-most branch in current stack.
+  - `bottom`: Jump to bottom-most branch above trunk.
+
+### `pt undo`
+- **Usage**: `pt undo [--force]`
+- **Purpose**: Perform a hard reset to the last known good state (tracked via cache). Useful after a mis-executed command. `--force` bypasses prompts.
+
+### `pt rewind` & `pt unrewind`
+- **Usage**: `pt rewind`, `pt unrewind`
+- **Purpose**:
+  - `pt rewind`: Stash all changes (including untracked files) with a `polarity-rewind` label and reset working tree to HEAD.
+  - `pt unrewind`: Restore the most recent rewind stash, reapplying tracked and untracked files.
+- **Notes**: Great for quickly cleaning your worktree without losing progress.
+
+### `pt optimize`
+- **Usage**: `pt optimize`
+- **Purpose**: Create and push an empty commit ("Polarity PR optimization request") on the current branch to trigger automation (e.g., CI reruns) on the associated PR.
+- **Prerequisites**: Clean working tree, branch tracked by Polarity, PR number associated.
+
+### `pt add`
+- **Usage**: `pt add`
+- **Purpose**: Push metadata about the current GitHub repository into Supabase for monitoring. Requires Polarity authentication.
+
+### `pt merge`
+Already covered under root commands.
+
+### `pt shove`
+- **Usage**: `pt shove [-m <message>]`
+- **Purpose**: Stage all changes, create a commit (AI-assisted if desired), and push upstream in one command. Handy for quick single-branch iteration.
+
+### `pt continue`
+- **Usage**: `pt continue`
+- **Purpose**: Resume the last Polarity operation that was interrupted by a conflict (restack, submit, sync, etc.). Detects state from `.graphite_continue` metadata.
+
+### `pt demo`
+- **Usage**: `pt demo`
+- **Purpose**: Spin up a temporary demo repository showcasing Polarity features. Good for onboarding and workshops.
+
+### `pt info`, `pt log`
+Already covered above, but note they accept many flags to wire deeper introspection.
+
+### `pt auth`
+- **Usage**: `pt auth <command>` (see namespace section)
+- **Purpose**: Manage GitHub/Polarity authentication.
+
+### `pt repo`
+- **Usage**: `pt repo <command>` (see namespace section)
+- **Purpose**: Configure repository-level settings (trunk, remote, owner, etc.).
+
+### `pt commit`
+- **Usage**: `pt commit <command>` (see namespace section)
+- **Purpose**: Low-level commit operations inside Polarity context (create, amend).
+
+### `pt branch`
+- **Usage**: `pt branch <command>` (see namespace section)
+- **Purpose**: Operate on branch-specific tasks (track, rename, restack, squash, etc.).
+
+### `pt stack`, `pt upstack`, `pt downstack`
+- **Usage**: Provide stack-scoped commands (see next section).
+
+### `pt feedback`
+- **Usage**: `pt feedback <command>`
+- **Purpose**: Send feedback, logs, or debug info to the Polarity team. Supports subcommands like `pt feedback send`, `pt feedback debug-context`.
+
+### `pt user`
+- **Usage**: `pt user <command>`
+- **Purpose**: Manage user-level preferences (aliases, branch prefixes, tips, editor/pager overrides).
+
+### `pt completion` / `pt fish`
+- **Usage**: `pt completion`, `pt fish`
+- **Purpose**: Output shell completion scripts (bash/zsh) or fish shell integration.
+
+### `pt unittest`
+- **Usage**: `pt unittest`
+- **Purpose**: Runs Polarity test harness (used internally or for integration tests).
+
+### `pt dev`
+- **Usage**: `pt dev <command>`
+- **Purpose**: Developer utilities (viewing cache, metadata) primarily for Polarity CLI contributors.
+
+### `pt internal-only-*`
+These commands are for internal debugging and not part of public workflows. They are namespaced under `internal-only-commands`.
+
+---
+
+## Namespace Command Reference
+To avoid duplicating details, this section summarizes the most commonly used namespace subcommands.
+
+### Branch Namespace (`pt branch <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt branch create [name]` | Create a branch stacked on current without committing (similar to `git checkout -b`). |
+| `pt branch track [branch]` | Start tracking a branch and set parent. |
+| `pt branch untrack [branch]` | Stop tracking a branch. |
+| `pt branch rename [name]` | Rename current branch and update metadata. |
+| `pt branch delete [name]` | Delete branch and metadata (force flag available). |
+| `pt branch restack` | Restack only the current branch. |
+| `pt branch info` | Display branch info (PR number, parent, children). |
+| `pt branch squash` | Squash commits on current branch. |
+| `pt branch split` | Split current branch into multiple single-commit branches. |
+| `pt branch fold` | Fold branch into parent (with optional keep flag). |
+| `pt branch up/down/top/bottom` | Navigation helpers scoped to branch namespace. |
+| `pt branch checkout [branch]` | Branch-scoped checkout with metadata awareness. |
+| `pt branch unbranch` | Delete branch but keep working tree changes. |
+
+### Stack Namespace (`pt stack <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt stack restack [--branch <name>]` | Restack the entire stack (ancestors + descendants). |
+| `pt stack test <command>` | Run a shell command for each branch in stack (useful for testing). |
+
+### Upstack Namespace (`pt upstack <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt upstack restack` | Restack the current branch and descendants. |
+| `pt upstack onto [branch]` | Rebase current stack onto a new parent branch. |
+| `pt upstack test <command>` | Run a command across upstack branches. |
+
+### Downstack Namespace (`pt downstack <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt downstack restack` | Restack ancestors from trunk to current branch. |
+| `pt downstack get [branch]` | Fetch branches from remote and reconcile conflicts. |
+| `pt downstack edit` | Reorder relationships between trunk and current branch. |
+| `pt downstack track [branch]` | Track a downstack branch. |
+| `pt downstack test <command>` | Execute a command across downstack. |
+
+### Commit Namespace (`pt commit <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt commit create` | Create a commit without creating a branch (similar to git commit but stack-aware). |
+| `pt commit amend` | Amend the last commit on current branch. |
+| `pt commit ...` | Additional tooling for commit manipulation. |
+
+### Repo Namespace (`pt repo <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt repo init` | Initialize repository configuration, trunk detection. |
+| `pt repo remote` | Get/set remote name used for push/pull. |
+| `pt repo name` | Get/set repository name metadata. |
+| `pt repo owner` | Get/set repository owner metadata. |
+| `pt repo sync` | Equivalent to `pt sync` but focused on repo-level operations. |
+| `pt repo github --enable/--disable` | Toggle GitHub integration features. |
+| `pt repo pr-templates` | List available PR templates on GitHub. |
+
+### User Namespace (`pt user <command>`)
+| Command | Description |
+|---------|-------------|
+| `pt user editor` | View or set preferred editor. |
+| `pt user pager` | Configure pager settings. |
+| `pt user tips --enable/--disable` | Toggle CLI tips. |
+| `pt user branch-prefix`, `pt user branch-date`, `pt user branch-replacement` | Adjust branch naming preferences. |
+| `pt user restack-date` | Control restack commit date behavior. |
+| `pt user submit-body` | Configure PR body defaults. |
+
+### Feedback Namespace (`pt feedback <command>`)
+- `pt feedback send`: Submit feedback via CLI.
+- `pt feedback debug-context`: Collect debugging context for support.
+
+### Auth Namespace (`pt auth <command>`)
+- `pt auth login [key]`: Authenticate with Polarity.
+- `pt auth logout`: Remove stored token.
+- `pt auth status`: Display current auth state.
+
+---
+
+## Automation & AI Features
+Polarity offers AI-assisted features for naming branches, writing commit messages, and drafting PR descriptions.
+
+### Configuration
+- Provide `OPENAI_API_KEY` via environment variable or `.env` file. (If not set, but you are authenticated with Polarity, requests are proxied through Polarity’s services.)
+- Toggle per-command using `--ai` or `--no-ai` flags.
+
+### Supported Commands
+- `pt create --ai`: Suggests branch name and/or commit message.
+- `pt submit --ai`: Generates PR titles and descriptions for branches without existing PR copy.
+- AI is optional. Commands respect manual inputs when provided.
+
+---
+
+## Configuration & Metadata Files
+Polarity stores metadata in a combination of Git refs and config files:
+
+- `.graphite_repo_config`: Repository-level configuration (trunk, remote, owner). Generated by `pt repo init`.
+- `.graphite_user_config`: User-level preferences (editor, tips, AI options).
+- `.graphite_cache` files: Internal caches. Generally safe to ignore; regenerated automatically.
+- `refs/branch-metadata/<branch>`: Git refs containing JSON metadata for each tracked branch (parent, PR info).
+- `.polarity/auth.json`: Stored Polarity API credentials.
+- `.graphite_continue`: Tracks state when a command is interrupted (used by `pt continue`).
+
+You can inspect or reset metadata using developer commands (`pt dev meta`, `pt dev cache`).
+
+---
+
+## Troubleshooting & Recovery
+### Common Issues
+- **Detached HEAD / rebase conflicts**: `pt continue` resumes operations after conflict resolution. If unclear, `pt undo` or `pt rewind` offers safe escape hatches.
+- **Metadata corruption**: Delete `.graphite_cache` files and rerun `pt repo init`.
+- **Branch not tracked**: Use `pt branch track <branch>` to reattach metadata.
+- **Stale PR info**: Run `pt sync` or `pt submit --dry-run` to refresh PR metadata.
+- **Authentication failures**: Run `pt auth status`; if expired, re-run `pt auth login` or `gh auth login`.
+
+### Recovery Commands
+- `pt undo --force`: Hard reset to last clean state.
+- `pt rewind`/`pt unrewind`: Temporary cleanup of working tree.
+- `pt restack --stack`: Fix branch ancestry after manual Git operations.
+- `pt repo init --reset`: Regenerate repository config if trunk detection fails.
+
+---
+
+## Frequently Asked Questions
+**Q: Do I have to use stacks?**  
+A: Polarity is designed around stacked development, but you can still use it for single-branch workflows. Commands like `pt create` and `pt submit` offer value even on isolated branches.
+
+**Q: What if I already have branches on GitHub?**  
+A: Use `pt branch track <branch>` to attach Polarity metadata to existing branches. Then run `pt submit --update-only` to sync PR info.
+
+**Q: Can I disable AI globally?**  
+A: Yes. Export `POLARITY_DISABLE_AI=1` or always pass `--no-ai`. Without credentials the CLI works normally but without AI suggestions.
+
+**Q: What’s the difference between `pt restack` and `pt sync --restack`?**  
+A: `pt restack` focuses on rebasing branches, while `pt sync` also pulls trunk, deletes merged branches (optional), and updates metadata.
+
+**Q: How do I clean up merged branches?**  
+A: Run `pt sync --restack` for automated cleanup, or manually delete branches with `pt branch delete <name>` with `--force` if needed.
+
+**Q: When should I use `pt merge` vs. GitHub UI?**  
+A: `pt merge` is ideal when you want to land an entire stack sequentially without leaving the terminal. It ensures bases are correct and cleans up branches afterward.
+
+**Q: Can I recover from a failed submit/merge mid-operation?**  
+A: Yes. Resolve conflicts, then run `pt continue`. If all else fails, use `pt undo` or `pt rewind` and try again.
+
+---
+
+## Further Resources
+- **Official documentation**: https://polarity.dev/docs (or the updated `docs.polarity.cc`).
+- **Cheatsheet**: Quick reference for commands and key shortcuts.
+- **Tutorial videos**: https://www.youtube.com/@polarity
+- **Community**: https://community.polarity.dev for Slack access, Q&A, and release notes.
+- **Support**: Email professional support & enterprise questions to support@polarity.dev (or the latest contact address).
+
+---
+
+This document provides a complete walkthrough for new Polarity CLI users—from installation to advanced workflows. Refer back to the command reference sections as you become more comfortable with stacking, restacking, and PR automation workflows.

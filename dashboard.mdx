@@ -1,68 +1,221 @@
 ---
 title: "Dashboard"
-description: "Understand the Polarity dashboard and how to use it day‑to‑day."
+description: "Detailed overview of the Polarity dashboard layout, components, and behaviors."
 ---
 
-<Info>
-  Polarity is dashboard‑only — there is no API. Make sure the GitHub App is installed so Polarity can analyze your repositories and open PRs automatically.
-  <a href="https://github.com/apps/polarity-ai/installations/select_target">Install GitHub App</a>
-</Info>
+# /dashboard - Main Dashboard
 
-## Overview page
+## Visual Components
 
-The Overview page gives you a real‑time snapshot across all connected repositories.
+### Top Section: GitHub App Installation Alert
+**What you see**: A dark floating notification in the top-right corner
+- **When it appears**: Only if GitHub App is not installed
+- **Message**: "Before you start - Open Settings and install the GitHub App to connect your repos. The dashboard won't work without it."
+- **Buttons**:
+  - "Dismiss" - Hides for this session only
+  - "Install" - Opens GitHub App installation page in new tab
+- **How to remove permanently**: Install the GitHub App via Settings
 
-- **Analysis Success Rate**: Percentage of successful analyses vs total attempts. Use this to monitor stability of analyses across repos.
-- **Code Improvements**: Count of files improved by Polarity across your repositories.
-- **Monthly Credits**: Credits used vs monthly quota. Credits are consumed when Polarity simulates behavior, traces dependencies, and prepares improvements.
-- **Active Repositories**: Number of repositories currently enabled for analysis.
+### Dashboard Header
+**What you see**: Icon and title section
+- **Icon**: Stack icon in a dark rounded square
+- **Title**: "Dashboard & Management"
+- **Subtitle**: "Manage your repositories, usage, and models."
 
-Below the KPIs, the **Analysis Activity** chart shows volume over time. Use the range controls to switch between the last 7 days, 30 days, or 3 months.
+### Section Cards (4 Main Stats Cards)
+These are the four colored cards showing your key metrics:
 
-At the bottom, **Recent Activity** lists the latest PRs and optimization events from Polarity.
+#### 1. Success Rate Card (Purple)
+**What it shows**: Your AI optimization success percentage
+- **Main number**: Success rate as percentage (e.g., "92%")
+- **Trend indicator**: Green arrow up or red arrow down with percentage change
+- **Description**: "Success rate this month"
+- **Footer link**: "View details" - Opens success rate breakdown modal
+- **Color bar**: Visual representation of success vs failures
 
-<Tip>
-  If you see a banner about system load, analyses may take longer. They will resume automatically — no action needed.
-</Tip>
+#### 2. Improvements Card (Blue)
+**What it shows**: Total code improvements made
+- **Main number**: Count of improvements (e.g., "1,247")
+- **Trend indicator**: Shows change from last period
+- **Description**: "Total improvements"
+- **Footer link**: "View improvements" - Opens improvements history modal
+- **Animated counter**: Number animates from 0 when page loads
 
-## Connect repositories
+#### 3. Credits Card (Green)
+**What it shows**: Your credit usage and limits
+- **Main number**: "X / Y credits" or "Unlimited" for Pro users
+- **Usage bar**: Visual progress bar showing usage
+  - Green: 0-70% used
+  - Yellow: 70-90% used
+  - Red: 90-100% used
+- **Description**: "Monthly credits"
+- **Footer link**: "Manage credits" - Opens credit usage modal
+- **Special badge**: Shows "∞" icon for unlimited plans
 
-<Steps>
-<Step title="Install the GitHub App">
-  From the navbar, click <strong>Install GitHub App</strong> or go directly to the
-  <a href="https://github.com/apps/polarity-ai/installations/select_target">install page</a> and grant access to your organization.
-</Step>
-<Step title="Add orgs and repos">
-  Click <strong>Add Repository</strong> in the left sidebar. Select the organizations and repositories you want Polarity to analyze.
-</Step>
-<Step title="Choose the model">
-  Use the Polarity default model, or bring your own. You can override per repository or branch from the dashboard.
-</Step>
-</Steps>
+#### 4. Repositories Card (Orange)
+**What it shows**: Connected repository count
+- **Main number**: "X / Y repositories" or "X repositories" for unlimited
+- **Usage bar**: Visual progress showing repo slots used
+- **Description**: "Connected repositories"
+- **Footer link**: "Manage repos" - Opens repository management modal
+- **Action**: Clicking card scrolls to repository table below
 
-## Daily use guide
+### Interactive Chart Area
+**What you see**: Line graph showing usage over time
+- **Default view**: Last 30 days of activity
+- **Axes**:
+  - X-axis: Dates
+  - Y-axis: Usage count
+- **Lines**: Multiple metrics tracked (API calls, credits, optimizations)
+- **Hover**: Shows exact values for each day
+- **Time range selector**: Toggle between Daily, Weekly, Monthly views
+- **Legend**: Shows what each line color represents
 
-- **Refresh**: Use the refresh button in the Overview to fetch the latest results.
-- **Projects**: Group related repositories to track improvements together.
-- **Team**: Invite teammates with their work email to collaborate and approve PRs.
-- **Reports**: Access summary insights and exportable reports for stakeholders.
+### Repository Management Table
+**What you see**: Full-width table listing all your GitHub repositories
 
-## Credits and usage
+#### Table Header
+- **Search bar**: "Search repositories..." - Filters list in real-time
+- **Action buttons**:
+  - "Add Repository" (blue) - Opens repository selector modal
+  - "Add All Repos" - Bulk imports all accessible repositories
+  - "Remove All Repos" - Removes all repositories (with confirmation)
 
-Credits represent Polarity’s compute for simulations, dependency tracing, and preparing PRs. Your plan defines a monthly credit allocation. See the **Monthly Credits** card for current usage; visit the Plans page to compare limits and features.
+#### Table Columns
+1. **Repository**:
+   - Repo name (clickable - goes to GitHub)
+   - Owner/organization below in gray text
+   - Language badge (JavaScript, Python, etc.)
 
-## Troubleshooting
+2. **Status**:
+   - "Monitoring" (green dot) - Active monitoring
+   - "Paused" (yellow dot) - Temporarily disabled
+   - "Error" (red dot) - Configuration issue
 
-- No data appearing?
-  - Ensure the GitHub App is installed and has access to the intended repositories.
-  - Confirm the repositories are selected in <strong>Add Repository</strong>.
-  - Click <strong>Refresh</strong> on the Overview.
-- PRs not opening?
-  - Check repository branch protection settings.
-  - Ensure Polarity has write permissions to create branches and PRs.
+3. **Last Optimized**:
+   - Relative time (e.g., "2 hours ago")
+   - "Never" if not yet processed
 
-<Note>
-  For help, contact Support from the navbar or visit the Dashboard: <a href="https://home.polarity.cc">home.polarity.cc</a>
-</Note>
+4. **Files Optimized**:
+   - Number count
+   - Progress bar showing completion
 
+5. **Success Rate**:
+   - Percentage with color coding
+   - Green: >90%, Yellow: 70-90%, Red: <70%
 
+6. **Actions**:
+   - "Optimize" button - Runs optimization
+   - "Settings" gear icon - Repository settings
+   - "Remove" trash icon - Removes repository
+
+#### Empty State
+**When no repositories connected**:
+- Large illustration
+- Message: "No repositories connected"
+- "Add Repository" call-to-action button
+
+### Bottom Usage Bars
+**What you see**: Three horizontal progress bars showing usage limits
+
+1. **API Calls Bar**:
+   - Shows daily API call usage
+   - Color changes based on usage level
+   - Text: "X / Y API calls today"
+
+2. **Storage Bar**:
+   - Shows file storage usage
+   - Usually blue unless near limit
+   - Text: "X GB / Y GB used"
+
+3. **Team Members Bar** (Team plans only):
+   - Shows seats used
+   - Text: "X / Y team members"
+
+### Modals (Pop-up Windows)
+
+#### Add Repository Modal
+**Opens when**: Click "Add Repository" button
+- **Repository list**: Shows all GitHub repos you have access to
+- **Search**: Filter repositories by name
+- **Checkboxes**: Select multiple repos
+- **Information shown**: Stars, forks, language, privacy
+- **Add button**: Confirms selection
+
+#### Success Rate Modal
+**Opens when**: Click "View details" on Success Rate card
+- **Breakdown chart**: Pie chart of success vs failures
+- **Timeline graph**: Success rate over time
+- **Top issues**: Common failure reasons
+- **Export button**: Download data as CSV
+
+#### Credits Modal
+**Opens when**: Click "Manage credits" on Credits card
+- **Usage breakdown**: What's consuming credits
+- **History graph**: Daily credit usage
+- **Remaining credits**: Big number display
+- **Upgrade prompt**: If running low
+
+#### Improvements Modal
+**Opens when**: Click "View improvements" on Improvements card
+- **List view**: Recent improvements made
+- **Filter options**: By repository, date, type
+- **Details**: Before/after code snippets
+- **Impact metrics**: Lines saved, performance gains
+
+### Loading States
+**Initial page load**:
+- Spinning circle icon
+- "Loading dashboard..." text
+- Cards appear with smooth slide-up animation
+
+**Data refresh**:
+- Cards show skeleton loaders
+- Chart displays loading animation
+- Table rows show placeholder bars
+
+### Error States
+**When something fails**:
+- Red banner at top with error message
+- "Retry" button to attempt again
+- Specific component errors show inline
+
+### Responsive Behavior
+**On mobile**:
+- Cards stack vertically (2x2 grid)
+- Table becomes horizontally scrollable
+- Chart adjusts to screen width
+- Modals become full-screen
+
+**On tablet**:
+- Cards remain in 2x2 grid
+- Table shows fewer columns
+- Chart maintains aspect ratio
+
+### Interactive Elements
+
+#### Hover Effects
+- Cards: Slight elevation and shadow
+- Table rows: Light background highlight
+- Buttons: Darker shade and cursor pointer
+- Links: Underline appears
+
+#### Click Actions
+- Cards: Some open modals, others scroll to sections
+- Repository names: Navigate to GitHub
+- Status badges: Show status details tooltip
+- Chart points: Display exact values
+
+### Real-time Updates
+**What updates automatically**:
+- Success rate: Every 30 seconds
+- Credit usage: When actions complete
+- Repository status: Via WebSocket
+- Chart data: Every minute
+
+### Tooltips
+**Hover for more info on**:
+- Status indicators: Explains current state
+- Trend arrows: Shows exact change amount
+- Chart lines: Displays precise values
+- Action buttons: Describes what will happen
