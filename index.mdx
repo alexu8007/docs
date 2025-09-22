@@ -1,59 +1,75 @@
 ---
 title: "Polarity"
-description: "Connect your repos, pick a model, and let Polarity open PRs that improve reliability, security, and performance."
+description: "AI-powered code optimization platform that automatically improves your repositories through intelligent pull requests."
 ---
 
 ## Welcome to Polarity
 
-Polarity is a dashboard-only platform — no API required. Connect your repositories and Polarity continuously simulates changes, traces dependencies, flags regressions, and opens high‑quality PRs.
+Polarity automatically analyzes your GitHub repositories and creates pull requests with AI-powered improvements for code quality, performance, and security. Connect your repos through the GitHub App and let Polarity 0 handle the optimization.
 
 <Note>
-  Make sure the Polarity GitHub App is installed for automatic updates.
-  <a href="https://github.com/apps/polarity-ai/installations/select_target">Install GitHub App</a>.
+  **Required**: Install the Polarity GitHub App to connect your repositories.
+  <a href="https://github.com/apps/polarity-ai/installations/select_target">Install GitHub App →</a>
 </Note>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow the quickstart to get set up in minutes.
-</Card>
+## Getting Started
 
-## Polarity demo
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Set up Polarity in 5 minutes
+  </Card>
+  <Card title="Dashboard" icon="chart-line" href="/dashboard">
+    Monitor your repositories and optimizations
+  </Card>
+  <Card title="Pull Requests" icon="git-pull-request" href="/pull-requests">
+    Review and manage AI-generated PRs
+  </Card>
+  <Card title="Teams" icon="users" href="/teams">
+    Add team members and manage permissions
+  </Card>
+</CardGroup>
 
-<Frame caption="Polarity 0 technical demo">
+## Platform Overview
+
+<Frame caption="Polarity 0 - See how AI optimizes your code automatically">
   <iframe
     className="w-full aspect-video rounded-xl"
     src="https://www.youtube.com/embed/_gorNWoK0i8"
-    title="Polarity 0 DEMO TECHNICAL"
+    title="Polarity 0 Demo"
     frameBorder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowFullScreen
   ></iframe>
-  
 </Frame>
 
-## How it works
+## What Polarity Does
+
+- **Automatic Code Analysis**: Scans your repositories continuously for optimization opportunities
+- **AI-Generated Pull Requests**: Creates PRs with improvements for performance, security, and code quality
+- **Smart PR Organization**: Automatically categorizes and prioritizes pull requests for efficient review
+- **Team Collaboration**: Share repositories, track team metrics, and manage permissions
+- **Usage Analytics**: Monitor optimization success rates, credit usage, and improvement metrics
+
+## How It Works
 
 <Steps>
-<Step title="Install the GitHub App">
-  Install the Polarity GitHub App from the dashboard.
+<Step title="Connect GitHub">
+  Sign in with GitHub and install the Polarity GitHub App
 </Step>
-<Step title="Connect your repos">
-  Add orgs and repos from GitHub, GitLab, or self‑hosted. Select which repositories to analyze.
+<Step title="Add Repositories">
+  Select which repositories you want Polarity to monitor and optimize
 </Step>
-<Step title="Choose the model">
-  Use Polarity defaults or bring your own. Override per repo or branch.
+<Step title="Automatic Analysis">
+  Polarity 0 continuously analyzes your code and identifies improvements
 </Step>
-<Step title="Polarity analyzes every commit">
-  We simulate behavior, trace dependencies, and flag regressions proactively.
-</Step>
-<Step title="Polarity publishes PRs">
-  We open high‑quality PRs that improve reliability, security, and performance.
-</Step>
-<Step title="Learns over time — or lock defaults">
-  Approvals and comments refine future PRs. Prefer deterministic behavior? Toggle RL off.
+<Step title="Review Pull Requests">
+  Review AI-generated PRs and merge the improvements you want
 </Step>
 </Steps>
+
+## Quick Links
+
+- [Install GitHub App](https://github.com/apps/polarity-ai/installations/select_target)
+- [View Pricing Plans](/billing)
+- [API Documentation](/api-reference/introduction)
+- [CLI Tool](/polarity-cli)

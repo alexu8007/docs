@@ -1,250 +1,223 @@
 ---
 title: "Reports"
-description: "Detailed reference for the analytics and reporting views in the Polarity dashboard."
+description: "Generate and analyze monthly reports on optimization performance and usage metrics."
+icon: "file-chart-line"
 ---
 
-# /dashboard/reports - Reports Page
+# Reports
 
-## Visual Components
+Access comprehensive monthly analytics and performance reports to track your optimization progress, usage patterns, and success metrics.
 
-### Page Header
-**What you see**: Top section with title and actions
-- **Title**: "Reports" (large text)
-- **Subtitle**: "Monthly analytics and performance reports"
-- **Action buttons** (right side):
-  - "PDF Report" (with file icon) - Generates PDF
-  - "Email Reports" (with mail icon) - Coming soon
-  - "Refresh Reports" (with refresh icon) - Blue primary
+<Frame caption="Learn how to use Polarity's reporting features">
+  <iframe
+    className="w-full aspect-video rounded-xl"
+    src="https://www.youtube.com/embed/fyMxvvA_OKg"
+    title="Reports Demo"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+</Frame>
 
-### Current Month Overview Section
-**What you see**: Four metric cards in a row
+## Accessing Reports
 
-#### Metric Cards (4 Cards)
-Each card shows:
+Navigate to Dashboard → Reports to view your analytics and performance data.
 
-1. **Runs This Month Card**:
-   - **Icon**: Trending up icon (right side)
-   - **Label**: "Runs This Month" (gray text)
-   - **Number**: Large bold (e.g., "1,247")
-   - **Trend indicator**:
-     - Green arrow up if positive
-     - Red arrow down if negative
-   - **Change text**: "+12.5% from last month" (colored)
+## Current Month Overview
 
-2. **Tokens This Month Card**:
-   - **Icon**: Coin icon
-   - **Label**: "Tokens This Month"
-   - **Number**: "45K" format
-   - **Trend**: Same as above
+At the top of the reports page, you'll see four key metrics for the current month:
 
-3. **Credits This Month Card**:
-   - **Icon**: Credit card icon
-   - **Label**: "Credits This Month"
-   - **Number**: Standard format
-   - **Trend**: Same as above
+- **Runs This Month**: Total optimization runs performed
+- **Tokens This Month**: AI tokens consumed (displayed as 45K, 1.2M format)
+- **Credits This Month**: Credits used from your plan
+- **Files This Month**: Number of files analyzed and optimized
 
-4. **Files This Month Card**:
-   - **Icon**: File chart icon
-   - **Label**: "Files This Month"
-   - **Number**: Standard format
-   - **Trend**: Same as above
+Each metric shows:
+- Current month's value
+- Trend indicator (green ↑ for increase, red ↓ for decrease)
+- Percentage change from last month
 
-### Interactive Chart Area
-**What you see**: Line chart below metrics
-- **Component**: ChartAreaInteractive
-- **Default view**: Last 30 days
-- **Multiple lines**: Different colored lines for metrics
-- **Hover tooltip**: Shows exact values
-- **Legend**: Below chart
-- **Time selector**: Daily/Weekly/Monthly buttons
+## Interactive Analytics Chart
 
-### Filter Controls
-**What you see**: Dropdown filters in a row
-- **Year filter**:
-  - Dropdown: "All Years", "2024", "2023"
-  - Default: "All Years"
-- **Month filter**:
-  - Dropdown: All months January-December
-  - Default: "All Months"
-- **Clear filters link**: When filters active
+Below the metrics, an interactive line chart displays your usage trends:
 
-### Monthly Reports Table
-**What you see**: Main data table
+- **Time Ranges**: Toggle between Daily, Weekly, and Monthly views
+- **Multiple Metrics**: Different colored lines for each metric type
+- **Hover Details**: See exact values by hovering over data points
+- **Export Data**: Download chart data for external analysis
 
-#### Section Header
-- **Title**: "Monthly Reports"
-- **Count**: "X reports available" (right side)
+## Monthly Reports Table
 
-#### Table Headers
-- **Period** - Month and year
-- **Total Queries** - Query count
-- **Total Tokens** - Token usage
-- **Success Rate** - Percentage
-- **Top Categories** - Usage categories
-- **Generated** - Creation date
-- **Size** - File size
-- **Actions** - Buttons
+### Report Contents
 
-#### Table Rows
-Each row displays:
-- **Period**: "November 2024" format
-- **Total Queries**: Number with commas (e.g., "12,345")
-- **Total Tokens**: "1.2M" format
-- **Success Rate**:
-  - Green badge if >98%
-  - Yellow badge if 95-98%
-  - Red badge if <95%
-- **Top Categories**:
-  - First 2 as small badges
-  - "+3 more" if additional
-- **Generated**: Date format
-- **Size**: "1.2MB" format
-- **Actions**:
-  - "View" button (with chart icon)
-  - Download icon button
+Each monthly report includes:
+- **Period**: Month and year of the report
+- **Total Queries**: Number of optimization queries
+- **Total Tokens**: Token consumption (1.2M format)
+- **Success Rate**: Percentage with color coding
+  - Green badge: >98% success
+  - Yellow badge: 95-98% success
+  - Red badge: <95% success
+- **Top Categories**: Most common optimization types
+- **Generated Date**: When the report was created
+- **File Size**: Report file size
 
-#### Row Hover
-- Light gray background
-- Cursor pointer indication
+### Report Actions
 
-### Empty States
+For each report you can:
+- **View**: Open detailed report view
+- **Download**: Export as PDF or CSV
+- **Share**: Generate shareable link (Team plans)
 
-#### No Reports Available
-**What you see**: Centered message
-- **Icon**: Large file chart icon (gray)
-- **Title**: "No monthly reports available"
-- **Message**: Varies based on filters:
-  - With filters: "Try adjusting your filters..."
-  - No filters: "Your tracker needs monthly breakdown data..."
-- **Actions**:
-  - "Refresh Reports" button
-  - "Clear Filters" button (if filtered)
+## Filtering Reports
 
-#### Loading State
-**What you see**: While loading
-- **Spinner**: Animated circle
-- **Title**: "Loading Reports"
-- **Message**: "Generating reports from your analytics data..."
+Use filters to find specific reports:
 
-## Modals and Overlays
+### Year Filter
+- All Years (default)
+- Specific year selection
 
-### PDF Report Generator Modal
-**Opens when**: Click "PDF Report" button
-- **Title**: "Generate PDF Report"
-- **Date range selector**: Start and end date
-- **Include options** (checkboxes):
-  - Executive Summary
-  - Detailed Metrics
-  - Charts and Graphs
-  - Recommendations
-- **Generate button**: Blue primary
-- **Cancel button**: Gray outline
+### Month Filter
+- All Months (default)
+- Individual month selection
 
-### Download Progress
-**What you see**: When downloading
-- **Toast notification**: "Downloading November 2024 report..."
-- **Progress bar**: If large file
-- **Success message**: "Download complete"
+Clear filters anytime to return to full view.
 
-## Visual States
+## Generating PDF Reports
 
-### Loading States
-- **Table**: Skeleton rows with shimmer
-- **Metrics**: Pulsing placeholders
-- **Chart**: Loading spinner
-- **Buttons**: Disabled gray
+Click "PDF Report" to create a custom report:
 
-### Success States
-- **Toast**: Green with checkmark
-- **Updated badge**: Brief highlight
-- **Refresh complete**: Brief green border
+1. **Select Date Range**: Choose start and end dates
+2. **Choose Sections**:
+   - Executive Summary
+   - Detailed Metrics
+   - Charts and Graphs
+   - Recommendations
+3. **Generate**: Creates downloadable PDF
 
-### Error States
-- **Toast**: Red with X icon
-- **Error message**: In place of content
-- **Retry button**: Appears on error
+## Understanding Your Reports
 
-## Color Coding
+### Key Metrics Explained
 
-### Metrics
-- **Green**: Positive trends, high success
-- **Red**: Negative trends, low success
-- **Yellow**: Warning levels
-- **Gray**: Neutral/no change
+**Success Rate**
+- Percentage of successful optimizations
+- Industry benchmark: 85-95%
+- Affected by code complexity and repository age
 
-### Table Elements
-- **Blue**: Links and primary actions
-- **Gray**: Secondary information
-- **Green/Yellow/Red**: Success rate badges
+**Token Usage**
+- AI processing consumption
+- Varies by file size and complexity
+- Unlimited on Team plans
 
-## Responsive Design
+**Credit Consumption**
+- Tracked against plan limits
+- Repository analysis: 10 credits
+- PR generation: 5 credits
+- File optimization: 2 credits
 
-### Mobile
-- **Metrics**: 2x2 grid
-- **Table**: Horizontal scroll
-- **Chart**: Full width
-- **Filters**: Stack vertically
+### Usage Patterns
 
-### Tablet
-- **Metrics**: 2x2 or 4x1 based on width
-- **Table**: Responsive columns
-- **Chart**: Maintains ratio
+Reports help identify:
+- Peak usage times
+- Most active repositories
+- Optimization success trends
+- Resource consumption patterns
 
-### Desktop
-- **Metrics**: 4 cards horizontal
-- **Table**: All columns visible
-- **Chart**: Optimal height
-- **Filters**: Horizontal layout
+## Team Reports
 
-## Interactive Elements
+<Note>
+  **Team Plans Only**: Team admins can view aggregate reports for all team members, while members see only their individual metrics.
+</Note>
 
-### Clickable Items
-- Refresh button (reloads data)
-- PDF Report button (opens modal)
-- Filter dropdowns (show options)
-- View buttons (navigate to detail)
-- Download icons (trigger download)
-- Chart points (show tooltips)
+### Team-Specific Metrics
+- Per-member usage breakdown
+- Collective success rates
+- Shared repository performance
+- Team goal progress tracking
 
-### Hover Effects
-- Table rows highlight
-- Buttons darken
-- Links underline
-- Chart shows crosshair
+### Member Privacy
+- Individual members see their own data
+- Admins see team-wide aggregates
+- Detailed member data requires admin access
 
-### Animations
-- Metrics count up on load
-- Chart lines animate in
-- Trend arrows pulse briefly
-- Success badge flash
+## Report Scheduling
 
-## Data Display Formats
+Set up automatic report generation (Coming Soon):
+- Weekly summaries
+- Monthly detailed reports
+- Custom schedules
+- Email delivery to stakeholders
 
-### Numbers
-- **Large numbers**: Comma separated (1,234)
-- **Tokens**: "K" or "M" suffix (45K, 1.2M)
-- **Percentages**: One decimal (98.5%)
-- **File sizes**: "MB" or "KB" suffix
+## Best Practices
 
-### Dates
-- **Month format**: "November 2024"
-- **Full date**: "Nov 15, 2024"
-- **Generated**: Relative or absolute
+### Regular Review
+- Check reports weekly for trends
+- Review monthly for planning
+- Compare period-over-period
+- Track against goals
 
-### Status Indicators
-- **Generating**: Yellow spinner
-- **Ready**: Green check
-- **Error**: Red X icon
+### Using Insights
+- Identify optimization opportunities
+- Adjust repository priorities
+- Plan credit usage
+- Improve success rates
 
-## Chart Features
-- **Interactive**: Hover for details
-- **Zoomable**: Click and drag
-- **Multiple series**: Different colors
-- **Grid lines**: Light gray
-- **Responsive**: Adapts to container
+### Sharing Results
+- Export executive summaries for stakeholders
+- Share success metrics with your team
+- Document improvements for reviews
+- Track ROI on Polarity investment
 
-## Navigation
-- **Breadcrumbs**: Not present
-- **Back button**: Not needed
-- **Deep links**: Direct to filtered views
-- **Export options**: PDF, JSON reports
+## Troubleshooting
+
+### Reports Not Loading
+- Check your internet connection
+- Clear browser cache
+- Try refreshing the page
+- Contact support if issue persists
+
+### Missing Data
+- Ensure repositories are connected
+- Verify optimization has run
+- Check date range selection
+- Allow time for processing
+
+### Export Issues
+- Check browser download settings
+- Try different export format
+- Ensure sufficient disk space
+- Use Chrome or Firefox for best results
+
+## Data Retention
+
+- **Detailed Data**: 12 months rolling window
+- **Summary Data**: Retained indefinitely
+- **Exports**: Generate anytime for available periods
+- **Archives**: Contact support for older data
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="When are monthly reports generated?">
+Reports are automatically generated on the 1st of each month for the previous month's data.
+</Accordion>
+
+<Accordion title="Can I customize report contents?">
+Yes, use the PDF Report feature to select specific sections and metrics to include.
+</Accordion>
+
+<Accordion title="Why is my success rate low?">
+Common causes include complex codebases, legacy code, or aggressive optimization settings. Review failed optimizations for patterns.
+</Accordion>
+
+<Accordion title="Can I export raw data?">
+Yes, reports can be exported as CSV for analysis in Excel or other tools.
+</Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+For assistance with reports:
+- Email: support@polarity.cc
+- In-app help documentation
+- Video tutorials in the help center

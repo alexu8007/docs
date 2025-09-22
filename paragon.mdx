@@ -1,270 +1,265 @@
 ---
-title: "Paragon"
-description: "Visual guide to the Paragon AI code review experience."
+title: "Paragon AI Reviews"
+description: "AI-powered code review assistant that provides intelligent feedback on pull requests."
+icon: "brain"
 ---
 
-# /paragon - AI Code Review Page
+# Paragon - AI Code Review
 
-## Visual Components
+Paragon is Polarity's AI-powered code review system that automatically analyzes pull requests, provides intelligent feedback, and helps maintain code quality standards across your repositories.
 
-### Page Header
-**What you see**: Top section with branding and status
-- **Title**: "Paragon" in large text
-- **Subtitle**: "AI-powered code review for your pull requests"
-- **Status indicator**: Green dot "Online" or red dot "Offline"
-- **Stats badges** (right side):
-  - "Reviews today: 12"
-  - "Avg response: 45s"
+<Frame caption="See Paragon in action - AI-powered code reviews">
+  <iframe
+    className="w-full aspect-video rounded-xl"
+    src="https://www.youtube.com/embed/9peF17HX_4Y"
+    title="Paragon Demo"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+</Frame>
 
-### PR Review Queue Section
-**What you see**: Main content area with PR list
+## How Paragon Works
 
-#### Section Header
-- **Title**: "Pull Requests Ready for Review"
-- **Count badge**: Shows number (e.g., "8 PRs")
-- **Refresh button**: Circular arrow icon
-- **Filter dropdown**: "All", "Urgent", "Ready", "Draft"
+Paragon automatically reviews every pull request in your connected repositories, providing:
 
-#### PR Cards Grid
-**What you see**: Cards arranged in a grid (2-3 per row)
+- **Code quality analysis**: Identifies potential issues and improvements
+- **Security scanning**: Detects vulnerabilities and security risks
+- **Performance insights**: Highlights performance bottlenecks
+- **Best practices**: Ensures code follows industry standards
+- **Documentation checks**: Verifies adequate code documentation
 
-Each PR card contains:
-- **Repository name**: Top left with repo icon
-- **PR title**: Bold text, main focus
-- **PR number**: "#123" in gray
-- **Author**: Small avatar + username
-- **Status badges**:
-  - "Urgent" (red) - Requested reviews
-  - "Ready" (green) - Can be reviewed
-  - "Draft" (gray) - Work in progress
-  - "Reviewed" (blue) - Already analyzed
-- **Metrics row**:
-  - Files changed (e.g., "12 files")
-  - Lines changed (e.g., "+245 -89")
-  - Comments (e.g., "3 comments")
-- **Review button**:
-  - "Run AI Review" (purple) - Not reviewed
-  - "Re-run Review" (outline) - Already reviewed
-  - "View Review" (blue) - Has results
+## Using Paragon
 
-#### Card States
-- **Hover**: Slight elevation with shadow
-- **Loading**: Pulsing animation during review
-- **Error**: Red border with error message
+### Automatic Reviews
 
-### Recent Reviews Section
-**What you see**: History of AI reviews below queue
+When enabled, Paragon automatically reviews:
+1. New pull requests when created
+2. Updates when commits are pushed
+3. Re-reviews when requested
 
-#### Section Header
-- **Title**: "Recent AI Reviews"
-- **Time filter**: "Today", "This Week", "All Time"
-- **Export button**: Download icon
+### Manual Review Trigger
 
-#### Reviews Table
-- **Columns**:
-  - PR (title + number, clickable)
-  - Repository (owner/repo)
-  - Review Time (e.g., "2 hours ago")
-  - Model Used (e.g., "GPT-4", "Claude")
-  - Score (0-100 with color)
-  - Findings (count badges)
-  - Actions (View, Export, Re-run)
+To manually trigger a Paragon review:
+1. Open any pull request
+2. Click "Run AI Review" in the right sidebar
+3. Wait for analysis (typically 30-60 seconds)
+4. Review the feedback and suggestions
 
-- **Row colors**:
-  - Green row: Score > 85
-  - Yellow row: Score 70-85
-  - Red row: Score < 70
+## Review Components
 
-- **Score display**:
-  - Number with circular progress
-  - Green/yellow/red based on value
+### Overall Score
+Paragon provides a score out of 100 based on:
+- Code quality (40%)
+- Security (30%)
+- Performance (20%)
+- Documentation (10%)
 
-- **Findings badges**:
-  - Red "3 critical"
-  - Yellow "5 warnings"
-  - Blue "8 info"
+### Severity Levels
 
-### AI Review Modal
-**Opens when**: Click "View Review" or after review completes
+Reviews categorize issues by severity:
 
-#### Modal Header
-- **PR title**: Large text
-- **Close button**: X in corner
-- **Status bar**: Green/yellow/red based on score
+- 🔴 **Critical**: Must fix before merging
+- 🟡 **Warning**: Should address but not blocking
+- 🔵 **Info**: Suggestions for improvement
+- 🟢 **Good**: Highlights of well-written code
 
-#### Review Summary Section
-- **Overall Score**: Large number (0-100)
-- **Grade**: Letter grade (A+, B, C, etc.)
-- **Risk Level**: Low/Medium/High/Critical badge
-- **Review Time**: How long analysis took
+### Review Sections
 
-#### Key Findings Tabs
-Tabbed interface with:
+Each review includes:
 
-1. **Overview Tab**:
-   - Summary paragraph
-   - Top 3-5 issues
-   - Recommendations list
+1. **Summary**: Overall assessment and key findings
+2. **Security Issues**: Vulnerabilities and risks
+3. **Code Quality**: Style, complexity, and maintainability
+4. **Performance**: Optimization opportunities
+5. **Test Coverage**: Missing or inadequate tests
+6. **Documentation**: Missing comments or docs
 
-2. **Security Tab**:
-   - Vulnerability list with severity
-   - Each item shows:
-     - Issue title
-     - File and line number
-     - Description
-     - Suggested fix
+## Configuration
 
-3. **Performance Tab**:
-   - Performance issues found
-   - Optimization suggestions
-   - Complexity warnings
+### Repository Settings
 
-4. **Quality Tab**:
-   - Code style issues
-   - Best practice violations
-   - Documentation gaps
+Configure Paragon per repository:
+1. Go to Repository Settings
+2. Navigate to "Paragon Configuration"
+3. Adjust review preferences
 
-5. **Tests Tab**:
-   - Test coverage analysis
-   - Missing test cases
-   - Test quality issues
+### Review Preferences
 
-#### Line-by-Line Comments Section
-**What you see**: Detailed file feedback
-- **File headers**: Collapsible sections
-- **Line comments**:
-  - Line number highlighted
-  - Issue description
-  - Severity icon (🔴🟡🔵)
-  - "Apply Fix" button (when available)
+Customize what Paragon checks:
+- **Strictness Level**: Lenient, Balanced, or Strict
+- **Focus Areas**: Prioritize security, performance, or quality
+- **Language Rules**: Language-specific configurations
+- **Custom Rules**: Add your team's coding standards
 
-#### Action Buttons
-- **Post to GitHub**: Adds as PR comment
-- **Download Report**: PDF/Markdown
-- **Share**: Copy link
-- **Re-run**: New analysis
+### Exclusions
 
-### Settings Panel
-**What you see**: Slide-out panel from right
+Tell Paragon what to ignore:
+- Generated files
+- Vendor dependencies
+- Test fixtures
+- Documentation files
+- Specific file patterns
 
-#### Review Configuration
-- **Model Selection**:
-  - Dropdown: "Fast", "Balanced", "Deep"
-  - Description of each
+## Integration with PRs
 
-- **Focus Areas** (checkboxes):
-  - ✅ Security
-  - ✅ Performance
-  - ✅ Code Quality
-  - ✅ Tests
-  - ✅ Documentation
+### Comment Format
 
-- **Severity Threshold**:
-  - Slider: 0-100
-  - "Only show issues above: 70"
+Paragon posts reviews as PR comments with:
+- Clear issue description
+- Code snippet context
+- Suggested fix (when possible)
+- Links to relevant documentation
 
-- **Auto-review** (toggle):
-  - "Automatically review new PRs"
+### Status Checks
 
-#### Repository Rules
-- **List of repos**: With toggle switches
-- **Add rule button**: Opens rule editor
-- **Rule examples**:
-  - "Always check for SQL injection"
-  - "Enforce TypeScript strict"
+Paragon can block merging based on:
+- Critical issues present
+- Score below threshold
+- Specific rule violations
+- Missing test coverage
 
-### Loading States
+Configure status checks in:
+Repository Settings → Branch Protection → Status Checks
 
-#### During Review
-**What you see**: While AI analyzes
-- **Spinner**: Animated AI brain icon
-- **Progress messages**:
-  - "Analyzing code structure..."
-  - "Checking for vulnerabilities..."
-  - "Evaluating performance..."
-  - "Generating recommendations..."
-- **Progress bar**: Shows completion %
+## Advanced Features
 
-#### Results Loading
-- **Skeleton loaders**: For sections
-- **Fade-in animation**: When complete
+### Learning from Feedback
 
-### Empty States
+Paragon improves over time by learning from:
+- Accepted vs rejected suggestions
+- Developer feedback on reviews
+- Merged code patterns
+- Team coding preferences
 
-#### No PRs
-**What you see**: When queue is empty
-- **Icon**: Large robot illustration
-- **Message**: "No pull requests to review"
-- **Subtext**: "PRs will appear here when created"
-- **Action**: "Check Repositories" button
+### Team Standards
 
-#### No Reviews
-**What you see**: When no history
-- **Message**: "No reviews yet"
-- **Suggestion**: "Select a PR above to start"
+Set team-wide standards:
+1. Go to Team Settings → Paragon
+2. Define shared rules and preferences
+3. Apply to all team repositories
 
-### Visual Indicators
+### Custom Rules
 
-#### Status Colors
-- **Green**: Passing, good, safe
-- **Yellow**: Warning, needs attention
-- **Red**: Critical, failing, urgent
-- **Blue**: Information, neutral
-- **Purple**: AI/Paragon branded elements
+Create custom review rules:
+```yaml
+# .paragon.yml in repository root
+rules:
+  - name: "Require JSDoc comments"
+    pattern: "function.*\\("
+    require: "@param|@returns"
+    severity: warning
+  
+  - name: "Limit function length"
+    type: "function-length"
+    max: 50
+    severity: error
+```
 
-#### Priority Indicators
-- **Urgent badge**: Red with exclamation
-- **High badge**: Orange
-- **Medium badge**: Yellow
-- **Low badge**: Gray
+## Best Practices
 
-#### Confidence Levels
-- **High confidence**: Solid border
-- **Medium confidence**: Dashed border
-- **Low confidence**: Dotted border
+### Getting Started
+1. Start with "Balanced" strictness
+2. Review first few PRs together as a team
+3. Adjust configuration based on feedback
+4. Gradually increase strictness
 
-### Interactive Elements
+### Handling Reviews
+- **Don't ignore warnings**: They often become issues later
+- **Provide feedback**: Help Paragon learn your preferences
+- **Use suppressions sparingly**: Document why when you do
+- **Review the reviews**: Ensure Paragon aligns with team standards
 
-#### Hover Effects
-- PR cards lift with shadow
-- Buttons darken
-- Table rows highlight
-- Links underline
+### Team Adoption
+- Introduce gradually on new PRs
+- Set expectations with the team
+- Use as a learning tool, not just enforcement
+- Celebrate improvements in scores
 
-#### Click Actions
-- PR title → Polarity PR viewer
-- Review button → Start analysis
-- Score → Show breakdown
-- File name → Jump to file
+## Understanding Scores
 
-### Navigation
-- **PR links**: Route to `/dashboard/pr/[owner]/[repo]/[number]`
-- **Back button**: Return to queue
-- **Breadcrumbs**: Paragon > PR Title
+### Score Breakdown
 
-### Responsive Design
+**90-100**: Excellent code quality
+- Minimal issues
+- Follows best practices
+- Well documented
+- Optimized performance
 
-#### Mobile
-- Cards stack vertically
-- Modal becomes full screen
-- Sidebar becomes bottom sheet
-- Touch-friendly buttons
+**70-89**: Good with minor issues
+- Some improvements possible
+- Generally follows standards
+- Adequate documentation
 
-#### Desktop
-- Multi-column card grid
-- Side-by-side comparisons
-- Keyboard shortcuts active
-- Hover previews enabled
+**50-69**: Needs attention
+- Several issues to address
+- Missing documentation
+- Performance concerns
 
-### Real-time Updates
-- **Status changes**: Badge updates live
-- **New PRs**: Appear automatically
-- **Review progress**: Live percentage
-- **Results**: Stream in as ready
+**Below 50**: Significant issues
+- Critical problems present
+- Major refactoring needed
+- Security risks identified
 
-### Action Notifications
-**What you see**: Toast messages
-- **Success**: "Review completed successfully"
-- **Error**: "Review failed: [reason]"
-- **Info**: "New PR detected"
-- **Warning**: "Rate limit approaching"
+## Troubleshooting
+
+### Review Not Running
+- Verify Paragon is enabled for the repository
+- Check GitHub App permissions
+- Ensure PR is not in draft mode
+- Verify file types are supported
+
+### Incorrect Suggestions
+- Check language detection is correct
+- Review custom rules for conflicts
+- Adjust strictness level
+- Provide feedback on the suggestion
+
+### Performance Issues
+- Large PRs may take longer to review
+- Consider splitting into smaller PRs
+- Check for complex file patterns
+- Contact support for persistent issues
+
+## Supported Languages
+
+Paragon currently supports:
+- JavaScript/TypeScript
+- Python
+- Java
+- Go
+- Ruby
+- PHP
+- C/C++
+- C#
+- Swift
+- Rust
+- More languages coming soon
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="Can I disable Paragon for specific PRs?">
+Yes, add `[skip-paragon]` to your PR title or description to skip automatic review.
+</Accordion>
+
+<Accordion title="How long do reviews take?">
+Most reviews complete in 30-60 seconds. Large PRs (>1000 lines) may take up to 2 minutes.
+</Accordion>
+
+<Accordion title="Can Paragon auto-fix issues?">
+Paragon can suggest fixes but doesn't automatically apply them. This ensures developer oversight.
+</Accordion>
+
+<Accordion title="Does Paragon replace human reviews?">
+No, Paragon supplements human reviews by catching common issues, allowing reviewers to focus on logic and design.
+</Accordion>
+</AccordionGroup>
+
+## Getting Help
+
+For Paragon assistance:
+- View in-app documentation
+- Check review explanations
+- Contact support@polarity.com
+- Join our community forum
