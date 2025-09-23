@@ -1,6 +1,7 @@
 ---
 title: "FAQ"
 description: "Common questions and troubleshooting for Polarity and Paragon."
+icon: "question-circle"
 ---
 
 ## Why did Polarity fail?
@@ -19,6 +20,27 @@ Polarity may fail for one of the following reasons:
 <Tip>
   If failures persist, open a support ticket from the navbar or attach logs to help us diagnose.
 </Tip>
+
+## Where can I find my API key?
+
+To find your Polarity API key:
+
+1. Navigate to the Polarity dashboard
+2. Click on your user profile menu in the top right corner
+3. Select **"Copy API Key"** from the dropdown menu
+
+<Frame>
+  <img src="/images/apikey.png" alt="Location of Copy API Key option in user dropdown menu" />
+</Frame>
+
+The API key will be copied to your clipboard and can be used for:
+- Authenticating with the Polarity CLI (`pt auth login <your-api-key>`)
+- Integrating with CI/CD pipelines
+- Using the Polarity API directly
+
+<Note>
+  Keep your API key secure and never commit it to version control. Treat it like a password.
+</Note>
 
 ## General troubleshooting
 
