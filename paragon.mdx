@@ -4,9 +4,11 @@ description: "AI-powered code review assistant that provides intelligent feedbac
 icon: "brain"
 ---
 
-# Paragon - AI Code Review
+# Paragon - Intelligent PR Review System
 
-Paragon is Polarity's AI-powered code review system that automatically analyzes pull requests, provides intelligent feedback, and helps maintain code quality standards across your repositories.
+## Overview
+
+Paragon is Polarity's advanced automated Pull Request review system that provides intelligent code analysis, security scanning, and actionable improvement suggestions directly within your GitHub workflow. When a new PR is opened in a monitored repository, Paragon automatically springs into action, analyzing the changes and providing comprehensive feedback to help maintain code quality and catch issues early.
 
 <Frame caption="See Paragon in action - AI-powered code reviews">
   <iframe
@@ -21,59 +23,307 @@ Paragon is Polarity's AI-powered code review system that automatically analyzes 
 
 ## How Paragon Works
 
-Paragon automatically reviews every pull request in your connected repositories, providing:
+### User Experience
 
-- **Code quality analysis**: Identifies potential issues and improvements
-- **Security scanning**: Detects vulnerabilities and security risks
-- **Performance insights**: Highlights performance bottlenecks
-- **Best practices**: Ensures code follows industry standards
-- **Documentation checks**: Verifies adequate code documentation
+From a developer's perspective, Paragon seamlessly integrates into your existing GitHub workflow:
 
-## Using Paragon
+1. **Automatic Activation**: When you open a new Pull Request, Paragon automatically begins its analysis within seconds
+2. **Real-time Status Updates**: You'll see a GitHub status check labeled "Polarity" that shows the progress of the review
+3. **Comprehensive Review Comments**: Paragon posts detailed review comments directly on your PR, including:
+   - **Code Suggestions**: Inline suggestions that can be applied with one click
+   - **Security Analysis**: Detection of potential security vulnerabilities
+   - **Performance Insights**: Identification of performance bottlenecks
+   - **Quality Improvements**: Style and best practice recommendations
+   - **Summary Report**: A comprehensive overview of all findings
 
-### Automatic Reviews
+### What Users See
 
-When enabled, Paragon automatically reviews:
-1. New pull requests when created
-2. Updates when commits are pushed
-3. Re-reviews when requested
+#### 1. GitHub Status Check
+```
+✓ Polarity — Review completed with suggestions
+```
+A clear status indicator shows when Paragon has completed its analysis.
 
-### Manual Review Trigger
+#### 2. Inline Code Suggestions
+Paragon provides GitHub-native suggestion blocks that appear as comments on specific lines:
 
-To manually trigger a Paragon review:
-1. Open any pull request
-2. Click "Run AI Review" in the right sidebar
-3. Wait for analysis (typically 30-60 seconds)
-4. Review the feedback and suggestions
+```diff
++ if (!response.ok) throw new Error('Request failed');
+```
 
-## Review Components
+These suggestions can be:
+- **Committed directly** using GitHub's "Commit suggestion" button
+- **Batched together** using "Add suggestion to batch"
+- **Reviewed and modified** before applying
 
-### Overall Score
-Paragon provides a score out of 100 based on:
-- Code quality (40%)
-- Security (30%)
-- Performance (20%)
-- Documentation (10%)
+#### 3. Review Summary
+Each PR receives a comprehensive summary comment that includes:
+
+- **Confidence Score (1-5)**: Indicates the safety and quality of the changes
+- **Key Metrics**: Number of files reviewed, issues found, and suggestions made
+- **Security Findings**: Critical security issues requiring attention
+- **Coverage Delta**: How the changes affect test coverage
+- **Cross-file Dependencies**: Warnings about impacts on other parts of the codebase
+
+Example summary:
+```markdown
+## Polarity Summary
+
+This PR represents a comprehensive code quality initiative that enhances 
+maintainability, resilience, and clarity.
+
+## Confidence score: 4/5
+- This PR introduces improvements with minimal risk to existing functionality.
+- Pay close attention to auth/handler.js for potential edge cases.
+
+## Security Findings
+- SQL injection vulnerability detected in database/queries.js:45
+- Missing input validation in api/endpoints.js:127
+
+## Coverage Delta
+- auth/handler.js: 75.2% → 82.1% (+6.9%)
+- utils/parser.js: 60.0% → 65.5% (+5.5%)
+
+13 files reviewed, 8 suggestions provided
+```
+
+## Features & Capabilities
+
+### 1. Multi-Category Analysis
+
+Paragon analyzes code across multiple dimensions:
+
+- **Security Issues**: XSS, SQL injection, authentication bypasses, unsafe operations
+- **Logic Bugs**: Incorrect conditions, missing null checks, edge cases
+- **Performance Issues**: Inefficient algorithms, memory leaks, unnecessary operations  
+- **Code Quality**: Naming conventions, code structure, best practices
+- **Documentation**: Missing or outdated documentation
+- **Accidentally Committed Code**: Debug statements, commented code, temporary fixes
+
+### 2. Intelligent Suggestion Engine
+
+Paragon uses advanced AI reasoning (powered by Grok-4) to:
+
+- Generate context-aware code improvements
+- Ensure suggestions are immediately applicable
+- Preserve existing functionality and APIs
+- Target safe insertion points in the code
+- Avoid risky modifications to critical code sections
+
+### 3. Safety Mechanisms
+
+Paragon is designed with safety as a top priority:
+
+- **Never removes code**: Only suggests additions or modifications
+- **Preserves interfaces**: Maintains public APIs and contracts
+- **Smart line targeting**: Avoids modifying imports, exports, and type definitions
+- **Fallback mechanisms**: Provides general comments for complex changes
+- **Bot PR detection**: Automatically skips reviewing its own PRs
+
+### 4. Advanced Analysis Features
+
+#### Dependency Impact Analysis
+Paragon identifies how changes in one file might affect others:
+- Cross-file function usage
+- Import/export relationships
+- Shared type dependencies
+- Configuration impacts
+
+#### Test Coverage Tracking
+- Shows coverage changes for modified files
+- Highlights areas needing additional tests
+- Tracks overall coverage trends
+
+#### Hotspot Detection
+- Identifies high-risk areas of code
+- Prioritizes critical files for review
+- Highlights complex changes requiring attention
+
+## User Requirements & Access Control
+
+### Prerequisites
+
+To use Paragon, users must meet the following requirements:
+
+1. **Pro Plan Subscription**: Paragon is exclusively available for users on the Pro plan
+2. **Paragon Enablement**: The feature must be enabled for your account
+3. **Repository Monitoring**: The repository must be added to your monitored repositories list
+
+### Dashboard Control
+
+You can enable or disable Paragon's automatic PR reviews directly from your dashboard:
+1. Navigate to your Polarity dashboard
+2. Go to Settings or PR Review settings
+3. Toggle Paragon automatic reviews on/off
+4. Changes take effect immediately for new PRs
+
+### Access Control Flow
+
+When a PR is opened, Paragon performs the following checks:
+
+```
+PR Opened → Check Paragon Enabled → Check Pro Plan → Check Repository Authorization → Begin Analysis
+```
+
+If any check fails, Paragon will return an appropriate error message:
+
+- **Paragon Disabled**: "Paragon PR review is disabled for {username}"
+- **Pro Plan Required**: "Paragon PR review requires a pro subscription"
+- **Repository Not Authorized**: "Repository is not in monitored repositories list"
+
+## Accessing Paragon
+
+Navigate to **Pull Requests** (`/dashboard/pr`) from the sidebar to access the Paragon AI code review features.
+
+## Main Features
+
+### 1. Pull Request Overview
+
+When you open the PR page, you'll see:
+
+- **All Pull Requests**: A consolidated list of PRs from all your monitored repositories
+- **Status Indicators**: 
+  - 🟢 Open PRs requiring review
+  - 🟣 Draft PRs in progress
+  - ✅ Merged PRs
+  - ❌ Closed PRs
+
+### 2. AI-Powered Analysis
+
+For each pull request, Paragon automatically provides:
+
+- **Code Quality Score**: Overall assessment of the code changes
+- **Issue Detection**: 
+  - 🔴 Critical issues that must be addressed
+  - 🟡 Warnings for potential problems
+  - 🔵 Suggestions for improvements
+- **Performance Analysis**: Identifies potential performance bottlenecks
+- **Security Scanning**: Flags security vulnerabilities
+
+### 3. Smart Diff Viewer
+
+Click on any PR to open the enhanced diff viewer with:
+
+- **Inline AI Comments**: See Paragon's suggestions directly in the code
+- **Syntax Highlighting**: Full language support
+- **File Navigation**: Easy navigation through changed files
+- **Full Features Mode**: Always enabled for comprehensive review capabilities
+
+### 4. Review Actions
+
+Within each PR, you can:
+
+- **View AI Summary**: Get a high-level overview of the changes
+- **See Line-by-Line Analysis**: Detailed feedback on specific code sections
+- **Apply Suggestions**: One-click to apply Paragon's recommendations
+- **Add Comments**: Combine AI insights with your manual review
+
+## How to Use Paragon
+
+### Step 1: Select a Pull Request
+1. Go to the Pull Requests page
+2. Browse the list of PRs across your repositories
+3. Click on any PR to view details
+
+### Step 2: Review AI Analysis
+1. Check the overall assessment at the top
+2. Look for the AI indicators:
+   - 🤖 **AI Insight** - Automated suggestion
+   - ⚠️ **Warning** - Potential issue
+   - ✨ **Optimization** - Performance improvement
+   - 🛡️ **Security** - Security concern
+
+### Step 3: Navigate Through Changes
+1. Use the file tree on the left to jump between files
+2. Click on file names to view diffs
+3. Expand/collapse sections for easier navigation
+
+### Step 4: Act on Suggestions
+1. **Approve**: If Paragon finds no issues and you agree
+2. **Request Changes**: When critical issues are detected
+3. **Comment**: Add context or ask questions
+4. **Apply Fix**: Use suggested code improvements
+
+## Understanding Paragon's Analysis
+
+### Code Quality Checks
+- **Naming Conventions**: Variable and function naming standards
+- **Code Complexity**: Cyclomatic complexity analysis
+- **Duplication**: Identifies repeated code blocks
+- **Documentation**: Checks for missing comments/docs
+
+### Bug Detection
+- **Null/Undefined Checks**: Potential runtime errors
+- **Type Mismatches**: Type safety issues
+- **Logic Errors**: Incorrect conditionals or loops
+- **Exception Handling**: Missing error handlers
+
+### Performance Insights
+- **Algorithm Efficiency**: O(n) complexity analysis
+- **Database Queries**: N+1 query problems
+- **Memory Leaks**: Potential memory issues
+- **Rendering Performance**: React/UI optimization
+
+### Security Analysis
+- **Input Validation**: SQL injection, XSS vulnerabilities
+- **Authentication**: Improper auth checks
+- **Data Exposure**: Sensitive data in logs/responses
+- **Dependencies**: Known vulnerabilities in packages
+
+## Interface Elements
+
+### PR List View
+- **Repository Badge**: Shows which repo the PR belongs to
+- **Status Badge**: Current PR state
+- **File Count**: Number of files changed
+- **Line Changes**: Additions and deletions
+- **AI Score**: Quick quality indicator
+
+### PR Detail View
+- **Header**: PR title, author, branches
+- **Description Panel**: Full PR description
+- **Files Changed Tab**: All modified files with diffs
+- **Discussion Tab**: Comments and reviews
+- **AI Analysis Tab**: Comprehensive Paragon report
+
+## Tips for Best Results
+
+1. **Smaller PRs**: Paragon performs better on focused changes
+2. **Clear Descriptions**: Help the AI understand context
+3. **Regular Reviews**: Don't let PRs accumulate
+4. **Act on Feedback**: Address issues promptly
+5. **Learn from Patterns**: Use insights to improve coding practices
+
+## Interpreting Results
 
 ### Severity Levels
+- **🔴 Critical**: Must fix before merging
+- **🟡 Warning**: Should address but not blocking
+- **🔵 Info**: Suggestions for improvement
+- **🟢 Good**: Positive feedback on good practices
 
-Reviews categorize issues by severity:
+### Confidence Scores
+- **High (90-100%)**: Very likely accurate
+- **Medium (70-89%)**: Probably correct
+- **Low (Below 70%)**: Review manually
 
-- 🔴 **Critical**: Must fix before merging
-- 🟡 **Warning**: Should address but not blocking
-- 🔵 **Info**: Suggestions for improvement
-- 🟢 **Good**: Highlights of well-written code
+## Common Use Cases
 
-### Review Sections
+### New Feature Review
+- Paragon checks for completeness
+- Ensures error handling
+- Validates edge cases
+- Suggests optimizations
 
-Each review includes:
+### Bug Fix Review
+- Verifies the fix addresses the issue
+- Checks for regression risks
+- Ensures no new bugs introduced
 
-1. **Summary**: Overall assessment and key findings
-2. **Security Issues**: Vulnerabilities and risks
-3. **Code Quality**: Style, complexity, and maintainability
-4. **Performance**: Optimization opportunities
-5. **Test Coverage**: Missing or inadequate tests
-6. **Documentation**: Missing comments or docs
+### Refactoring Review
+- Confirms functionality preserved
+- Validates performance improvements
+- Checks code quality improvements
 
 ## Configuration
 
@@ -92,16 +342,7 @@ Customize what Paragon checks:
 - **Language Rules**: Language-specific configurations
 - **Custom Rules**: Add your team's coding standards
 
-### Exclusions
 
-Tell Paragon what to ignore:
-- Generated files
-- Vendor dependencies
-- Test fixtures
-- Documentation files
-- Specific file patterns
-
-## Integration with PRs
 
 ### Comment Format
 
@@ -131,135 +372,6 @@ Paragon improves over time by learning from:
 - Developer feedback on reviews
 - Merged code patterns
 - Team coding preferences
+---
 
-### Team Standards
-
-Set team-wide standards:
-1. Go to Team Settings → Paragon
-2. Define shared rules and preferences
-3. Apply to all team repositories
-
-### Custom Rules
-
-Create custom review rules:
-```yaml
-# .paragon.yml in repository root
-rules:
-  - name: "Require JSDoc comments"
-    pattern: "function.*\\("
-    require: "@param|@returns"
-    severity: warning
-  
-  - name: "Limit function length"
-    type: "function-length"
-    max: 50
-    severity: error
-```
-
-## Best Practices
-
-### Getting Started
-1. Start with "Balanced" strictness
-2. Review first few PRs together as a team
-3. Adjust configuration based on feedback
-4. Gradually increase strictness
-
-### Handling Reviews
-- **Don't ignore warnings**: They often become issues later
-- **Provide feedback**: Help Paragon learn your preferences
-- **Use suppressions sparingly**: Document why when you do
-- **Review the reviews**: Ensure Paragon aligns with team standards
-
-### Team Adoption
-- Introduce gradually on new PRs
-- Set expectations with the team
-- Use as a learning tool, not just enforcement
-- Celebrate improvements in scores
-
-## Understanding Scores
-
-### Score Breakdown
-
-**90-100**: Excellent code quality
-- Minimal issues
-- Follows best practices
-- Well documented
-- Optimized performance
-
-**70-89**: Good with minor issues
-- Some improvements possible
-- Generally follows standards
-- Adequate documentation
-
-**50-69**: Needs attention
-- Several issues to address
-- Missing documentation
-- Performance concerns
-
-**Below 50**: Significant issues
-- Critical problems present
-- Major refactoring needed
-- Security risks identified
-
-## Troubleshooting
-
-### Review Not Running
-- Verify Paragon is enabled for the repository
-- Check GitHub App permissions
-- Ensure PR is not in draft mode
-- Verify file types are supported
-
-### Incorrect Suggestions
-- Check language detection is correct
-- Review custom rules for conflicts
-- Adjust strictness level
-- Provide feedback on the suggestion
-
-### Performance Issues
-- Large PRs may take longer to review
-- Consider splitting into smaller PRs
-- Check for complex file patterns
-- Contact support for persistent issues
-
-## Supported Languages
-
-Paragon currently supports:
-- JavaScript/TypeScript
-- Python
-- Java
-- Go
-- Ruby
-- PHP
-- C/C++
-- C#
-- Swift
-- Rust
-- More languages coming soon
-
-## FAQ
-
-<AccordionGroup>
-<Accordion title="Can I disable Paragon for specific PRs?">
-Yes, add `[skip-paragon]` to your PR title or description to skip automatic review.
-</Accordion>
-
-<Accordion title="How long do reviews take?">
-Most reviews complete in 30-60 seconds. Large PRs (>1000 lines) may take up to 2 minutes.
-</Accordion>
-
-<Accordion title="Can Paragon auto-fix issues?">
-Paragon can suggest fixes but doesn't automatically apply them. This ensures developer oversight.
-</Accordion>
-
-<Accordion title="Does Paragon replace human reviews?">
-No, Paragon supplements human reviews by catching common issues, allowing reviewers to focus on logic and design.
-</Accordion>
-</AccordionGroup>
-
-## Getting Help
-
-For Paragon assistance:
-- View in-app documentation
-- Check review explanations
-- Contact support@polarity.com
-- Join our community forum
+*Paragon enhances your code review process but doesn't replace human expertise. Use it as a powerful first-pass review tool combined with human judgment for best results.*
