@@ -11,32 +11,14 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Docs",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Overview",
             "pages": [
-              "index",
-              "quickstart"
-            ]
-          },
-          {
-            "group": "Platform",
-            "pages": [
+              "quickstart",
               "dashboard",
-              "paragon",
-              "pull-requests",
-              "billing",
-              "projects",
-              "teams",
-              "context",
-              "polarity-cli"
-            ]
-          },
-          {
-            "group": "Support",
-            "pages": [
-              "faq"
+              "cli"
             ]
           }
         ]

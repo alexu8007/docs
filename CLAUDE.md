@@ -1,15 +1,15 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file guides Claude Code (claude.ai/code) when working in this repository.
 
 ## Project Overview
 
-This is a Mintlify-based documentation website for Polarity, an AI-powered code optimization platform that automatically analyzes GitHub repositories and creates pull requests with intelligent improvements.
+This is a Mintlify-based documentation site for Polarity. The doc set has been reset and now contains three pages: a quick start, a dashboard overview, and a CLI reference.
 
 ## Development Commands
 
 ```bash
-# Install Mintlify CLI (required first time)
+# Install Mintlify CLI (required the first time)
 npm i -g mint
 
 # Start local development server
@@ -31,33 +31,26 @@ mint update
 - **Node.js 19+**: Required runtime
 
 ### Content Organization
-- `/ai-tools/`: Documentation for AI development tool integrations (Claude Code, Cursor, Windsurf)
-- `/api-reference/`: API documentation with OpenAPI spec
-- `/essentials/`: Mintlify feature documentation
-- Root `.mdx` files: Main platform documentation (quickstart, dashboard, pull-requests, teams, polarity-cli)
+- Root `.mdx` files: `quickstart.mdx`, `dashboard.mdx`, `cli.mdx`
+- `/images/`: Shared imagery
+- `/logo/`: Brand assets
 
 ### Configuration
-- `docs.json`: Central configuration for navigation, branding, and integrations
-- `package.json`: Node.js dependencies
-- `/snippets/`: Reusable content components
+- `docs.json`: Navigation, branding, and integration settings
+- `package.json`: Node.js dependencies and scripts
 
 ## Important Context
 
 ### Deployment
-- Changes automatically deploy to production when pushed to the main branch via GitHub App integration
-- No manual build or deployment steps required
+- Changes pushed to the `main` branch deploy through the connected GitHub workflow.
+- No manual build or deployment steps required locally beyond verification.
 
 ### Documentation Standards
-- All documentation files use MDX format
-- Navigation structure is defined in `docs.json`
-- Images stored in `/images/` directory
-- Brand assets in `/logo/` directory
+- All documentation content lives in MDX files.
+- Navigation is driven entirely by `docs.json`.
+- Keep content concise while the new structure is under construction.
 
-### The Polarity Platform
-When documenting Polarity features, understand these core concepts:
-- **GitHub App**: Connects repositories for automatic analysis
-- **AI Analysis**: Scans code for performance, security, and quality improvements
-- **Pull Requests**: Automatically generated with intelligent suggestions
-- **Teams**: Collaborative repository management
-- **CLI Tool**: Git workflow assistant for stacked PR development (`polarity` command)
-- **Dashboard**: Web interface for monitoring and management
+### Polarity Product Pillars
+- **GitHub App**: Connects repositories for automated analysis.
+- **CLI Tool**: `pt` command-line workflow for stacked pull requests.
+- **Dashboard**: Web interface for monitoring activity, usage, and team settings.
