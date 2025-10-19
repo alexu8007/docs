@@ -11,8 +11,11 @@ icon: "gauge-high"
 ## Quick Navigation
 
 <CardGroup cols={2}>
-  <Card title="Dashboard Home" icon="house" href="#dashboard">
-    Manage repos and view optimization activity
+  <Card title="Dashboard" icon="house" href="#dashboard">
+    View and manage PR refinements
+  </Card>
+  <Card title="Repositories" icon="folder-git" href="#repositories">
+    Select and track active repos
   </Card>
   <Card title="Analytics" icon="chart-line" href="#analytics">
     Track performance and token usage
@@ -26,49 +29,85 @@ icon: "gauge-high"
   <Card title="Context" icon="brain" href="#context">
     Customize code style and refinement rules
   </Card>
-  <Card title="Quick Start" icon="rocket" href="/quickstart">
-    New to Polarity? Start here
-  </Card>
 </CardGroup>
 
 ---
 
-## Dashboard Home
+## Dashboard
 <div id="dashboard" />
 
-Your main hub for repository management and optimization tracking.
+Your main hub for viewing and managing pull request refinements.
+
+### PR Management
+
+The dashboard displays all your pull requests in two sections:
 
 <Tabs>
-  <Tab title="Repository Management" icon="code-branch">
-    Add and configure the repositories you want Polarity to monitor and refine.
+  <Tab title="Pending PRs" icon="clock">
+    View all pull requests currently being refined by Polarity AI.
     
-    <Steps>
-      <Step title="Connect Repositories">
-        Click the **Add Repos** button to select which repositories Polarity should monitor
-      </Step>
-      <Step title="Configure Settings">
-        Set up refinement preferences and model selection for each repository
-      </Step>
-      <Step title="Start Refining">
-        Begin optimizing your pull requests with AI
-      </Step>
-    </Steps>
-    
-    <Tip>
-      Need help getting started? Check out our [Quick Start Guide](/quickstart) for step-by-step instructions.
-    </Tip>
+    - Monitor refinement progress in real-time
+    - See which PRs are in the queue
+    - Track planner, worker, and verification status
   </Tab>
   
-  <Tab title="Activity Overview" icon="chart-simple">
-    **Heatmap Visualization**
+  <Tab title="Finished PRs" icon="check-circle">
+    Browse your completed refinements and their results.
     
-    Track your optimization activity over time with a visual heatmap showing how Polarity's refinements vary day by day.
-    
-    **Recent Improvements**
-    
-    View the latest pull requests refined by Polarity AI, including optimization details and performance metrics.
+    - Review optimization history
+    - Compare before and after changes
+    - Access refined PR links on GitHub
   </Tab>
 </Tabs>
+
+### Start a Refinement
+
+<Steps>
+  <Step title="Select a Repository">
+    Choose the repository containing the PR you want to refine
+  </Step>
+  
+  <Step title="Select a Pull Request">
+    Pick the specific PR from your repository that needs refinement
+  </Step>
+  
+  <Step title="Click the Arrow">
+    Click the arrow button to begin the AI refinement process
+  </Step>
+</Steps>
+
+<Tip>
+  Once started, your PR moves to Pending where you can watch the Planner create tasks, customize the plan, and monitor Workers as they refine your code!
+</Tip>
+
+---
+
+## Repositories
+<div id="repositories" />
+
+Manage which repositories Polarity monitors and refines.
+
+### Repository Selection
+
+<CardGroup cols={2}>
+  <Card title="Add Repositories" icon="plus">
+    Select repositories from your connected GitHub organizations
+  </Card>
+  <Card title="Track Active Repos" icon="eye">
+    Monitor which repos are currently enabled for Polarity
+  </Card>
+</CardGroup>
+
+### How It Works
+
+1. **Connect GitHub** - Link your GitHub account through the dashboard
+2. **Browse Repos** - See all repositories from your organizations
+3. **Enable Polarity** - Toggle which repos you want to refine
+4. **Start Refining** - PRs from enabled repos appear in your dashboard
+
+<Info>
+  You can enable or disable repositories at any time without affecting existing refinements.
+</Info>
 
 ---
 

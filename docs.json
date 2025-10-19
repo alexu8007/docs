@@ -3,9 +3,13 @@
   "theme": "mint",
   "name": "Polarity",
   "colors": {
-    "primary": "#000000",
-    "light": "#FFFFFF",
-    "dark": "#000000"
+    "primary": "#0a17b6",
+    "light": "#0a17b6",
+    "dark": "#0a17b6"
+  },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
   },
   "favicon": "/logo/polaritylogo.png",
   "navigation": {

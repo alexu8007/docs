@@ -16,62 +16,118 @@ icon: "rocket"
 
 <Steps>
 
-<Step title="Install the GitHub App" icon="github">
-  Connect Polarity to your GitHub organization to start refining pull requests.
+<Step title="Connect Your Repository" icon="folder-git">
+  Navigate to the **Repositories** page in your dashboard.
   
-  <CardGroup cols={1}>
-    <Card title="Install & Configure" icon="download" href="https://github.com/apps/polarity-ai/installations/select_target">
-      Click here to install the GitHub app and configure it for your organizations
-    </Card>
-  </CardGroup>
-
-</Step>
-
-<Step title="Configure Your Repositories" icon="code-branch">
-  Select which repositories you want Polarity to monitor and refine.
-  
-  1. Navigate to your dashboard
-  2. Click the **Add Repos** button
-  3. Select the repositories you want to enable Polarity on
-  4. Confirm your connected repos appear in the dashboard
+  - Browse repositories from your connected GitHub organizations
+  - Select the repos you want Polarity to monitor
+  - Enable tracking for your chosen repositories
   
   <Check>
-    Your repositories should now be visible in the Polarity dashboard!
+    Your enabled repos will now appear in the dashboard!
   </Check>
 </Step>
 
-<Step title="Refine Your First PR" icon="wand-magic-sparkles">
-  Time to see Polarity in action! Let's refine a pull request.
+<Step title="Select a Pull Request" icon="git-pull-request">
+  Go to the **Dashboard** page to see all available PRs.
   
-  <AccordionGroup>
-    <Accordion title="Step-by-step refinement process" icon="list-check">
-      1. **Select your repository** from the dashboard
-      2. **Choose your Polarity model** for the refinement (default: polarity1_mini)
-      3. **Pick a PR** you want to optimize
-      4. **Click "Start Refinement"** and let the magic happen ✨
-      5. **View your optimized PR** by clicking "View Last PR" once complete
-    </Accordion>
-  </AccordionGroup>
+  - View PRs from your enabled repositories
+  - Choose the PR you want to refine
+  - Review the PR details and changes
+</Step>
+
+<Step title="Start the Refinement" icon="play">
+  Click the **arrow button** next to your selected PR to begin refinement.
+  
+  The PR moves to the **Pending** section and the refinement process starts automatically.
+</Step>
+
+<Step title="Planner Creates Tasks" icon="list-checks">
+  Watch as the AI Planner analyzes your PR and generates refinement tasks.
+  
+  **What happens:**
+  - Planner loads and analyzes code changes
+  - Tasks appear in real-time as they're generated
+  - Each task targets specific improvements
+  
+  <Tip>
+    This usually takes 10-30 seconds depending on PR size
+  </Tip>
+</Step>
+
+<Step title="Customize the Plan" icon="pencil">
+  Interact with the planner to perfect your refinement strategy.
+  
+  **You can:**
+  - **Delete tasks** you don't want executed
+  - **Chat with the bot** to add new tasks
+  - **Modify existing tasks** for specific needs
+  - **Tag files** to focus refinement on certain areas
+  - **Adjust priorities** and task order
   
   <Info>
-    The refinement process analyzes your code, suggests improvements, and applies best practices automatically.
+    Take your time here! A well-planned refinement produces better results.
   </Info>
 </Step>
 
-<Step title="Merge & Ship" icon="rocket">
-  Review your AI-refined pull request and merge it with confidence.
+<Step title="Workers Execute Tasks" icon="robot">
+  Once you approve the plan, AI workers spawn and start making edits.
   
-  <CardGroup cols={2}>
-    <Card title="Review Changes" icon="magnifying-glass">
-      Check the improvements Polarity made to your PR
-    </Card>
-    <Card title="Merge It!" icon="code-merge">
-      Ship your perfectly refined code to production
-    </Card>
-  </CardGroup>
+  **The process:**
+  - Multiple workers execute tasks in parallel
+  - Each worker focuses on specific improvements
+  - Real-time progress updates show completion
+  - Code changes are applied to your PR
+  
+  <Check>
+    You can monitor worker progress in the dashboard as they complete tasks!
+  </Check>
+</Step>
+
+<Step title="Paragon Verifies Changes" icon="shield-check">
+  Paragon, our verification agent, thoroughly tests all changes for quality and reliability.
+  
+  **Verification process (all autonomous)**
+  - **Opens a sandbox environment** for isolated testing
+  - **Runs all unit tests** to ensure functionality
+  - **Executes end-to-end (e2e) tests** for integration validation
+  - **Tests all API endpoints** to verify service reliability
+  - **Checks code quality** and syntax
+  - **Validates logic consistency** and best practices
+  
+  <Warning>
+    If any tests fail or issues are detected, Paragon automatically requests worker revisions until all checks pass
+  </Warning>
+</Step>
+
+<Step title="Review & Merge" icon="check-circle">
+  Your refined PR is ready! Review the improvements and merge.
+  
+  
+  <Check>
+    Congratulations! You've completed your first refinement! 🎉
+  </Check>
 </Step>
 
 </Steps>
+
+---
+
+## Understanding the Process
+
+<AccordionGroup>
+  <Accordion title="Planner Phase" icon="brain">
+    The Planner analyzes your PR and creates a strategic refinement plan. It identifies areas for improvement like code quality, performance, testing, and documentation. You have full control to modify this plan before execution.
+  </Accordion>
+  
+  <Accordion title="Worker Phase" icon="users">
+    AI Workers execute the approved tasks in parallel. Each worker specializes in specific improvements and works independently to apply changes to your code. Progress is tracked in real-time as tasks complete.
+  </Accordion>
+  
+<Accordion title="Verification Phase" icon="check">
+    Paragon verifies all changes meet quality standards by opening a sandbox environment and running comprehensive tests. This includes all unit tests, end-to-end tests, API endpoint validation, syntax checks, logic consistency, and best practices compliance. Failed checks trigger automatic worker revisions until everything passes.
+  </Accordion>
+</AccordionGroup>
 
 ---
 
