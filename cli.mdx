@@ -1,17 +1,356 @@
 ---
 title: "CLI"
-description: "Polarity CLI documentation coming soon."
+description: "Command-line access to Polarity's AI QA engineer for PR refinement, testing, and code assistance"
 icon: "terminal"
 ---
 
-# Polarity CLI
+# Paragon CLI
+
+**Paragon** is the command-line interface for Polarity Labs, giving you terminal access to the same AI QA engineer that powers the dashboard. Run autonomous PR refinements, execute comprehensive test suites, and get AI assistance—all from your terminal.
 
 <Note>
-  **Coming Soon!**
-  
-  Comprehensive CLI documentation is on the way. Stay tuned for detailed guides on using the Polarity command-line interface.
+  **Same powerful refinement workflow, terminal-native experience.** Paragon connects you to Polarity's Planner → Worker → Verification pipeline directly from your CLI.
 </Note>
 
+## Installation
+
+Install via your preferred package manager:
+
+<CodeGroup>
+```bash Homebrew
+brew install polarity/tap/paragon
+```
+
+```bash npm
+npm install -g @polarityland/paragon
+```
+
+```bash Go
+go install github.com/polarity/paragon@latest
+```
+</CodeGroup>
+
+Also available via `yay`, `nix`, `winget`, and `scoop`. Verify installation:
+
+```bash
+paragon --version
+```
+
+## Getting Started
+
+### First Launch
+
+Run `paragon` in any project directory:
+
+```bash
+paragon
+```
+
+You'll be guided through:
+1. **Model selection** - Choose from available AI providers
+2. **API key entry** - Securely configure credentials
+3. **Project setup** - Optional `PARAGON.md` initialization
+
+After setup, you'll enter the interactive terminal UI ready for refinement and code assistance.
+
+### Terminal UI Overview
+
+- **Header**: Active model, LSP status, and notifications
+- **Chat transcript**: Conversation history with streaming responses
+- **Editor**: Multi-line input with file attachments and auto-complete
+- **Sidebar**: Session list, project info, recent files, and tools
+
+#### Key Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `ctrl+p` | Command palette |
+| `ctrl+s` | Switch sessions |
+| `ctrl+t` | View active tasks |
+| `ctrl+g` | Help sheet |
+| `ctrl+c` | Quit (or cancel streaming) |
+
+## PR Refinement & Testing
+
+The core Polarity workflow—now accessible from your terminal.
+
+### Authentication
+
+Connect to Polarity Labs to access refinement features:
+
+```bash
+# Sign in
+paragon auth login
+
+# Check status
+paragon auth status
+
+# Sign out
+paragon auth logout
+```
+
+### Repository Setup
+
+Register your repository for monitoring:
+
+```bash
+paragon add
+```
+
+This enables Polarity to track your repo for pull request refinements.
+
+### Launch PR Refinement
+
+```bash
+paragon refine
+```
+
+**What happens:**
+
+1. **Select a PR** - Lists your open pull requests for selection
+2. **Planner creates tasks** - AI analyzes code and generates refinement plan
+3. **Workers execute** - Parallel agents apply improvements to your code
+4. **Paragon verifies** - Autonomous testing in sandbox environment:
+   - Runs all unit tests
+   - Executes end-to-end (e2e) tests
+   - Tests API endpoints
+   - Validates code quality and syntax
+   - Checks logic consistency
+5. **Review refined PR** - Access the improved PR with all tests passing
+
+<Tip>
+  The refinement workflow matches exactly what you see in the [dashboard](/dashboard)—Polarity's AI QA engineer working autonomously to improve and verify your code.
+</Tip>
+
+### Interactive Review Workflow
+
+From inside the TUI:
+
+1. Open command palette (`ctrl+p`) → "Paragon Review"
+2. Select your PR from the list
+3. Review the task plan in the categorized dialog
+4. Approve to start execution
+5. Monitor progress in the Tasks drawer (`ctrl+t`)
+
+<Check>
+  Refinement status and results sync with your [dashboard](https://polarity.cc/dashboard) in real-time
+</Check>
+
+## Code Assistance & Chat
+
+Beyond refinement, Paragon provides a full AI coding assistant experience.
+
+### One-Off Prompts
+
+Run single commands without entering the TUI:
+
+```bash
+# Direct prompt
+paragon run "Explain the build script"
+
+# From stdin
+cat todo.txt | paragon run
+
+# Quiet mode (no spinner)
+paragon run -q "Generate tests"
+```
+
+### Chat Sessions
+
+- Create new sessions with `ctrl+p` → "New Session"
+- Switch between sessions with `ctrl+s`
+- Summarize long conversations with "Summarize Session" from palette
+
+### File Attachments
+
+- Click paperclip icon or use `ctrl+p` → "Open File Picker"
+- Attach up to 5 files or images per message
+- Auto-complete suggests paths when typing `./` or `../`
+
+### Tool Permissions
+
+<Warning>
+**Yolo Mode** (`-y` flag or "Toggle Yolo Mode") auto-approves all tool requests. Use with caution.
+</Warning>
+
+Paragon requests permission before:
+- Reading or editing files
+- Running shell commands
+- Fetching data through MCP tools
+
+Options: Approve once, approve always (session), or deny.
+
+### Reasoning Controls
+
+For supported models, access via command palette (`ctrl+p`):
+- **Thinking Mode**: Enable/disable explicit reasoning steps
+- **Reasoning Effort**: Choose low, medium, or high depth
+
+## Git Stack Management
+
+**Bonus feature:** Paragon includes powerful git stacking utilities for managing feature branches.
+
+<Accordion title="Branch Operations">
+```bash
+# Create and track new branch
+paragon branch create feature-login
+
+# AI-suggested branch name
+paragon branch create --ai
+
+# Track existing branch
+paragon branch track
+paragon branch track --parent main
+```
+</Accordion>
+
+<Accordion title="Stack Navigation">
+```bash
+# Visualize your stack
+paragon stack
+
+# List all tracked branches
+paragon list
+
+# Show commit history
+paragon log
+paragon log --short
+
+# Navigate between branches
+paragon next      # Move to child branch
+paragon prev      # Move to parent branch
+paragon top       # Jump to top of stack
+paragon bottom    # Jump to bottom of stack
+paragon trunk     # Return to trunk branch
+```
+</Accordion>
+
+<Accordion title="Syncing & Pull Requests">
+```bash
+# Rebase current branch onto parent
+paragon sync
+
+# Rebase entire stack
+paragon restack
+
+# Create or update PR
+paragon submit
+
+# With custom metadata
+paragon submit --title "Add auth" --body "Implements login"
+
+# AI-generated description
+paragon submit --ai
+```
+</Accordion>
+
 <Info>
-  In the meantime, check out our [Quick Start Guide](/quickstart) to get started with Polarity through the dashboard.
+  Stack management complements the refinement workflow—use it to organize feature branches before running `paragon refine` on each PR.
+</Info>
+
+## Configuration
+
+### Config Files
+
+Paragon loads settings from:
+- `.paragon.json` (project-level)
+- `paragon.json` (project-level)
+- `~/.config/paragon/paragon.json` (global, Unix)
+- `%LOCALAPPDATA%\paragon\paragon.json` (global, Windows)
+
+View paths anytime:
+
+```bash
+paragon dirs
+paragon dirs config
+paragon dirs data
+```
+
+### Key Options
+
+```json
+{
+  "permissions": {
+    "allowed_tools": ["read", "write"],
+    "skip_requests": false
+  },
+  "options": {
+    "attribution": {
+      "co_authored_by": true,
+      "generated_with": true
+    },
+    "debug": false
+  }
+}
+```
+
+### Ignore Files
+
+Use `.paragonignore` (same syntax as `.gitignore`) to exclude files from context and file pickers.
+
+### Provider Management
+
+```bash
+# Update provider catalog
+paragon update-providers
+
+# Use custom catalog
+paragon update-providers /path/to/providers.json
+paragon update-providers https://example.com/providers.json
+
+# Reset to embedded catalog
+paragon update-providers embedded
+```
+
+## Logs & Diagnostics
+
+```bash
+# View recent logs (default: 1000 lines)
+paragon logs
+
+# Tail specific number
+paragon logs --tail 200
+
+# Follow in real-time
+paragon logs --follow
+```
+
+## Quick Reference
+
+| Task | Command |
+|------|---------|
+| **Refinement & Testing** | |
+| Sign in to Polarity | `paragon auth login` |
+| Register repository | `paragon add` |
+| Refine a PR | `paragon refine` |
+| **Code Assistance** | |
+| Start interactive mode | `paragon` |
+| One-off prompt | `paragon run "prompt"` |
+| **Git Stacking** | |
+| Create branch | `paragon branch create name` |
+| View stack | `paragon stack` |
+| Submit PR | `paragon submit` |
+| **Utilities** | |
+| View logs | `paragon logs` |
+| Update providers | `paragon update-providers` |
+| Check config paths | `paragon dirs` |
+
+## Learn More
+
+<CardGroup cols={3}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Your first PR refinement walkthrough
+  </Card>
+  <Card title="Dashboard" icon="gauge" href="/dashboard">
+    Monitor refinements and team activity
+  </Card>
+  <Card title="Support" icon="life-ring" href="mailto:support@polarity.com">
+    Questions? We're here to help
+  </Card>
+</CardGroup>
+
+---
+
+<Info>
+  **Paragon = Polarity + Terminal.** Everything you can do in the dashboard, you can do from the CLI—with the added power of git stack management and local AI chat sessions.
 </Info>
