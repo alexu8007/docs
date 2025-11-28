@@ -1,0 +1,94 @@
+---
+title: "Configuration"
+description: "Configure Paragon with project files and authentication."
+---
+
+# Configuration
+
+## paragon.json
+
+Create a `paragon.json` file in your project root to configure Paragon behavior:
+
+```json
+{
+  "automations": [
+    {
+      "name": "Build & Test",
+      "prompts": [
+        "Run the build",
+        "Run all tests",
+        "Report any failures"
+      ]
+    }
+  ]
+}
+```
+
+## PARAGON.md
+
+Use `/init` to generate a `PARAGON.md` file that provides project context to Paragon. This file should contain:
+
+- Project structure overview
+- Key technologies and frameworks
+- Development conventions
+- Important architectural decisions
+
+## Authentication
+
+### Login
+
+```bash
+paragon auth login
+```
+
+Opens a browser-based authentication flow to connect your Paragon account.
+
+### Status
+
+```bash
+paragon auth status
+```
+
+Displays current authentication state and account information.
+
+### Logout
+
+```bash
+paragon auth logout
+```
+
+Removes stored credentials.
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="How do I switch models mid-conversation?">
+Use the `/model` command to open the model picker and select a different model. Your conversation context is preserved.
+</Accordion>
+
+<Accordion title="What's the difference between sessions and compact?">
+Sessions are separate conversations with independent context. `/compact` summarizes your current session and starts fresh with that summary as context.
+</Accordion>
+
+<Accordion title="How do MCP servers work?">
+MCP (Model Context Protocol) servers extend Paragon's capabilities by connecting to external tools and services. Configure them via `/mcp` to give Paragon access to filesystems, databases, APIs, and more.
+</Accordion>
+
+<Accordion title="Is yolo mode safe to use?">
+Yolo mode (`/approvals`) auto-approves all tool executions. Use it only when you trust the operations being performed and want faster iteration. You can toggle it off at any time.
+</Accordion>
+
+<Accordion title="How do monitors work?">
+Monitors are scheduled tasks that run Paragon prompts at regular intervals. They require Polarity authentication and run in the background based on your configured cadence.
+</Accordion>
+
+<Accordion title="Can I use Paragon offline?">
+Paragon requires an internet connection to communicate with AI models. Some MCP servers may work offline if they only access local resources.
+</Accordion>
+</AccordionGroup>
+
+## Getting Help
+
+- Use `/help` to view keyboard shortcuts
+- Run `paragon --help` for CLI options
+- Contact support@polarity.com for assistance

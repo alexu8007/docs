@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Polarity",
+  "name": "Paragon",
   "colors": {
     "primary": "#000000",
     "light": "#FFFFFF",
@@ -16,21 +16,32 @@
           {
             "group": "Getting started",
             "pages": [
-              "index",
-              "quickstart"
+              "index"
             ]
           },
           {
-            "group": "Platform",
+            "group": "Dashboard",
             "pages": [
-              "dashboard",
-              "paragon",
-              "pull-requests",
-              "billing",
-              "projects",
-              "teams",
-              "context",
-              "polarity-cli"
+              "dashboard/overview",
+              "dashboard/issues",
+              "dashboard/settings",
+              "dashboard/integrations"
+            ]
+          },
+          {
+            "group": "Paragon CLI",
+            "pages": [
+              "paragon/overview",
+              "paragon/commands",
+              "paragon/tools",
+              "paragon/configuration"
+            ]
+          },
+          {
+            "group": "AI Tools",
+            "pages": [
+              "claude-code",
+              "cursor"
             ]
           },
           {
@@ -54,17 +65,17 @@
     "links": [
       {
         "label": "Install GitHub App",
-        "href": "https://github.com/apps/polarity-ai/installations/select_target"
+        "href": "https://github.com/apps/paragon-review/installations/select_target"
       },
       {
         "label": "Support",
-        "href": "mailto:support@polarity.com"
+        "href": "mailto:support@paragon.dev"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://home.polarity.cc"
+      "href": "https://home.paragon.dev"
     }
   },
   "contextual": {

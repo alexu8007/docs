@@ -1,0 +1,97 @@
+---
+title: "Integrations"
+description: "Connect cloud services, tools, and manage team collaboration using MCP."
+---
+
+## Infrastructure (MCP)
+
+Connect cloud services and tools using the Model Context Protocol (MCP) for enhanced analysis.
+
+### Available Integrations
+
+<CardGroup cols={3}>
+  <Card title="AWS" icon="aws">
+    Connect with IAM access keys to manage S3, EC2, and more
+  </Card>
+  <Card title="GCP" icon="google">
+    Connect using gcloud CLI authentication
+  </Card>
+  <Card title="Vercel" icon="triangle">
+    Connect your deployments via OAuth
+  </Card>
+  <Card title="Supabase" icon="database">
+    Connect your project with access token
+  </Card>
+  <Card title="Linear" icon="list-check">
+    Connect for issue tracking integration
+  </Card>
+  <Card title="Jira" icon="jira">
+    Connect for project tracking
+  </Card>
+  <Card title="Notion" icon="book">
+    Connect workspace via OAuth
+  </Card>
+</CardGroup>
+
+### Connecting Services
+
+Most integrations use OAuth for secure authentication:
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Go to Settings → Infrastructure
+  </Step>
+  <Step title="Select Service">
+    Click "Connect" on the service you want
+  </Step>
+  <Step title="Run CLI Command">
+    Copy the CLI command and run it in your terminal
+  </Step>
+  <Step title="Complete OAuth">
+    Complete the OAuth flow in your browser
+  </Step>
+  <Step title="Paste Token">
+    Paste the token back into the dashboard
+  </Step>
+</Steps>
+
+### Custom MCP Servers
+
+Click "Add Custom MCP" to create custom server configurations for your own tools and services. Configure the server type (stdio, http, SSE), command/URL, and environment variables.
+
+## Team Management
+
+Collaborate with your team using pooled credits and shared resources.
+
+<Info>
+  **Requirement**: Team features require the Startup plan ($500/month).
+</Info>
+
+### Team Roles
+
+<CardGroup cols={2}>
+  <Card title="Admin" icon="shield">
+    - Invite and remove members
+    - Manage billing and seats
+    - Edit team settings
+  </Card>
+  <Card title="Member" icon="user">
+    - Access team credit pool
+    - View team information
+    - Leave team
+  </Card>
+</CardGroup>
+
+### Inviting Members
+
+1. Click "Invite team member"
+2. Enter their email address
+3. Invitation email sent with unique link
+4. Member accepts and joins team
+
+### Team Capacity
+
+- View current members vs. total capacity
+- Track pending invitations
+- See available slots
+- Monitor team credit usage

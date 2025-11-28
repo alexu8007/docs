@@ -1,0 +1,89 @@
+---
+title: "Slash Commands"
+description: "Complete reference for all Paragon CLI slash commands."
+---
+
+# Slash Commands
+
+Type these commands directly in the input field. Start typing `/` to see autocomplete suggestions.
+
+## `/model`
+
+**Switch to a different model.** Opens a model selection dialog where you can choose between available LLM models.
+
+## `/session`
+
+**Switch to a different session.** Opens a session picker showing all your previous conversation sessions. Each session maintains its own context and history.
+
+## `/new`
+
+**Start a new session.** Creates a fresh conversation session with no prior context.
+
+## `/compact`
+
+**Summarize current session.** Creates a summary of the current conversation and starts a new session with that summary as context. Use when:
+
+- Approaching context window limits (auto-prompted at 95%)
+- Want to condense a long conversation
+- Starting a related but distinct task
+
+## `/approvals`
+
+**Toggle auto-approve (yolo) mode.** Toggles automatic approval of all tool executions:
+
+| Mode | Behavior |
+|------|----------|
+| **OFF** (default) | Paragon asks permission before running commands, editing files, etc. |
+| **ON** (yolo mode) | All tool calls are automatically approved |
+
+<Warning>
+Use with caution - yolo mode will execute commands without confirmation.
+</Warning>
+
+## `/feature`
+
+**Toggle feature mode.** Enables/disables Feature Mode which changes how the agent approaches tasks:
+
+| Mode | Behavior |
+|------|----------|
+| **OFF** | Standard assistant behavior |
+| **ON** | Agent focuses on implementing complete features with better planning |
+
+## `/init`
+
+**Create/Update PARAGON.md memory file.** Generates or updates a `PARAGON.md` file in your project root containing:
+
+- Project overview and architecture
+- Key conventions and patterns
+- Important files and their purposes
+- Development guidelines
+
+This file is automatically read by Paragon to understand your project context.
+
+## `/infra`
+
+**Generate INFRA.md and infrastructure diagram.** Analyzes your project and creates:
+
+- `INFRA.md` - Infrastructure documentation
+- Mermaid diagram showing system architecture
+
+## `/status`
+
+**View account status and credits.** Opens a dialog showing:
+
+- Current user and team information
+- Remaining token credits
+- Usage statistics
+- Plan/subscription details
+
+<Note>
+Requires Paragon authentication (`paragon auth login`).
+</Note>
+
+## `/help`
+
+**Toggle help display.** Shows/hides the keyboard shortcut help bar at the bottom of the screen.
+
+## `/quit`
+
+**Quit Paragon.** Exits the application. Same as `ctrl+c` or typing `exit`/`quit` in the input.

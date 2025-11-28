@@ -1,0 +1,68 @@
+---
+title: "Overview"
+description: "AI-powered terminal assistant for code development, featuring model switching, MCP integrations, and workflow automation."
+---
+
+# Paragon CLI
+
+Paragon is an AI-powered terminal assistant that helps you write, review, and manage code directly from your command line. It features model switching, MCP server integrations, custom agents, automated workflows, and intelligent code assistance.
+
+## Installation
+
+Install Paragon globally via npm:
+
+```bash
+npm i -g @polarityinc/paragon
+```
+
+After installation, authenticate with your Paragon account:
+
+```bash
+paragon auth login
+```
+
+You can find the API key in the dashboard under the settings tab at the bottom of the page.
+
+```bash
+paragon
+```
+
+## Models
+
+Paragon supports multiple AI models with different capabilities:
+
+| Model | Description |
+|-------|-------------|
+| `paragon-fast` | Quick responses, lower cost |
+| `paragon-mid` | Balanced performance and cost |
+| `paragon-high` | Higher quality responses |
+| `paragon-max` | Maximum capability with extended thinking |
+
+Models with thinking/reasoning capabilities will show a budget indicator.
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `ctrl+p` | Open command palette |
+| `ctrl+n` | New session |
+| `ctrl+s` | Switch session |
+| `ctrl+t` | Reopen tasks dialog |
+| `ctrl+f` | File picker |
+| `ctrl+o` | External editor |
+| `ctrl+g` | Toggle help |
+| `ctrl+c` | Quit |
+| `ctrl+z` | Suspend to shell |
+
+## Additional Features
+
+### File Attachments
+
+Type `@` in the input to get file path completions. Attach images or files to your message for the AI to analyze.
+
+### Preference Memory
+
+| Prefix | Scope | Example |
+|--------|-------|---------|
+| `#` | Global (all projects) | `# Always use TypeScript for new files` |
+| `##` | Local (this repository only) | `## Use Vitest for testing` |

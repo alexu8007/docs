@@ -1,0 +1,64 @@
+---
+title: "Issues & PR Reviews"
+description: "View and manage all automatically reviewed pull requests and discovered issues."
+---
+
+## Issues & PR Reviews
+
+The Issues page is your central hub for viewing all automatically reviewed pull requests and the issues found.
+
+### PR List
+
+View all PRs that have been automatically reviewed:
+
+| Feature | Description |
+|---------|-------------|
+| **Search** | Filter PRs by title |
+| **Repository Filter** | Show PRs from specific repositories |
+| **Sentiment Score** | Color-coded status (Good/Fair/Poor/Critical) |
+| **Author** | PR author with avatar |
+| **Date** | Relative timestamp (e.g., "5 min ago") |
+
+### Analytics Dashboard
+
+View metrics and trends for your PR reviews:
+
+<CardGroup cols={2}>
+  <Card title="PRs Reviewed" icon="code-pull-request">
+    Total count with run breakdown
+  </Card>
+  <Card title="Issues Found" icon="bug">
+    Total issues with average per PR
+  </Card>
+  <Card title="Hours Saved" icon="clock">
+    Estimated time saved
+  </Card>
+  <Card title="Time Period" icon="calendar">
+    Filter by 7, 30, or 90 days
+  </Card>
+</CardGroup>
+
+The trend chart visualizes review activity over time.
+
+### Issue Detail View
+
+Click on any PR to view detailed issues found:
+
+- Issues sorted by severity (Critical → High → Medium → Low)
+- Issue title and description
+- File path and line number
+- Code snippet display
+- Link to GitHub comment thread
+- Resolution status
+
+## Trigger Reviews Manually
+
+You can trigger a PR review on-demand by tagging `@paragon-review` in any comment on a pull request. This is useful when:
+
+- You want to re-run a review after making changes
+- The repository doesn't have automatic reviews enabled
+- You want a review on a specific PR without enabling auto-reviews
+
+<Note>
+Simply comment `@paragon-review` on any open pull request to trigger an AI-powered code review.
+</Note>

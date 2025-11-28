@@ -1,0 +1,108 @@
+---
+title: "Settings"
+description: "Configure your account, PR reviews, severity filters, and custom rules."
+---
+
+## Settings
+
+Configure your account, PR reviews, and integrations from the Settings page.
+
+### Account
+
+- **Name**: Editable display name
+- **Email**: Synced from GitHub (read-only)
+- **Avatar**: Synced from GitHub profile
+
+### Automatic PR Reviews
+
+Toggle automatic PR scanning on/off and manage monitored repositories:
+
+1. Enable the "Automatic PR Reviews" toggle
+2. Click "Add Repos" to select repositories
+3. Search and select repositories with checkboxes
+4. Monitored repos appear in the list below
+5. Remove repos using the X button
+
+<Warning>
+  Disabling PR reviews will remove all monitored repositories.
+</Warning>
+
+### GitHub Connection
+
+Connect your GitHub account to enable repository access:
+
+- View connection status in "Code Host Connections"
+- Click "Connect" or "Reconnect" to authorize
+- Tokens are encrypted and auto-refresh
+
+### API Key
+
+Your API key is displayed in Settings. Use it for CLI authentication with `paragon auth login`.
+
+## Severity Filters
+
+Control which types of issues are reported in your PR reviews.
+
+### Issue Severity Levels
+
+<CardGroup cols={2}>
+  <Card title="Critical" icon="circle-exclamation" color="#dc2626">
+    Security vulnerabilities, data loss risks, crash-causing bugs
+  </Card>
+  <Card title="High" icon="triangle-exclamation" color="#ea580c">
+    Major bugs, significant performance issues
+  </Card>
+  <Card title="Medium" icon="circle-info" color="#ca8a04">
+    Code quality issues, best practice violations
+  </Card>
+  <Card title="Low" icon="lightbulb" color="#16a34a">
+    Style issues, minor improvements, suggestions
+  </Card>
+</CardGroup>
+
+### Additional Filters
+
+| Filter | Description |
+|--------|-------------|
+| **Out of Diff** | Include issues found outside the changed lines |
+| **PR Summary** | Generate a summary of analysis findings |
+| **System Diagram** | Generate architecture visualization (requires PR Summary) |
+
+<Note>
+  At least one severity filter must remain enabled.
+</Note>
+
+## Custom Rules
+
+Define custom coding standards for the AI to follow during code reviews.
+
+### Upload Documents
+
+Upload existing documentation to automatically extract rules:
+
+- **Supported formats**: PDF, DOCX, MD, TXT
+- AI extracts coding rules automatically
+- Rules tagged with "upload" source
+
+### Manual Entry
+
+Add rules by typing directly:
+
+1. Click "Manual Entry"
+2. Type your rule or guideline
+3. Save to add to active rules
+
+### Example Rules
+
+```
+All API endpoints must include error handling with try-catch
+Use TypeScript strict mode for all new files
+Database queries must use parameterized statements
+```
+
+### Managing Rules
+
+- Click any rule to view full content
+- Copy rule content to clipboard
+- Delete rules no longer needed
+- View source (upload/manual) and creation date

@@ -1,0 +1,125 @@
+---
+title: "Tools & Automation"
+description: "MCP servers, custom agents, automations, and scheduled monitors."
+---
+
+# Tools & Automation
+
+## `/mcp` - MCP Servers
+
+**Manage MCP (Model Context Protocol) servers.** Opens the MCP Manager dialog where you can configure external tool integrations.
+
+### Adding MCP Servers
+
+1. Select `/mcp` to open the manager
+2. Choose "Add Server" or press `a`
+3. Select server type:
+   - **stdio** - Local process (most common)
+   - **http** - HTTP endpoint
+   - **sse** - Server-Sent Events
+
+### For stdio servers
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Unique identifier for the server |
+| **Command** | The executable (e.g., `npx`, `uvx`, `node`) |
+| **Args** | Command arguments as JSON array |
+| **Env** | Environment variables as JSON object |
+
+### Common MCP Server Examples
+
+**Filesystem access:**
+```
+Command: npx
+Args: ["-y", "@modelcontextprotocol/server-filesystem", "/Users/you/projects"]
+```
+
+**GitHub:**
+```
+Command: npx
+Args: ["-y", "@modelcontextprotocol/server-github"]
+Env: {"GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_xxx"}
+```
+
+**PostgreSQL:**
+```
+Command: npx
+Args: ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost/db"]
+```
+
+### Managing Servers
+
+- **Enable/Disable**: Toggle servers on/off without removing them
+- **Authenticate**: Some servers require OAuth or API key authentication
+- **Delete**: Remove servers you no longer need
+
+## `/agents` - Custom Agents
+
+**Manage custom subagents.** Opens the Agents (Droids) manager where you can create specialized AI agents with:
+
+- **Custom system prompts** - Define the agent's personality and expertise
+- **Specific models** - Choose which model powers the agent
+- **Tool restrictions** - Limit which tools the agent can use
+
+Use cases:
+- Code reviewer agent with strict guidelines
+- Documentation writer with specific style
+- Test generator focused on edge cases
+
+## `/automations` - Workflow Automation
+
+**Run saved E2E/regression flows.** Opens the Automation Scenarios dialog. Automations are predefined sequences of prompts that run automatically.
+
+Configure in `paragon.json`:
+
+```json
+{
+  "automations": [
+    {
+      "name": "Full Test Suite",
+      "prompts": [
+        "Run all unit tests",
+        "Run integration tests",
+        "Generate coverage report"
+      ]
+    }
+  ]
+}
+```
+
+## `/monitors` - Scheduled Tasks
+
+**Manage scheduled monitors.** Opens the Monitors dialog for creating automated scheduled tasks.
+
+### Creating a Monitor
+
+1. Press `a` to add new monitor
+2. Enter a **prompt** - what you want the monitor to check/do
+3. Select **cadence**:
+   - **Hourly** - Runs every hour
+   - **Daily** - Runs once per day
+   - **Weekly** - Runs once per week
+4. Press `Enter` to save
+
+### Managing Monitors
+
+| Key | Action |
+|-----|--------|
+| `a` | Add new monitor |
+| `Enter` | Edit selected monitor |
+| `t` | Toggle enabled/disabled |
+| `d` | Delete monitor |
+| `↑/↓` | Navigate list |
+| `Esc` | Close dialog |
+
+### Use Cases
+
+- Daily code quality checks
+- Weekly dependency audits
+- Hourly log monitoring
+- Scheduled report generation
+
+<Note>
+Requires Paragon authentication (`paragon auth login`).
+</Note>

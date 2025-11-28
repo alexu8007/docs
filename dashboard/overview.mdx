@@ -1,0 +1,85 @@
+---
+title: "Overview"
+description: "Your central hub for managing automated PR reviews, viewing code analysis results, and managing your team."
+---
+
+## Overview
+
+The Paragon Dashboard is your central hub for managing automated PR reviews, viewing code analysis results, configuring infrastructure connections, and managing your team.
+
+The dashboard is organized into the following pages:
+
+- **Home**: Credit balance, statistics, and CLI installation
+- **Issues**: View all PR reviews with analytics and filtering
+- **Settings**: Configure PR reviews, severity filters, custom rules, and GitHub connection
+
+## Quick Start
+
+<Steps>
+  <Step title="Install the Paragon CLI">
+    Install the CLI globally with npm
+  </Step>
+  <Step title="Connect GitHub">
+    Connect your GitHub account in Settings
+  </Step>
+  <Step title="Enable PR Reviews">
+    Enable automatic PR reviews and add repositories
+  </Step>
+  <Step title="View Issues">
+    View issues found in the Issues page
+  </Step>
+  <Step title="Configure Rules">
+    Configure severity filters and custom rules
+  </Step>
+</Steps>
+
+## Installation & Setup
+
+Get started with Paragon by installing the CLI and authenticating with your API key.
+
+### Step 1: Install CLI
+
+```bash
+npm i -g @polarityinc/paragon
+```
+
+### Step 2: Authenticate
+
+```bash
+paragon auth login
+```
+
+### Step 3: Verify Installation
+
+```bash
+paragon
+```
+
+<Note>
+  **API Key**: Your API key is available in Settings. Keep it secure and do not share publicly.
+</Note>
+
+## Home
+
+The Home page provides an overview of your account status and quick access to key features.
+
+### Credit Balance & Plan
+
+Your credit balance and current plan are displayed at the top:
+
+- Current credit balance with visual indicator
+- Active plan name (Free, Developer, Startup)
+- "Add Credits" button for paid plans
+
+### Statistics
+
+Click "Show All Stats" to expand your usage statistics:
+
+- Issues caught by severity (Critical, High, Medium, Low)
+- Total tokens used
+- Messages sent
+- Estimated hours saved
+
+### Install Paragon CLI
+
+Click the install button to open a modal with copy-paste commands for CLI setup.
