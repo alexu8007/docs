@@ -1,0 +1,36 @@
+---
+title: "E2E Testing"
+description: "Generate and run end-to-end tests using natural language."
+---
+
+Paragon generates and runs Playwright tests from plain English. Describe what you want to test, and Paragon handles the rest.
+
+## Quick Start
+
+Just tell Paragon what to test:
+
+```
+Test the checkout flow with an expired credit card
+```
+
+Paragon writes the Playwright test, runs it, and opens an HTML report with video recordings and tracing so you can see exactly what happened.
+
+## How It Works
+
+1. **Describe the test** in natural language
+2. **Paragon generates** Playwright tests and saves a scenario to `paragon.json`
+3. **View results** with video recordings, tracing, and screenshots
+
+<Tip>
+Tests run on your actual machine with your real environment variables, secrets, and local services.
+</Tip>
+
+## Running Saved Tests
+
+Once a scenario is saved, run it anytime:
+
+| Method | How |
+|--------|-----|
+| **CLI** | `paragon tests run <scenario-id>` |
+| **Chat** | "run my e2e tests" |
+| **TUI** | `ctrl+p` → Automation Scenarios |

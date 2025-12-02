@@ -1,12 +1,8 @@
 ---
 title: "Cursor"
 description: "Enable Cursor to use Paragon CLI commands by adding context to your project."
-icon: "i-cursor"
+icon: "/logo/cursor-circle.png"
 ---
-
-# Cursor Setup
-
-Enable Cursor to use Paragon CLI commands by adding context to your project.
 
 ## Why Add Context?
 
@@ -23,212 +19,98 @@ Cursor works best when it knows what tools are available. By adding the Paragon 
 2. Copy the CLI reference below and paste it into the file
 3. Cursor will now use Paragon commands for code analysis
 
----
-
 ## CLI Reference
 
-Copy the content below into your `.cursorrules` file:
+<Note>
+Copy the content below into your `.cursorrules` file.
+</Note>
 
-```markdown
+```text .cursorrules
 # Paragon CLI Commands
 
 > Use Paragon CLI for enhanced code analysis, reviews, and git workflows.
 
 ## Quick Start
 
-```bash
-# Analyze code with a prompt
-paragon run -q "Review this code for security issues"
-
-# Pipe code for analysis
-git diff | paragon run -q "Review these changes"
-```
-
----
+paragon run -q "Review this code for security issues"    # Analyze code with a prompt
+git diff | paragon run -q "Review these changes"         # Pipe code for analysis
 
 ## Code Analysis Commands
 
-### `paragon run`
+### paragon run
 
 Run a prompt in non-interactive mode. Accepts input via arguments or stdin.
 
-```bash
-# Basic usage
 paragon run "Explain the authentication flow in this codebase"
-
-# Quiet mode (hide spinner)
-paragon run -q "Find potential bugs in the error handling"
-
-# Feature implementation mode
-paragon run --feature "Add input validation to the API endpoints"
-
-# JSON output for structured parsing
-paragon run --json "List all security issues"
-
-# Pipe stdin
-cat src/auth.go | paragon run "Explain this code"
+paragon run -q "Find potential bugs in the error handling"           # Quiet mode (hide spinner)
+paragon run --feature "Add input validation to the API endpoints"    # Feature implementation mode
+paragon run --json "List all security issues"                        # JSON output for structured parsing
+cat src/auth.go | paragon run "Explain this code"                    # Pipe stdin
 git diff HEAD~3 | paragon run -q "Review these changes"
+paragon run -m paragon-max "Complex architectural analysis"          # Select model
 
-# Select model
-paragon run -m paragon-max "Complex architectural analysis"
-```
+Flags:
+  -q, --quiet     Hide spinner/progress output
+  --feature       Use feature implementation mode (vs code review)
+  --json          Output structured JSON findings
+  --concise       Results-only, no reasoning
+  -m, --model     Model selection (paragon-max, paragon-high, paragon-fast)
 
-**Flags:**
-| Flag | Description |
-|------|-------------|
-| `-q, --quiet` | Hide spinner/progress output |
-| `--feature` | Use feature implementation mode (vs code review) |
-| `--json` | Output structured JSON findings |
-| `--concise` | Results-only, no reasoning |
-| `-m, --model` | Model selection (paragon-max, paragon-high, paragon-fast) |
-
----
-
-### `paragon context`
+### paragon context
 
 Specialized context-aware queries using semantic search and AI analysis.
 
-#### `paragon context issue`
-Diagnose and find root causes of problems.
-
-```bash
-paragon context issue "Database updates not persisting"
-paragon context issue "Memory leak in worker threads"
-paragon context issue -q "API returning 500 errors intermittently"
-```
-
-#### `paragon context search`
-Semantic code search across the codebase.
-
-```bash
-paragon context search "authentication logic"
-paragon context search "where are API routes defined"
-paragon context search "error handling patterns"
-```
-
-#### `paragon context knowledge`
-Query project architecture and documentation.
-
-```bash
-paragon context knowledge "How does the caching layer work?"
-paragon context knowledge "What's the database schema?"
-paragon context knowledge "Deployment process"
-```
-
----
+paragon context issue "Database updates not persisting"      # Diagnose and find root causes
+paragon context search "authentication logic"                # Semantic code search
+paragon context knowledge "How does the caching layer work?" # Query project architecture
 
 ## Git Workflow Commands
 
-### `paragon submit`
+### paragon submit
 
 Push branch and create/update GitHub PR with AI-generated description.
 
-```bash
-# AI-generated title and description
-paragon submit --ai
+paragon submit --ai                               # AI-generated title and description
+paragon submit --title "Add user authentication"  # With custom title
+paragon submit --draft --ai                       # As draft PR
 
-# With custom title
-paragon submit --title "Add user authentication"
-
-# As draft PR
-paragon submit --draft --ai
-```
-
-### `paragon branch create`
+### paragon branch create
 
 Create a new stacked branch with optional AI naming.
 
-```bash
-# AI-generated branch name based on changes
-paragon branch create --ai
-
-# Explicit name
-paragon branch create feature/auth
-```
+paragon branch create --ai         # AI-generated branch name based on changes
+paragon branch create feature/auth # Explicit name
 
 ### Stack Navigation
 
-```bash
 paragon stack      # Show branch stack tree
 paragon sync       # Rebase current branch on parent
 paragon next       # Move to child branch
 paragon prev       # Move to parent branch
 paragon top        # Jump to top of stack
 paragon bottom     # Jump to bottom of stack
-```
-
----
 
 ## Global Flags
 
 Available on all commands:
-
-| Flag | Description |
-|------|-------------|
-| `-q, --quiet` | Hide spinners and progress output |
-| `-y, --yolo` | Auto-approve all permission requests (dangerous) |
-| `-d, --debug` | Enable debug logging |
-| `-c, --cwd` | Set working directory |
-
----
+  -q, --quiet    Hide spinners and progress output
+  -y, --yolo     Auto-approve all permission requests (dangerous)
+  -d, --debug    Enable debug logging
+  -c, --cwd      Set working directory
 
 ## Integration Examples
 
-### Code Review on Diff
-```bash
-git diff main | paragon run -q "Review for bugs and security issues"
-```
-
-### Automated PR Review
-```bash
-gh pr diff 123 | paragon run -q --json "Comprehensive code review"
-```
-
-### Find Root Cause
-```bash
-paragon context issue "Tests failing after recent merge"
-```
-
-### Pre-commit Analysis
-```bash
-git diff --staged | paragon run -q "Check for issues before commit"
-```
-
-### Explain Complex Code
-```bash
-cat src/complex-algorithm.go | paragon run "Explain this step by step"
-```
-
----
-
-## Output Formats
-
-### Text Output (default)
-Streaming markdown response to stdout.
-
-### JSON Output (`--json`)
-```json
-{
-  "issues_found": 3,
-  "tasks": [
-    {
-      "title": "SQL Injection Risk",
-      "description": "User input not sanitized in query",
-      "severity": "critical",
-      "file": "src/db/queries.go",
-      "line": 42
-    }
-  ]
-}
-```
-
----
+git diff main | paragon run -q "Review for bugs and security issues"     # Code Review on Diff
+gh pr diff 123 | paragon run -q --json "Comprehensive code review"       # Automated PR Review
+paragon context issue "Tests failing after recent merge"                 # Find Root Cause
+git diff --staged | paragon run -q "Check for issues before commit"      # Pre-commit Analysis
+cat src/complex-algorithm.go | paragon run "Explain this step by step"   # Explain Complex Code
 
 ## Tips
 
-1. **Use `-q` flag** for cleaner output in scripts
-2. **Pipe code via stdin** for targeted analysis
-3. **Use `--json`** when parsing results programmatically
-4. **Use `context issue`** for debugging problems
-5. **Use `context search`** to find code patterns
+1. Use -q flag for cleaner output in scripts
+2. Pipe code via stdin for targeted analysis
+3. Use --json when parsing results programmatically
+4. Use context issue for debugging problems
+5. Use context search to find code patterns
 ```
