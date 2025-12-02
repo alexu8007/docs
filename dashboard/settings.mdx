@@ -27,6 +27,58 @@ Toggle automatic PR scanning on/off and manage monitored repositories:
   Disabling PR reviews will remove all monitored repositories.
 </Warning>
 
+### Review Options
+
+Configure what to include in automatic PR reviews:
+
+<AccordionGroup>
+  <Accordion title="Out of Diff">
+    Find issues beyond the changed lines. When enabled, Paragon analyzes surrounding code context to catch issues that may be affected by your changes but aren't in the diff itself.
+
+    **Example:** You modify a function's return type. Paragon flags callers of that function elsewhere in the file that may now have type mismatches.
+  </Accordion>
+
+  <Accordion title="Commit Suggestions">
+    One-click commit fixes directly from the PR. Paragon provides actionable code suggestions that you can apply instantly without leaving GitHub.
+
+    **Example:** Paragon detects a missing null check and offers a "Commit suggestion" button that adds `if (user == null) return;` with a single click.
+  </Accordion>
+
+  <Accordion title="Code Diffs">
+    Show inline diffs for suggestions. Instead of just describing the fix, Paragon displays a visual before/after diff so you can see exactly what changes are proposed.
+
+    **Example:**
+    ```diff
+    - const data = response.data
+    + const data = response.data ?? []
+    ```
+  </Accordion>
+
+  <Accordion title="PR Summary">
+    Generate an overview of review findings at the top of the PR. Provides a high-level summary including issue counts by severity, key concerns, and overall assessment.
+
+    **Example:** "This PR adds user authentication. Found 2 high-severity issues (SQL injection risk, missing rate limiting) and 3 medium-severity suggestions."
+  </Accordion>
+
+  <Accordion title="Summary Splitting">
+    Split the PR summary and detailed review into 2 separate comments. Useful for large PRs where you want the overview separate from line-by-line feedback.
+
+    **Example:** First comment contains the executive summary and issue counts. Second comment contains all inline code review comments.
+  </Accordion>
+
+  <Accordion title="Draft PRs">
+    Review draft pull requests. When enabled, Paragon runs automatic reviews on PRs marked as drafts, giving you early feedback before the PR is ready for human review.
+
+    **Example:** You open a draft PR for a new feature. Paragon immediately reviews it and catches a security issue before you've even requested review from teammates.
+  </Accordion>
+
+  <Accordion title="System Diagram">
+    Generate an architecture flow diagram showing how the changed code fits into the system. Visualizes data flow, component relationships, and integration points.
+
+    **Example:** For a PR modifying an API endpoint, Paragon generates a Mermaid diagram showing: Client → API Gateway → Auth Middleware → Your Endpoint → Database.
+  </Accordion>
+</AccordionGroup>
+
 ### GitHub Connection
 
 Connect your GitHub account to enable repository access:

@@ -1,51 +1,197 @@
 ---
 title: "FAQ"
-description: "Common questions and troubleshooting for Polarity and Paragon."
-icon: "question-circle"
+description: "Common questions and troubleshooting for Paragon."
+icon: "circle-question"
 ---
 
-## Why did Polarity fail?
+## Getting Started
 
-Polarity may fail for one of the following reasons:
+<AccordionGroup>
+  <Accordion title="How do I get started with Paragon?">
+    1. Install the GitHub App from the dashboard
+    2. Select which repositories to monitor
+    3. Enable automatic PR reviews in Settings
+    4. Paragon will automatically review new pull requests
 
-1. **Your original code doesn’t compile or run.**
-   - Ensure the repository builds and tests pass locally. Fix baseline issues before re‑running Polarity.
+    For CLI access, install globally with `npm i -g @polarityinc/paragon` and authenticate with `paragon auth login`.
+  </Accordion>
 
-2. **Your code only runs with local secrets or environment restrictions** Polarity can’t access.
-   - Avoid relying on local <code>.env</code> files or machine‑specific configuration. Use safe mock values or CI‑compatible defaults.
+  <Accordion title="Where can I find my API key?">
+    Your API key is located in the dashboard Settings page at the bottom. Click the copy button to copy it to your clipboard.
 
-3. **Polarity made a mistake and the Verifier can’t repair it.**
-   - In this case, Polarity will not push changes to avoid breaking your codebase. Review the PR or logs, and re‑run after addressing constraints.
+    Use your API key to:
+    - Authenticate with the Paragon CLI (`paragon auth login`)
+    - Integrate with CI/CD pipelines
+    - Access the Paragon API directly
 
-<Tip>
-  If failures persist, open a support ticket from the navbar or attach logs to help us diagnose.
-</Tip>
+    <Warning>
+      Keep your API key secure and never commit it to version control.
+    </Warning>
+  </Accordion>
 
-## Where can I find my API key?
+  <Accordion title="Which repositories can Paragon access?">
+    Paragon can only access repositories where:
+    - The GitHub App is installed
+    - You've explicitly enabled them in Settings → Automatic PR Reviews
 
-To find your Polarity API key:
+    You control exactly which repositories Paragon monitors. Add or remove repositories anytime from the dashboard.
+  </Accordion>
+</AccordionGroup>
 
-1. Navigate to the Polarity dashboard
-2. Click on your user profile menu in the top right corner
-3. Select **"Copy API Key"** from the dropdown menu
+## PR Reviews
 
-<Frame>
-  <img src="/logo/apikey.png" alt="Location of Copy API Key option in user dropdown menu" />
-</Frame>
+<AccordionGroup>
+  <Accordion title="Why didn't Paragon review my PR?">
+    Check the following:
 
-The API key will be copied to your clipboard and can be used for:
-- Authenticating with the Polarity CLI (`pt auth login <your-api-key>`)
-- Integrating with CI/CD pipelines
-- Using the Polarity API directly
+    1. **Repository not enabled** - Ensure the repo is added in Settings → Automatic PR Reviews
+    2. **Draft PR** - Draft PRs are only reviewed if "Draft PRs" is enabled in Review Options
+    3. **GitHub App permissions** - The app needs read access to pull requests and code
+    4. **Credit balance** - Check your remaining credits in the dashboard
 
-<Note>
-  Keep your API key secure and never commit it to version control. Treat it like a password.
-</Note>
+    If issues persist, try disconnecting and reconnecting your GitHub account in Settings.
+  </Accordion>
 
-## General troubleshooting
+  <Accordion title="How do I re-run a review?">
+    To trigger a new review on an existing PR:
 
-- Confirm the GitHub App is installed and has required permissions.
-- Make sure the repository and branch are enabled in the dashboard.
-- Re‑run the analysis after addressing compile/test errors.
+    1. Push a new commit to the branch
+    2. Or close and reopen the PR
+    3. Or use the Paragon CLI: `paragon run -q "Review this PR"`
 
+    Each re-run consumes credits based on the PR size.
+  </Accordion>
 
+  <Accordion title="Can I customize what Paragon looks for?">
+    Yes, you can customize reviews in several ways:
+
+    - **Severity Filters** - Choose which severity levels to report (Critical, High, Medium, Low)
+    - **Custom Rules** - Add your own coding standards and guidelines
+    - **Review Options** - Enable/disable features like PR summaries, system diagrams, and commit suggestions
+
+    All customization options are available in the dashboard Settings page.
+  </Accordion>
+
+  <Accordion title="Why are there issues outside my changed lines?">
+    If "Out of Diff" is enabled, Paragon analyzes surrounding code context to find issues that may be affected by your changes but aren't directly in the diff.
+
+    To disable this, turn off "Out of Diff" in Settings → Review Options.
+  </Accordion>
+</AccordionGroup>
+
+## Paragon CLI
+
+<AccordionGroup>
+  <Accordion title="How do I install the Paragon CLI?">
+    Install globally via npm:
+
+    ```bash
+    npm i -g @polarityinc/paragon
+    ```
+
+    Then authenticate:
+
+    ```bash
+    paragon auth login
+    ```
+
+    Verify installation:
+
+    ```bash
+    paragon --version
+    ```
+  </Accordion>
+
+  <Accordion title="What's the difference between paragon run and the interactive mode?">
+    - **`paragon run`** - Non-interactive, single prompt execution. Great for scripts and piping.
+    - **`paragon`** (no args) - Interactive terminal session with conversation history, slash commands, and model switching.
+
+    Use `paragon run` for automation and `paragon` for exploratory coding sessions.
+  </Accordion>
+
+  <Accordion title="How do I pipe code to Paragon?">
+    Use stdin with `paragon run`:
+
+    ```bash
+    # Review a diff
+    git diff | paragon run -q "Review these changes"
+
+    # Analyze a file
+    cat src/auth.ts | paragon run "Explain this code"
+
+    # Review staged changes
+    git diff --staged | paragon run -q "Check for issues"
+    ```
+
+    The `-q` flag hides the spinner for cleaner output.
+  </Accordion>
+</AccordionGroup>
+
+## Billing & Credits
+
+<AccordionGroup>
+  <Accordion title="How do credits work?">
+    Credits are consumed when Paragon analyzes code:
+
+    - **Automatic PR reviews** - Credits based on PR size and complexity
+    - **CLI usage** - Credits based on tokens processed
+    - **Context queries** - Credits for semantic search and analysis
+
+    View your credit balance and usage statistics on the dashboard home page.
+  </Accordion>
+
+  <Accordion title="What happens when I run out of credits?">
+    When credits are exhausted:
+
+    - Automatic PR reviews pause until credits are replenished
+    - CLI commands return an error with instructions to add credits
+    - Free plan credits reset monthly
+    - Paid plans can purchase additional credits anytime
+
+    Upgrade your plan or purchase credit top-ups from the Billing page.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Paragon isn't finding issues it should catch">
+    Try the following:
+
+    1. **Enable more severity levels** - Lower severities may be filtered out
+    2. **Check custom rules** - Conflicting rules may suppress findings
+    3. **Enable Out of Diff** - Issues may be outside the changed lines
+    4. **Increase context** - For CLI, provide more surrounding code
+
+    If Paragon consistently misses a type of issue, add a custom rule describing what to look for.
+  </Accordion>
+
+  <Accordion title="GitHub App connection issues">
+    If you're having trouble with the GitHub connection:
+
+    1. Go to Settings → GitHub Connection
+    2. Click "Reconnect" to re-authorize
+    3. Ensure you grant access to the required repositories
+    4. Check that the GitHub App has the necessary permissions
+
+    You can also reinstall the GitHub App from [github.com/apps/paragon-review](https://github.com/apps/paragon-review).
+  </Accordion>
+
+  <Accordion title="CLI authentication errors">
+    If `paragon auth login` fails:
+
+    1. Ensure you have a valid API key from the dashboard
+    2. Check your internet connection
+    3. Try logging out first: `paragon auth logout`
+    4. Re-authenticate: `paragon auth login`
+
+    Run `paragon auth status` to verify your authentication state.
+  </Accordion>
+</AccordionGroup>
+
+## Contact Support
+
+Still have questions? Reach out to us:
+
+- **Email**: [support@paragon.dev](mailto:support@paragon.dev)
+- **GitHub Issues**: Report bugs or request features
