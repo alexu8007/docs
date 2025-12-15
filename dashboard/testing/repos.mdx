@@ -1,0 +1,104 @@
+---
+title: "Adding Repositories"
+description: "Connect GitHub repositories to enable AI-powered testing."
+---
+
+Before you can generate or run tests, you need to add a repository to the testing dashboard.
+
+## Add a Repository
+
+<Steps>
+  <Step title="Go to Testing > Repos">
+    Navigate to the Testing section and click "Repos" in the sidebar
+  </Step>
+  <Step title="Click Add Repository">
+    Click the "Add Repository" button
+  </Step>
+  <Step title="Select from GitHub">
+    Choose a repository from your connected GitHub account
+  </Step>
+  <Step title="Configure Settings">
+    Set the base URL and default platforms (optional)
+  </Step>
+  <Step title="Save">
+    Click "Add Repository" to finish
+  </Step>
+</Steps>
+
+## Repository Settings
+
+When adding a repository, you can configure:
+
+| Setting | Description | Example |
+|---------|-------------|---------|
+| **Base URL** | The URL where your app runs (for E2E tests) | `https://staging.myapp.com` |
+| **Platforms** | Default browsers for E2E tests | Chrome, Firefox, Safari |
+| **Environment Variables** | Secrets needed for tests (encrypted) | `API_KEY`, `DATABASE_URL` |
+
+### Base URL
+
+For E2E tests, Paragon needs to know where your app is running. This is typically:
+
+- A staging/preview environment
+- A local URL if running tests locally
+- Your production URL (not recommended for destructive tests)
+
+```
+https://staging.myapp.com
+https://preview-pr-123.myapp.com
+http://localhost:3000
+```
+
+### Environment Variables
+
+Add any secrets your tests need. These are encrypted and only decrypted when tests run.
+
+Common examples:
+- `API_KEY` - API authentication
+- `TEST_USER_EMAIL` - Test account credentials
+- `TEST_USER_PASSWORD` - Test account password
+- `DATABASE_URL` - Database connection string
+
+<Warning>
+  Never commit secrets to your repository. Use environment variables instead.
+</Warning>
+
+## Auto-Detection
+
+When you add a repository, Paragon scans it to detect:
+
+- **Existing test files** - Tests you've already written
+- **Test framework** - vitest, jest, pytest, etc.
+- **Project structure** - Where source code and tests live
+
+This helps Paragon generate tests that match your existing setup.
+
+## Repository Health
+
+After running tests, you'll see a health indicator for each repository:
+
+- **Green** - All tests passing
+- **Yellow** - Some tests skipped or flaky
+- **Red** - Failing tests
+
+The health bar on the dashboard shows the ratio of passing to failing tests at a glance.
+
+## Managing Repositories
+
+### Edit Settings
+
+Click on a repository to update its base URL, platforms, or environment variables.
+
+### Remove Repository
+
+Click the delete button to remove a repository. This removes all tests and run history for that repository.
+
+<Note>
+  Removing a repository from the testing dashboard does not affect your actual GitHub repository.
+</Note>
+
+## Next Steps
+
+<Card title="Create Tests" icon="wand-magic-sparkles" href="/dashboard/testing/creating">
+  Generate your first AI-powered tests
+</Card>

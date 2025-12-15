@@ -1,0 +1,148 @@
+---
+title: "Running Tests"
+description: "Execute tests and view results in the dashboard."
+---
+
+Once you've created tests, you can run them manually, on a schedule, or automatically when code changes.
+
+## Run Tests Manually
+
+### Run a Single Test
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to your test list
+  </Step>
+  <Step title="Find your test">
+    Use search or filters to find the test
+  </Step>
+  <Step title="Click Run">
+    Click the play button next to the test
+  </Step>
+</Steps>
+
+### Run All Tests in a Suite
+
+Click "Run All" on any suite to execute all tests in that folder.
+
+### Run All Tests in a Repository
+
+From the dashboard, click "Run All Tests" to execute every test across all suites.
+
+## View Test Results
+
+### Test List View
+
+The test list shows status at a glance:
+
+| Status | Meaning |
+|--------|---------|
+| 🟢 **Passed** | All assertions succeeded |
+| 🔴 **Failed** | One or more assertions failed |
+| 🔵 **Running** | Test is currently executing |
+| ⚪ **Not Run** | Test hasn't been executed yet |
+| 🟡 **Flaky** | Test passes sometimes, fails sometimes |
+
+### Run Details
+
+Click on any test run to see:
+
+- **Status** - Pass/fail with duration
+- **Step-by-step breakdown** - What happened at each step
+- **Error messages** - Why it failed (if applicable)
+- **Screenshots** - Visual snapshots (E2E tests)
+- **Video recording** - Full execution replay (E2E tests)
+
+### Step Breakdown
+
+For E2E tests, you see each action:
+
+```
+✓ Navigate to https://myapp.com/login     (1.2s)
+✓ Type "test@example.com" into #email     (0.3s)
+✓ Type "password123" into #password       (0.2s)
+✓ Click "Sign In" button                  (0.1s)
+✓ Wait for /dashboard URL                 (2.1s)
+✗ Check "Welcome" text appears            (0.5s)
+  └─ Error: Expected "Welcome" but found "Error: Invalid credentials"
+```
+
+For unit/integration tests, you see the test output:
+
+```
+✓ calculateDiscount returns 0 for orders under $50
+✓ calculateDiscount returns 10% for orders $50-$100
+✗ calculateDiscount returns 20% for orders over $100
+  └─ Expected: 80, Received: 100
+✓ calculateDiscount throws for negative amounts
+```
+
+## Test Run History
+
+Go to **Testing > Runs** to see all past test runs.
+
+### Filters
+
+- **Status** - Passed, Failed, Running
+- **Trigger** - Manual, Scheduled, Pull Request
+- **Repository** - Filter by repo
+- **Search** - Find by test name
+
+### Multi-Platform Runs
+
+When a test runs on multiple platforms (Chrome, Firefox, Safari), they're grouped together:
+
+```
+Login Flow                    Chrome ✓  Firefox ✓  Safari ✗
+├─ Chrome   Passed  (4.2s)
+├─ Firefox  Passed  (5.1s)
+└─ Safari   Failed  (3.8s)
+```
+
+Click to expand and see per-platform results.
+
+## Real-Time Updates
+
+The dashboard updates automatically:
+
+- **Test list**: Refreshes every 3 seconds when tests are running
+- **Runs page**: Refreshes every 10 seconds when tests are running
+- **Dashboard**: Refreshes every 30 seconds
+
+No need to manually refresh—status updates appear as tests complete.
+
+## Understanding Failures
+
+When a test fails, check:
+
+1. **Error message** - What assertion failed?
+2. **Screenshots** - What did the page look like?
+3. **Previous runs** - Did this test pass before? (Regression)
+4. **Other platforms** - Does it fail everywhere or just one browser?
+
+### Common Failure Causes
+
+| Cause | Solution |
+|-------|----------|
+| Element not found | Check if selector changed, add wait |
+| Timeout | Increase timeout, check if page loads |
+| Wrong text/value | Update expected value or fix bug |
+| Network error | Check if API is running, add retry |
+| Flaky test | Add explicit waits, make test deterministic |
+
+## Regression Detection
+
+Paragon automatically compares each run to previous runs. If a test that previously passed now fails, it's flagged as a regression.
+
+You don't configure this—it happens automatically. Regressions appear highlighted in the runs list.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Schedule Tests" icon="calendar" href="/dashboard/testing/scheduling">
+    Run tests automatically on a schedule
+  </Card>
+  <Card title="CI Integration" icon="github" href="/dashboard/testing/ci">
+    Run tests on every PR
+  </Card>
+</CardGroup>

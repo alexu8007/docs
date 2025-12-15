@@ -1,0 +1,222 @@
+---
+title: "CI & GitHub Integration"
+description: "Run tests automatically on pull requests and pushes."
+---
+
+Paragon integrates with GitHub to run tests automatically when code changes.
+
+## How It Works
+
+```
+Developer opens PR → GitHub sends webhook → Paragon runs tests → Results posted to PR
+```
+
+No CI configuration files needed. Paragon handles everything.
+
+## Enable GitHub Integration
+
+<Steps>
+  <Step title="Install GitHub App">
+    Install the [Paragon GitHub App](https://github.com/apps/paragon-review/installations/select_target) on your repository
+  </Step>
+  <Step title="Add Repository">
+    Add the repository in Testing > Repos
+  </Step>
+  <Step title="Enable Triggers">
+    Turn on "Run on PR" and/or "Run on Push" in repository settings
+  </Step>
+</Steps>
+
+## Trigger Options
+
+Configure when tests run automatically:
+
+| Trigger | When It Runs | Use Case |
+|---------|--------------|----------|
+| **Run on PR** | When a pull request is opened or updated | Catch issues before merge |
+| **Run on Push** | When code is pushed to main/master | Verify production branch |
+
+### Run on PR
+
+Tests run when:
+- A new PR is opened
+- New commits are pushed to a PR
+- A PR is reopened
+
+Results appear as a GitHub check on the PR.
+
+### Run on Push
+
+Tests run when:
+- Code is pushed directly to main/master
+- A PR is merged
+
+Use this to verify nothing broke after merge.
+
+## GitHub Check Results
+
+When tests run on a PR, results appear as a GitHub check:
+
+```
+✓ Paragon Tests — All 12 tests passed
+```
+
+Or if something fails:
+
+```
+✗ Paragon Tests — 2 of 12 tests failed
+```
+
+Click "Details" to see:
+- Which tests failed
+- Error messages
+- Screenshots (for E2E tests)
+- Link to full results in dashboard
+
+## PR Comments
+
+Optionally, Paragon can post a comment on your PR with a summary:
+
+```markdown
+## Test Results
+
+✓ 10 passed
+✗ 2 failed
+
+### Failures
+- Login flow: Expected "Welcome" but found "Error"
+- Checkout: Timeout waiting for payment form
+
+[View full results →](https://home.polarity.cc/testing/runs/abc123)
+```
+
+Enable PR comments in Testing > Settings.
+
+## Status Checks
+
+Configure Paragon as a required status check to block merges when tests fail:
+
+<Steps>
+  <Step title="Go to GitHub repo settings">
+    Settings > Branches > Branch protection rules
+  </Step>
+  <Step title="Edit your main branch rule">
+    Click "Edit" on the main/master protection rule
+  </Step>
+  <Step title="Enable status checks">
+    Check "Require status checks to pass before merging"
+  </Step>
+  <Step title="Select Paragon">
+    Search for "Paragon Tests" and select it
+  </Step>
+  <Step title="Save">
+    Click "Save changes"
+  </Step>
+</Steps>
+
+Now PRs cannot be merged until Paragon tests pass.
+
+## Preview Environments
+
+For E2E tests, you need a running app to test against. Options:
+
+### Static Base URL
+
+Set a fixed URL in repository settings:
+
+```
+https://staging.myapp.com
+```
+
+All E2E tests run against this URL.
+
+### Dynamic Preview URLs
+
+If you use Vercel, Netlify, or similar:
+
+1. Paragon detects the preview URL from the deployment
+2. Tests automatically run against the preview environment
+3. Each PR tests its own isolated preview
+
+<Tip>
+  Dynamic preview URLs are ideal—they test the exact code in the PR, not staging.
+</Tip>
+
+## Webhook Configuration
+
+The GitHub App handles webhooks automatically. No manual configuration needed.
+
+If you need a custom webhook URL (for CI/CD pipelines):
+
+1. Go to Testing > Settings
+2. Copy the webhook URL
+3. Add it to your CI configuration
+
+Example for GitHub Actions:
+
+```yaml
+- name: Trigger Paragon Tests
+  run: |
+    curl -X POST https://api.polarity.cc/api/test/webhook/github \
+      -H "Authorization: Bearer ${{ secrets.PARAGON_API_KEY }}" \
+      -d '{"repository": "${{ github.repository }}", "sha": "${{ github.sha }}"}'
+```
+
+## Viewing PR Test Runs
+
+PR-triggered runs appear in Testing > Runs with:
+
+- Trigger type: "Pull Request"
+- PR number and title
+- Commit SHA
+- Link to the PR
+
+Filter by trigger type to see only PR runs.
+
+## Best Practices
+
+<Tip>
+  Start with "Run on PR" only. Add "Run on Push" once your tests are stable.
+</Tip>
+
+<Tip>
+  Keep PR tests fast (under 5 minutes). Move slow tests to scheduled runs.
+</Tip>
+
+<Tip>
+  Use preview environments for E2E tests so each PR tests in isolation.
+</Tip>
+
+<Warning>
+  Don't run destructive tests against shared staging environments on every PR—tests may interfere with each other.
+</Warning>
+
+## Troubleshooting
+
+### Tests not running on PR
+
+1. Check GitHub App is installed on the repository
+2. Verify "Run on PR" is enabled in repository settings
+3. Check webhook delivery in GitHub (Settings > Webhooks > Recent Deliveries)
+
+### Wrong environment being tested
+
+1. Check base URL in repository settings
+2. For preview environments, verify deployment is complete before tests start
+3. Check environment variables are set correctly
+
+### Status check not appearing
+
+1. Run tests manually once to register the check
+2. Ensure repository is added in Testing > Repos
+3. Check GitHub App permissions include "Checks" write access
+
+## Summary
+
+| Feature | How to Enable |
+|---------|---------------|
+| Run tests on PR | Repository settings → "Run on PR" |
+| Run tests on push | Repository settings → "Run on Push" |
+| Block merge on failure | GitHub branch protection rules |
+| PR comments | Testing > Settings → Enable PR comments |
+| Preview environments | Automatic with Vercel/Netlify, or set base URL |

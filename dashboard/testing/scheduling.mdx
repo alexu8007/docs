@@ -1,0 +1,146 @@
+---
+title: "Scheduling Tests"
+description: "Run tests automatically on a recurring schedule."
+---
+
+Schedule tests to run automatically at specific times—daily, weekly, or custom intervals.
+
+## Create a Schedule
+
+<Steps>
+  <Step title="Go to Testing > Calendar">
+    Navigate to the calendar view
+  </Step>
+  <Step title="Click New Schedule">
+    Click "Add Schedule" button
+  </Step>
+  <Step title="Select Tests">
+    Choose which tests or suites to run
+  </Step>
+  <Step title="Set Frequency">
+    Choose when to run (daily, weekly, custom)
+  </Step>
+  <Step title="Save">
+    Click "Create Schedule"
+  </Step>
+</Steps>
+
+## Schedule Options
+
+### Frequency
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| **Daily** | Runs once per day | Every day at 2:00 AM |
+| **Weekly** | Runs on selected days | Every Monday and Friday |
+| **Custom** | Cron expression | `0 */6 * * *` (every 6 hours) |
+
+### Common Schedules
+
+```
+Daily at midnight:        0 0 * * *
+Daily at 6 AM:            0 6 * * *
+Every Monday at 9 AM:     0 9 * * 1
+Weekdays at 8 AM:         0 8 * * 1-5
+Every 6 hours:            0 */6 * * *
+Every hour:               0 * * * *
+```
+
+### What to Include
+
+You can schedule:
+
+- **All tests** in a repository
+- **A specific suite** (e.g., just "Authentication" tests)
+- **Individual tests** (e.g., just the critical checkout flow)
+
+## Managing Schedules
+
+### View All Schedules
+
+The calendar view shows all scheduled runs:
+
+- Blue dots indicate days with scheduled tests
+- Click a day to see what's scheduled
+- Hover for quick details
+
+### Edit a Schedule
+
+Click on any schedule to:
+
+- Change the frequency
+- Add or remove tests
+- Update the time
+
+### Pause a Schedule
+
+Toggle the schedule on/off without deleting it. Useful for:
+
+- Maintenance windows
+- Temporarily disabling while fixing failures
+- Holiday periods
+
+### Delete a Schedule
+
+Remove a schedule entirely. This doesn't delete the tests, just stops automatic runs.
+
+## Notifications
+
+Get notified when scheduled tests complete:
+
+### Enable Notifications
+
+Go to **Testing > Settings** and configure:
+
+| Notification | When It Fires |
+|--------------|---------------|
+| **On Failure** | Any test fails |
+| **On Flaky** | A test is marked flaky |
+| **On Success** | All tests pass (optional) |
+| **Suite Complete** | When all scheduled tests finish |
+
+### Notification Channels
+
+- **Email** - Sent to your account email
+- **Slack** - Post to a channel (requires integration)
+
+## Best Practices
+
+### When to Schedule
+
+| Scenario | Recommended Schedule |
+|----------|---------------------|
+| Smoke tests | Every 6 hours |
+| Full test suite | Daily (overnight) |
+| Critical flows | Every hour |
+| Performance tests | Weekly |
+
+### Tips
+
+<Tip>
+  Schedule tests during off-peak hours to avoid impacting staging environments.
+</Tip>
+
+<Tip>
+  Start with daily runs, then increase frequency for critical tests after you have confidence in stability.
+</Tip>
+
+<Warning>
+  Don't schedule tests against production if they create test data or make destructive changes.
+</Warning>
+
+## Viewing Scheduled Run Results
+
+Scheduled runs appear in **Testing > Runs** with trigger type "Scheduled".
+
+Filter by trigger to see only scheduled runs:
+
+1. Go to Testing > Runs
+2. Click the Trigger filter
+3. Select "Scheduled"
+
+## Next Steps
+
+<Card title="CI Integration" icon="github" href="/dashboard/testing/ci">
+  Run tests automatically on every pull request
+</Card>

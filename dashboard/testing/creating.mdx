@@ -1,0 +1,187 @@
+---
+title: "Creating Tests"
+description: "Generate tests using AI by describing what you want to test."
+---
+
+Paragon generates test code from natural language descriptions. Tell it what to test, and it writes the code.
+
+## Create a New Test
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to the Testing section and click "Tests"
+  </Step>
+  <Step title="Click New Test">
+    Click the "Add Test" button
+  </Step>
+  <Step title="Select Repository">
+    Choose which repository this test is for
+  </Step>
+  <Step title="Choose Test Type">
+    Select Unit, Integration, or E2E
+  </Step>
+  <Step title="Describe Your Test">
+    Enter a prompt describing what to test
+  </Step>
+  <Step title="Generate & Save">
+    Click Generate, review the code, then Save
+  </Step>
+</Steps>
+
+## Writing Good Prompts
+
+The better your prompt, the better the generated test.
+
+### Unit Test Prompts
+
+Be specific about the function and expected behavior:
+
+<CodeGroup>
+```text Good
+Test the calculateDiscount function:
+- Returns 0 for orders under $50
+- Returns 10% off for orders $50-$100
+- Returns 20% off for orders over $100
+- Throws error for negative amounts
+```
+
+```text Bad
+Test the discount function
+```
+</CodeGroup>
+
+### Integration Test Prompts
+
+Specify the endpoint, inputs, and expected outputs:
+
+<CodeGroup>
+```text Good
+Test POST /api/users/register:
+- Returns 201 and user object for valid email/password
+- Returns 400 for invalid email format
+- Returns 409 if email already exists
+- Password is not included in response
+```
+
+```text Bad
+Test the register API
+```
+</CodeGroup>
+
+### E2E Test Prompts
+
+Describe the user journey step by step:
+
+<CodeGroup>
+```text Good
+Test the checkout flow:
+1. Go to /products
+2. Click "Add to Cart" on the first product
+3. Click the cart icon
+4. Click "Checkout"
+5. Fill in shipping address
+6. Enter test credit card 4242424242424242
+7. Click "Place Order"
+8. Verify order confirmation page shows
+```
+
+```text Bad
+Test checkout works
+```
+</CodeGroup>
+
+## Test Organization
+
+Tests are organized into **Suites** (folders) within each repository.
+
+```
+Repository: my-app
+├── Suite: Authentication
+│   ├── Test: Login flow
+│   ├── Test: Registration
+│   └── Test: Password reset
+├── Suite: Checkout
+│   ├── Test: Add to cart
+│   └── Test: Payment processing
+└── Suite: API
+    ├── Test: GET /api/users
+    └── Test: POST /api/orders
+```
+
+When creating a test, you can:
+- Add it to an existing suite
+- Create a new suite
+
+## Choosing a Framework
+
+For unit and integration tests, select your test framework:
+
+| Language | Frameworks |
+|----------|------------|
+| JavaScript/TypeScript | vitest, jest, mocha |
+| Python | pytest, unittest |
+| Go | go test |
+| Rust | cargo test |
+
+Paragon auto-detects your framework from `package.json`, `pyproject.toml`, etc. You can override if needed.
+
+## Choosing Platforms (E2E Only)
+
+For E2E tests, select which browsers to run on:
+
+- **Chrome** - Most common, fastest
+- **Firefox** - Good for cross-browser testing
+- **Safari** - Required for macOS/iOS compatibility
+- **Mobile** - Mobile viewport simulation
+
+You can select multiple platforms. Each platform runs as a separate job.
+
+## Import Existing Tests
+
+Already have tests? Import them instead of generating new ones:
+
+<Steps>
+  <Step title="Click Import tab">
+    In the new test dialog, click "Import"
+  </Step>
+  <Step title="Select test file">
+    Browse your repository and select an existing test file
+  </Step>
+  <Step title="Save">
+    The test is added to your dashboard for tracking
+  </Step>
+</Steps>
+
+## Auto-Detect Tests
+
+Let Paragon scan your repository and find all existing tests:
+
+<Steps>
+  <Step title="Click Auto-Detect tab">
+    In the new test dialog, click "Auto-Detect"
+  </Step>
+  <Step title="Run scan">
+    Paragon analyzes your repository structure
+  </Step>
+  <Step title="Review results">
+    See all detected test files and frameworks
+  </Step>
+  <Step title="Import selected">
+    Choose which tests to add to the dashboard
+  </Step>
+</Steps>
+
+## Editing Tests
+
+Click any test to edit it:
+
+- Update the test name or description
+- Regenerate code with a new prompt
+- Change platforms (E2E)
+- Move to a different suite
+
+## Next Steps
+
+<Card title="Run Tests" icon="play" href="/dashboard/testing/running">
+  Execute your tests and view results
+</Card>

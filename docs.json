@@ -29,6 +29,26 @@
             ]
           },
           {
+            "group": "Monitoring",
+            "pages": [
+              "dashboard/monitoring/overview",
+              "dashboard/monitoring/setup",
+              "dashboard/monitoring/creating",
+              "dashboard/monitoring/alerts"
+            ]
+          },
+          {
+            "group": "Testing",
+            "pages": [
+              "dashboard/testing/overview",
+              "dashboard/testing/repos",
+              "dashboard/testing/creating",
+              "dashboard/testing/running",
+              "dashboard/testing/scheduling",
+              "dashboard/testing/analytics"
+            ]
+          },
+          {
             "group": "Paragon CLI",
             "pages": [
               "paragon/overview",

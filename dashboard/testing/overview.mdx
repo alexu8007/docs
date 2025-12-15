@@ -1,0 +1,93 @@
+---
+title: "Overview"
+description: "AI-powered test generation and execution for your repositories."
+---
+
+Paragon Testing lets you generate, run, and monitor tests for your repositories using AI. Describe what you want to test in plain English, and Paragon generates the test code for you.
+
+## How It Works
+
+```
+You describe what to test → AI generates test code → Tests run automatically → Results appear in dashboard
+```
+
+<Steps>
+  <Step title="Add a Repository">
+    Connect a GitHub repository to the testing dashboard
+  </Step>
+  <Step title="Generate Tests">
+    Describe what you want to test, AI writes the code
+  </Step>
+  <Step title="Run Tests">
+    Execute manually, on schedule, or automatically on PR/push
+  </Step>
+  <Step title="View Results">
+    See pass/fail status, errors, and execution details
+  </Step>
+</Steps>
+
+## Test Types
+
+Paragon supports three types of AI-generated tests:
+
+| Type | What It Tests | When to Use |
+|------|---------------|-------------|
+| **Unit** | Individual functions or components | Testing a single function like `calculateTotal()` |
+| **Integration** | Multiple parts working together | Testing API endpoints, database queries, service interactions |
+| **E2E** | Full user flows in a browser | Testing login flow, checkout process, form submissions |
+
+### Unit Tests
+
+Test a single function or component in isolation.
+
+```
+Prompt: "Test the validateEmail function returns true for valid emails and false for invalid ones"
+```
+
+Paragon generates test code using your framework (vitest, jest, pytest, etc.) that tests just that function.
+
+### Integration Tests
+
+Test how multiple parts of your app work together.
+
+```
+Prompt: "Test the /api/users endpoint returns user data and handles 404 for missing users"
+```
+
+Tests API routes, database interactions, or service-to-service calls.
+
+### E2E Tests
+
+Test real user workflows in a browser.
+
+```
+Prompt: "Test that a user can log in, add an item to cart, and complete checkout"
+```
+
+Paragon controls a real browser (Chrome, Firefox, Safari) to simulate user actions.
+
+## Regression Detection
+
+Every test run is compared against previous runs. If something that used to pass now fails, or if behavior changes unexpectedly, Paragon flags it as a regression.
+
+This happens automatically—you don't configure it separately. Just run your tests, and regressions are detected.
+
+## Supported Frameworks
+
+Paragon auto-detects your test framework or lets you choose:
+
+- **JavaScript/TypeScript**: vitest, jest, mocha, playwright
+- **Python**: pytest, unittest
+- **Go**: go test
+- **Rust**: cargo test
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Add Repository" icon="plus" href="/dashboard/testing/repos">
+    Connect your first repository
+  </Card>
+  <Card title="Create Tests" icon="wand-magic-sparkles" href="/dashboard/testing/creating">
+    Generate tests with AI
+  </Card>
+</CardGroup>

@@ -1,0 +1,122 @@
+---
+title: "Analytics"
+description: "Track test performance, pass rates, and identify flaky tests."
+---
+
+The analytics dashboard gives you visibility into your testing health across all repositories.
+
+## Dashboard Stats
+
+The main testing dashboard shows four key metrics:
+
+| Metric | Description |
+|--------|-------------|
+| **Total Tests** | Number of tests across all repositories |
+| **Pass Rate** | Percentage of tests passing |
+| **Hours Saved** | Estimated manual testing time saved |
+| **Flaky Tests** | Tests that pass sometimes, fail sometimes |
+
+## Repository Health
+
+The health visualization shows each repository as a bar:
+
+```
+my-frontend    ████████████░░░░  75% passing
+my-backend     ████████████████  100% passing
+my-api         ████░░░░░░░░░░░░  25% passing
+```
+
+- **Green** = Passing tests
+- **Red** = Failing tests
+- **Gray** = Tests not run
+
+Click any repository to drill down into its test details.
+
+## Pass Rate Trends
+
+Track how your pass rate changes over time:
+
+- Daily pass rate percentage
+- Week-over-week comparison
+- Identify when regressions were introduced
+
+## Flaky Test Detection
+
+A test is marked **flaky** when it:
+
+- Passes on some runs, fails on others
+- Has inconsistent results without code changes
+
+### Why Flaky Tests Matter
+
+Flaky tests:
+- Waste time investigating false failures
+- Reduce trust in your test suite
+- Slow down development
+
+### Fixing Flaky Tests
+
+Common causes and solutions:
+
+| Cause | Solution |
+|-------|----------|
+| Race conditions | Add explicit waits |
+| Shared state | Isolate test data |
+| Network timing | Mock external APIs |
+| Animation timing | Wait for animations to complete |
+| Random data | Use deterministic test data |
+
+## Test Duration
+
+See which tests are slow:
+
+- Average duration per test
+- Duration trends over time
+- Identify tests that have gotten slower
+
+Slow tests increase feedback time and CI costs.
+
+## Run History
+
+View aggregated statistics:
+
+- Total runs this week/month
+- Runs by trigger type (Manual, Scheduled, PR)
+- Runs by platform (Chrome, Firefox, Safari)
+
+## Filtering Analytics
+
+Filter analytics by:
+
+- **Repository** - Focus on one repo
+- **Time range** - Last 7 days, 30 days, 90 days
+- **Test type** - Unit, Integration, E2E
+
+## Exporting Data
+
+Export analytics for reporting:
+
+1. Go to Testing > Analytics
+2. Set your filters
+3. Click Export
+4. Download as CSV
+
+## Best Practices
+
+<Tip>
+  Review flaky tests weekly. A few flaky tests can erode trust in your entire suite.
+</Tip>
+
+<Tip>
+  Watch for pass rate drops after deployments—they indicate regressions.
+</Tip>
+
+<Tip>
+  Keep E2E tests under 30 seconds when possible. Long tests are more likely to be flaky.
+</Tip>
+
+## Next Steps
+
+<Card title="CI Integration" icon="github" href="/dashboard/testing/ci">
+  Run tests automatically on every pull request
+</Card>
