@@ -1,0 +1,144 @@
+---
+title: "Alerts"
+description: "Configure notifications for monitor findings and downtime."
+---
+
+Get notified when monitors detect issues or services go down.
+
+## Alert Integrations
+
+Connect your team communication tools to receive alerts.
+
+### Supported Platforms
+
+<CardGroup cols={2}>
+  <Card title="Email" icon="envelope">
+    Send alerts to any email address
+  </Card>
+  <Card title="Slack" icon="slack">
+    Post to a Slack channel via webhook
+  </Card>
+  <Card title="Discord" icon="discord">
+    Post to a Discord channel via webhook
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft">
+    Post to a Teams channel via webhook
+  </Card>
+</CardGroup>
+
+### Add an Integration
+
+<Steps>
+  <Step title="Go to Monitoring → Alerts">
+    Navigate to the Alerts settings page
+  </Step>
+  <Step title="Click Add Integration">
+    Select your platform
+  </Step>
+  <Step title="Enter Details">
+    Add a name and webhook URL (or email address)
+  </Step>
+  <Step title="Test">
+    Click Test to verify the connection
+  </Step>
+  <Step title="Save">
+    Click Add Integration to save
+  </Step>
+</Steps>
+
+### Getting Webhook URLs
+
+| Platform | How to Get Webhook URL |
+|----------|------------------------|
+| **Slack** | Apps → Incoming Webhooks → Add to Slack |
+| **Discord** | Server Settings → Integrations → Webhooks → New Webhook |
+| **Teams** | Channel → Connectors → Incoming Webhook |
+
+### Managing Integrations
+
+- **Enable/Disable** - Toggle integrations on or off
+- **Test** - Send a test message to verify it works
+- **Delete** - Remove integrations you no longer need
+
+## Alert Thresholds
+
+Choose which severity levels trigger alerts:
+
+| Severity | Description | Default |
+|----------|-------------|---------|
+| **Critical** | Immediate security threats | Enabled |
+| **High** | Important issues requiring attention | Enabled |
+| **Medium** | Moderate issues to review | Disabled |
+| **Low** | Minor issues and recommendations | Disabled |
+
+Configure thresholds in **Monitoring → Alerts**.
+
+<Note>
+  Even with thresholds disabled, all findings still appear in the Findings page—they just won't trigger alerts.
+</Note>
+
+## Uptime Alerts
+
+Uptime monitors can send alerts to specific integrations when URLs go down.
+
+### Configure per Monitor
+
+When creating or editing an uptime monitor:
+
+1. Click the monitor to open settings
+2. Select which integrations should receive alerts
+3. Save changes
+
+This lets you route different monitors to different channels (e.g., production alerts to PagerDuty, staging alerts to Slack).
+
+## Findings
+
+View all findings from infrastructure monitors in **Monitoring → Findings**.
+
+### Finding Details
+
+Each finding includes:
+
+- **Title** - What was detected
+- **Description** - Details about the issue
+- **Severity** - Critical, High, Medium, or Low
+- **Resource** - Which resource is affected
+- **Remediation** - How to fix it
+- **Monitor** - Which monitor detected it
+
+### Managing Findings
+
+| Status | Meaning |
+|--------|---------|
+| **Open** | Needs attention |
+| **In Progress** | Being worked on |
+| **Resolved** | Issue fixed |
+| **Ignored** | Not applicable |
+
+Click a finding to change its status or view full details.
+
+### Clear Findings
+
+To clear all findings:
+
+1. Go to Monitoring → Findings
+2. Click "Clear All"
+3. Confirm the action
+
+<Warning>
+  Clearing findings is permanent and cannot be undone.
+</Warning>
+
+## Best Practices
+
+<Tip>
+  Start with Critical and High alerts enabled. Add Medium alerts once you've addressed the urgent issues.
+</Tip>
+
+<Tip>
+  Use separate Slack channels for different severity levels to avoid alert fatigue.
+</Tip>
+
+<Tip>
+  Test your integrations regularly to ensure webhooks haven't expired.
+</Tip>

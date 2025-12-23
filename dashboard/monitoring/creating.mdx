@@ -1,0 +1,141 @@
+---
+title: "Creating Monitors"
+description: "Add infrastructure monitors and uptime checks."
+---
+
+The Monitoring page has two tabs: **Infrastructure** for AI-powered scans and **Uptime** for URL health checks.
+
+## Infrastructure Monitors
+
+Infrastructure monitors run AI prompts on a schedule to scan your cloud services, code, and dependencies.
+
+### Create from Template
+
+<Steps>
+  <Step title="Go to Monitoring">
+    Navigate to the Monitoring page
+  </Step>
+  <Step title="Click Add Monitor">
+    Click the "+" button to add a new monitor
+  </Step>
+  <Step title="Select a Template">
+    Choose from AWS Security, Cost Optimization, Code Quality, etc.
+  </Step>
+  <Step title="Set Cadence">
+    Select Hourly, Daily, or Weekly
+  </Step>
+  <Step title="Save">
+    Click Create to start the monitor
+  </Step>
+</Steps>
+
+### Available Templates
+
+| Template | What It Does |
+|----------|--------------|
+| **AWS Security Scan** | Scans for misconfigurations and vulnerabilities in AWS |
+| **Exposed S3 Buckets** | Finds publicly accessible S3 buckets |
+| **Cost Optimization** | Identifies unused EC2 instances and savings opportunities |
+| **Terraform Drift** | Detects differences between Terraform state and actual infrastructure |
+| **Code Quality** | Analyzes code for anti-patterns, bugs, and issues |
+| **Dependency Scan** | Checks for vulnerable or outdated packages |
+| **README Sync** | Keeps README.md updated with codebase changes |
+
+### Custom Prompts
+
+Create a monitor with any prompt:
+
+1. Click "Add Monitor"
+2. Select "Custom" instead of a template
+3. Write your prompt describing what to check
+4. Select cadence and save
+
+Example prompts:
+```
+Check my Vercel deployments for failed builds
+Scan for hardcoded API keys in the codebase
+Audit IAM permissions for overly permissive policies
+```
+
+### Repository Selection
+
+Some monitors analyze code and require a repository:
+
+- **Code Quality** - requires repository
+- **Dependency Scan** - requires repository
+- **README Sync** - requires repository
+
+Select the repository from the dropdown when creating these monitors.
+
+### Run Now
+
+To run a monitor immediately instead of waiting for the schedule:
+
+1. Find the monitor in the list
+2. Click the refresh icon
+3. Results appear in the detail panel
+
+## Uptime Monitors
+
+Uptime monitors check if URLs are responding.
+
+### Create an Uptime Monitor
+
+<Steps>
+  <Step title="Go to Monitoring → Uptime tab">
+    Switch to the Uptime tab
+  </Step>
+  <Step title="Click Add URL Monitor">
+    Click the "+" button
+  </Step>
+  <Step title="Enter Details">
+    Add name, URL, and check interval
+  </Step>
+  <Step title="Configure Alerts (Optional)">
+    Select which integrations receive alerts
+  </Step>
+  <Step title="Save">
+    Click Create to start monitoring
+  </Step>
+</Steps>
+
+### Configuration Options
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Display name for the monitor |
+| **URL** | The URL to check (https:// added automatically) |
+| **Interval** | How often to check (30s, 60s, 5min, etc.) |
+| **Alert Integrations** | Which channels receive down alerts |
+
+### Check Now
+
+Click the refresh icon on any uptime monitor to run an immediate check. The result shows:
+
+- **Status** - Up or Down
+- **Latency** - Response time in milliseconds
+
+## Managing Monitors
+
+### Enable/Disable
+
+Toggle monitors on or off without deleting them. Disabled monitors don't run but keep their configuration.
+
+### Delete
+
+Click the trash icon to permanently remove a monitor.
+
+### View Results
+
+Click any infrastructure monitor to see:
+
+- **Last run time** and duration
+- **Output summary** from the AI
+- **Findings** with severity levels
+- **Full output** in markdown format
+
+## Next Steps
+
+<Card title="Configure Alerts" icon="bell" href="/dashboard/monitoring/alerts">
+  Set up notifications for findings and downtime
+</Card>

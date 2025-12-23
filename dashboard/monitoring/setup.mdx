@@ -1,0 +1,143 @@
+---
+title: "Setup"
+description: "Connect infrastructure services to enable AI-powered monitoring."
+---
+
+Before creating infrastructure monitors, connect the services you want to scan.
+
+## Infrastructure Connections
+
+Infrastructure monitors use MCP (Model Context Protocol) to connect to your cloud services. Connect services in **Settings → Infrastructure**.
+
+## Available Integrations
+
+### Cloud Infrastructure
+
+| Service | Auth Method | What You Need |
+|---------|-------------|---------------|
+| **AWS** | Access Keys | Access Key ID, Secret Access Key, Region |
+| **GCP** | Service Account | Project ID, Service Account JSON key |
+| **Azure** | App Registration | Subscription ID, Tenant ID, Client ID, Client Secret |
+| **Cloudflare** | API Token | API Token, Account ID |
+| **DigitalOcean** | API Token | Personal Access Token |
+| **Fly.io** | API Token | Personal Access Token |
+
+### Frontend & App Platforms
+
+| Service | Auth Method | What You Need |
+|---------|-------------|---------------|
+| **Vercel** | OAuth | Click Connect → authorize in browser |
+| **Netlify** | API Token | Personal Access Token |
+| **Heroku** | API Key | API Key from account settings |
+
+### Database Providers
+
+| Service | Auth Method | What You Need |
+|---------|-------------|---------------|
+| **Supabase** | Access Token | Access Token, Project Reference |
+| **MongoDB** | Connection String | MongoDB connection string (mongodb+srv://...) |
+| **Firebase** | Project ID | Project ID (requires gcloud CLI auth) |
+| **Appwrite** | API Key | Project ID, API Key, Secret |
+| **Snowflake** | Credentials | Account Identifier, User, Password |
+
+### Monitoring & Infrastructure
+
+| Service | Auth Method | What You Need |
+|---------|-------------|---------------|
+| **DataDog** | API Keys | API Key, Application Key, Site |
+| **Sentry** | OAuth | Click Connect → authorize in browser |
+| **Terraform Cloud** | API Token | API Token, Organization name |
+
+### Work Collaboration
+
+| Service | Auth Method | What You Need |
+|---------|-------------|---------------|
+| **Linear** | OAuth | Click Connect → authorize in browser |
+| **Jira** | OAuth | Click Connect → authorize in browser |
+| **Notion** | OAuth | Click Connect → authorize in browser |
+| **Slack** | Bot Token | Bot User OAuth Token, Team ID |
+
+## Connecting Services
+
+### OAuth Services (Vercel, Sentry, Linear, Jira, Notion)
+
+<Steps>
+  <Step title="Click Connect">
+    Click the Connect button on the service
+  </Step>
+  <Step title="Authorize">
+    Complete the OAuth flow in your browser
+  </Step>
+  <Step title="Done">
+    Service appears as connected
+  </Step>
+</Steps>
+
+### API Key Services (AWS, GCP, Supabase, etc.)
+
+<Steps>
+  <Step title="Click Connect">
+    Click the Connect button on the service
+  </Step>
+  <Step title="Follow Setup Guide">
+    Each service shows step-by-step instructions with links
+  </Step>
+  <Step title="Enter Credentials">
+    Paste your API keys, tokens, or credentials
+  </Step>
+  <Step title="Save">
+    Click Save to connect the service
+  </Step>
+</Steps>
+
+### Example: Connecting AWS
+
+1. Go to [AWS IAM Console](https://console.aws.amazon.com/iam/home#/security_credentials)
+2. Click "Create access key" under Access keys section
+3. Select "Application running outside AWS"
+4. Copy the Access Key ID and Secret Access Key
+5. Paste into Paragon and set your region (e.g., `us-east-1`)
+
+### Example: Connecting Supabase
+
+1. Go to [Supabase Access Tokens](https://supabase.com/dashboard/account/tokens)
+2. Click "Generate new token"
+3. Copy the token
+4. Find your Project Ref in your project URL: `supabase.com/dashboard/project/[PROJECT_REF]`
+5. Paste both values into Paragon
+
+## Custom MCP Servers
+
+Add your own MCP servers for services not in the list:
+
+1. Click "Add Custom MCP"
+2. Enter a name
+3. Select protocol type (stdio, http, or sse)
+4. Configure command/URL and environment variables
+5. Save
+
+## Repository Connection
+
+Some monitors require a connected GitHub repository:
+
+- **Code Quality** - analyzes code in a repo
+- **Dependency Scan** - checks package files in a repo
+- **README Sync** - updates README.md in a repo
+
+Ensure the Paragon GitHub App is installed and repositories are added in **Settings → Repositories**.
+
+## Disconnecting Services
+
+1. Find the connected service
+2. Click the disconnect/remove button
+3. Confirm disconnection
+
+<Note>
+  Disconnecting a service will cause monitors that depend on it to fail.
+</Note>
+
+## Next Steps
+
+<Card title="Create Monitors" icon="plus" href="/dashboard/monitoring/creating">
+  Set up your first infrastructure or uptime monitor
+</Card>

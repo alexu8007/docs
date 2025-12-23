@@ -1,0 +1,103 @@
+---
+title: "Overview"
+description: "Scheduled AI monitors and uptime checks for your infrastructure and services."
+---
+
+Paragon Monitoring provides two types of automated checks: AI-powered infrastructure monitors that scan for security issues and code quality, and uptime monitors that track service availability.
+
+## Monitor Types
+
+<CardGroup cols={2}>
+  <Card title="Infrastructure Monitors" icon="shield">
+    AI-powered scheduled scans for security, cost optimization, code quality, and more
+  </Card>
+  <Card title="Uptime Monitors" icon="wifi">
+    URL health checks that track availability and response times
+  </Card>
+</CardGroup>
+
+## Infrastructure Monitors
+
+Run AI prompts on a schedule to scan your infrastructure and code:
+
+| Template | Description |
+|----------|-------------|
+| **AWS Security Scan** | Scan for misconfigurations and vulnerabilities |
+| **Exposed S3 Buckets** | Find publicly accessible buckets |
+| **Cost Optimization** | Identify unused resources and savings |
+| **Terraform Drift** | Detect state vs actual config drift |
+| **Code Quality** | Check for anti-patterns and issues |
+| **Dependency Scan** | Find outdated or vulnerable packages |
+| **README Sync** | Keep README updated with codebase changes |
+
+Infrastructure monitors connect to your cloud services via MCP integrations (AWS, GCP, Vercel, Supabase, etc.).
+
+### Cadence Options
+
+| Cadence | When It Runs |
+|---------|--------------|
+| **Hourly** | Every hour |
+| **Daily** | Once per day |
+| **Weekly** | Once per week |
+
+## Uptime Monitors
+
+Track whether your URLs are responding:
+
+- Add any URL (websites, APIs, health endpoints)
+- Set check interval (30s, 60s, 5min, etc.)
+- Get alerted when services go down
+- Track response latency over time
+
+### Status Indicators
+
+| Status | Meaning |
+|--------|---------|
+| **Up** | URL responding successfully |
+| **Down** | URL not responding or returning errors |
+| **Unknown** | Not yet checked |
+
+## Findings
+
+When infrastructure monitors detect issues, they create findings with severity levels:
+
+<CardGroup cols={2}>
+  <Card title="Critical" icon="circle-exclamation">
+    Immediate security threats requiring urgent action
+  </Card>
+  <Card title="High" icon="triangle-exclamation">
+    Important issues requiring attention
+  </Card>
+  <Card title="Medium" icon="circle-info">
+    Moderate issues to review
+  </Card>
+  <Card title="Low" icon="lightbulb">
+    Minor issues and recommendations
+  </Card>
+</CardGroup>
+
+Findings can be marked as:
+- **Open** - Needs attention
+- **In Progress** - Being worked on
+- **Resolved** - Fixed
+- **Ignored** - Not applicable
+
+## Dashboard
+
+The Monitoring dashboard shows:
+
+- **Service Health %** - Percentage of healthy monitors
+- **Needs Attention %** - Monitors with issues
+- **Active Monitors** - Total monitors running
+- **Health trend chart** - Historical view by day/week/month
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create Monitors" icon="plus" href="/dashboard/monitoring/creating">
+    Add infrastructure or uptime monitors
+  </Card>
+  <Card title="Configure Alerts" icon="bell" href="/dashboard/monitoring/alerts">
+    Set up notifications for issues
+  </Card>
+</CardGroup>
