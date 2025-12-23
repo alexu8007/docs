@@ -1,0 +1,302 @@
+/* Dark theme customization */
+:root {
+  --background-dark: #0b0b0b;
+  --surface-dark: #141414;
+  --surface-secondary: #1a1a1a;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --accent: #3b82f6;
+}
+
+/* Dark mode overrides */
+.dark {
+  --background: #0b0b0b;
+  --bg-background: #0b0b0b;
+}
+
+.dark body {
+  background-color: #0b0b0b !important;
+}
+
+/* Main content area background */
+.dark main,
+.dark [class*="content"],
+.dark [class*="Content"],
+.dark article,
+.dark [class*="main"],
+.dark [class*="Main"],
+.dark [class*="Page"],
+.dark [class*="page"],
+.dark [class*="wrapper"],
+.dark [class*="Wrapper"],
+.dark [class*="container"],
+.dark [class*="Container"],
+.dark #__next,
+.dark [class*="layout"],
+.dark [class*="Layout"],
+html.dark,
+html.dark body,
+.dark [class*="prose"],
+.dark [class*="article"],
+.dark [class*="Article"] {
+  background-color: #0b0b0b !important;
+}
+
+/* Force all div backgrounds in dark mode */
+html.dark {
+  background: #0b0b0b !important;
+}
+
+html.dark body {
+  background: #0b0b0b !important;
+}
+
+html.dark body > div {
+  background: #0b0b0b !important;
+}
+
+.dark .sidebar {
+  background-color: #0b0b0b;
+  border-color: #1a1a1a;
+}
+
+.dark .navbar {
+  background-color: #0b0b0b;
+  border-color: #1a1a1a;
+}
+
+/* Card styling - dark backgrounds instead of blue */
+.dark a[class*="Card"],
+.dark a[class*="card"],
+.dark div[class*="Card"]:not([class*="CardGroup"]),
+.dark [class*="CardGroup"] > a,
+.dark [class*="CardGroup"] > div > a {
+  background-color: #141414 !important;
+  border: 1px solid #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+.dark a[class*="Card"]:hover,
+.dark a[class*="card"]:hover,
+.dark [class*="CardGroup"] > a:hover,
+.dark [class*="CardGroup"] > div > a:hover {
+  border-color: #3b82f6 !important;
+  background-color: #1a1a1a !important;
+}
+
+.dark [class*="Card"] h2,
+.dark [class*="Card"] h3,
+.dark [class*="Card"] h4,
+.dark [class*="Card"] p,
+.dark [class*="card"] h2,
+.dark [class*="card"] h3,
+.dark [class*="card"] h4,
+.dark [class*="card"] p,
+.dark a[class*="Card"] h2,
+.dark a[class*="Card"] h3,
+.dark a[class*="Card"] p,
+.dark a[class*="card"] h2,
+.dark a[class*="card"] h3,
+.dark a[class*="card"] p,
+html.dark [class*="Card"] p,
+html.dark [class*="card"] p,
+html.dark a[class*="Card"] p,
+html.dark a[class*="card"] p,
+.dark [class*="Card"] p[class],
+.dark [class*="card"] p[class] {
+  color: #f5f5f5 !important;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-box-decoration-break: clone !important;
+  box-decoration-break: clone !important;
+}
+
+/* Force all p and spans inside cards */
+.dark p,
+.dark span,
+.dark span[data-as],
+.dark span[data-as="p"],
+.dark span[data-as="h3"],
+.dark [class*="Card"] span,
+.dark [class*="card"] span,
+.dark a[class*="Card"] span,
+.dark a[class*="card"] span {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Target Mintlify card structure */
+.dark .card span[data-as="p"],
+.dark a.card span[data-as="p"],
+.dark [data-component-part="card-content"] span,
+.dark [data-component-part="card-content"] span[data-as],
+.dark .prose span[data-as="p"],
+.dark .prose span[data-as] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Target the prose div inside cards */
+.dark [data-component-part="card-content"],
+.dark .card .prose,
+.dark a.card .prose {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Nuclear option for card text backgrounds */
+.dark [class*="Card"] p::before,
+.dark [class*="Card"] p::after,
+.dark [class*="card"] p::before,
+.dark [class*="card"] p::after,
+.dark [class*="Card"] h3::before,
+.dark [class*="Card"] h3::after,
+.dark [class*="card"] h3::before,
+.dark [class*="card"] h3::after {
+  background: transparent !important;
+  display: none !important;
+}
+
+/* Target any element with dark background inside cards */
+.dark [class*="Card"] [style*="background"],
+.dark [class*="card"] [style*="background"] {
+  background: transparent !important;
+}
+
+.dark [class*="Card"] [class*="icon"],
+.dark [class*="card"] [class*="icon"] {
+  color: #3b82f6 !important;
+}
+
+.dark [class*="Card"] svg,
+.dark [class*="card"] svg {
+  color: #3b82f6 !important;
+}
+
+/* Button styling */
+.dark button[class*="primary"],
+.dark a[class*="primary"] {
+  background-color: #3b82f6;
+  color: #f5f5f5;
+}
+
+.dark button[class*="primary"]:hover,
+.dark a[class*="primary"]:hover {
+  background-color: #2563eb;
+}
+
+/* Code blocks */
+.dark pre {
+  background-color: #141414 !important;
+  border-color: #1a1a1a !important;
+}
+
+.dark code {
+  background-color: #1a1a1a !important;
+}
+
+/* Note/callout styling */
+.dark [class*="Note"],
+.dark [class*="Callout"] {
+  background-color: #141414 !important;
+  border-color: #1a1a1a !important;
+}
+
+/* Tab styling */
+.dark [class*="Tab"] {
+  border-color: #1a1a1a;
+}
+
+.dark [class*="Tab"][data-state="active"] {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+/* Steps styling */
+.dark [class*="Step"] {
+  border-color: #1a1a1a;
+}
+
+/* Search styling */
+.dark [class*="search"] {
+  background-color: #141414;
+  border-color: #1a1a1a;
+}
+
+/* Links */
+.dark a {
+  color: #3b82f6;
+}
+
+.dark a:hover {
+  color: #60a5fa;
+}
+
+/* Dividers */
+.dark hr {
+  border-color: #1a1a1a;
+}
+
+/* Table styling */
+.dark table {
+  border-color: #1a1a1a;
+}
+
+.dark th {
+  background-color: #141414;
+  border-color: #1a1a1a;
+}
+
+.dark td {
+  border-color: #1a1a1a;
+}
+
+.dark tr:nth-child(even) {
+  background-color: #0f0f0f;
+}
+
+/* Active sidebar item */
+.dark [class*="active"],
+.dark [data-active="true"],
+.dark a[aria-current="page"] {
+  background-color: #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+/* Remove blue background from sidebar items - hover lighter */
+.dark nav a:hover,
+.dark [class*="sidebar"] a:hover,
+.dark [class*="Sidebar"] a:hover,
+.dark aside a:hover {
+  background-color: #252525 !important;
+}
+
+/* Override primary color on navigation */
+.dark [class*="NavigationItem"][class*="active"],
+.dark [class*="navigation"] [class*="active"],
+.dark [class*="Navigation"] [class*="active"] {
+  background-color: #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+/* Force sidebar link colors */
+.dark aside a,
+.dark nav a,
+.dark [class*="sidebar"] a,
+.dark [class*="Sidebar"] a {
+  background-color: transparent !important;
+}
+
+.dark aside a[aria-current="page"],
+.dark aside a[data-active="true"],
+.dark aside a.active {
+  background-color: #1a1a1a !important;
+}
+
+/* On this page active item */
+.dark [class*="TableOfContents"] [class*="active"],
+.dark [class*="toc"] [class*="active"] {
+  background-color: #141414 !important;
+  color: #f5f5f5 !important;
+}

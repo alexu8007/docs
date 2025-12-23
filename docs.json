@@ -1,11 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "Paragon",
+  "appearance": {
+    "default": "dark"
+  },
   "colors": {
-    "primary": "#000000",
-    "light": "#FFFFFF",
-    "dark": "#000000"
+    "primary": "#3b82f6",
+    "light": "#3b82f6",
+    "dark": "#3b82f6"
+  },
+  "styling": {
+    "eyebrows": "section",
+    "global": "/global.css"
   },
   "favicon": "/logo/polaritylogo.png",
   "navigation": {
@@ -75,7 +82,18 @@
       }
     ],
     "global": {
-      "anchors": []
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/apps/paragon-review",
+          "icon": "github"
+        },
+        {
+          "anchor": "Support",
+          "href": "mailto:support@polarity.cc",
+          "icon": "envelope"
+        }
+      ]
     }
   },
   "logo": {
