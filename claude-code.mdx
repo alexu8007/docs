@@ -1,31 +1,48 @@
 ---
 title: "Claude Code"
-description: "Enable Claude Code to use Paragon CLI commands by adding context to your project."
+description: "Enable Claude Code to use Paragon CLI commands by creating a skill."
 icon: "/logo/claude-circle.png"
 ---
 
-## Why Add Context?
+## Why Use a Skill?
 
-Claude Code works best when it knows what tools are available. By adding the Paragon CLI reference to your project's `CLAUDE.md` file, Claude Code can:
+Skills are the recommended way to give Claude Code access to Paragon commands. Unlike adding to `CLAUDE.md`, skills are:
 
-- Automatically use `paragon run` for code analysis
-- Pipe diffs and code through Paragon for review
-- Use semantic search with `paragon context`
-- Manage branches and stacks efficiently
+- **On-demand** - Only loaded when you invoke `/paragon`
+- **Context-efficient** - Doesn't consume tokens until needed
+- **Organized** - Keeps your CLAUDE.md clean for project-specific info
 
-## Setup
+## Quick Setup
 
-1. Open or create `CLAUDE.md` in your project root
-2. Copy the CLI reference below and paste it into the file
-3. Claude Code will now have access to all Paragon commands
+### Option 1: Let Claude Create It
+
+Run Claude Code in your project and paste this prompt:
+
+```text
+Create a skill file at .claude/skills/paragon.md with the Paragon CLI reference.
+Include all commands: paragon run, paragon context, paragon submit, paragon branch,
+and stack navigation (sync, next, prev, top, bottom). Include flags and examples.
+```
+
+Claude will create the skill file automatically.
+
+### Option 2: Manual Setup
+
+1. Create the directory: `mkdir -p .claude/skills`
+2. Create `.claude/skills/paragon.md`
+3. Copy the CLI reference below into the file
+
+## Usage
+
+Once the skill is created, type `/paragon` in Claude Code to load the Paragon CLI reference into context. Claude will then know how to use all Paragon commands.
 
 ## CLI Reference
 
 <Note>
-Copy the content below into your `CLAUDE.md` file.
+Copy the content below into `.claude/skills/paragon.md`
 </Note>
 
-```text CLAUDE.md
+```markdown .claude/skills/paragon.md
 # Paragon CLI Commands
 
 > Use Paragon CLI for enhanced code analysis, reviews, and git workflows.
@@ -114,3 +131,14 @@ cat src/complex-algorithm.go | paragon run "Explain this step by step"   # Expla
 4. Use context issue for debugging problems
 5. Use context search to find code patterns
 ```
+
+## Why Skills Over CLAUDE.md?
+
+| CLAUDE.md | Skills |
+|-----------|--------|
+| Always loaded into context | Loaded on-demand with `/paragon` |
+| Uses tokens on every message | Only uses tokens when invoked |
+| Best for essential project info | Best for reference documentation |
+| Can get cluttered | Organized by topic |
+
+Keep your `CLAUDE.md` focused on project-specific context (architecture, conventions, important files). Use skills for tool references like Paragon that you only need occasionally.

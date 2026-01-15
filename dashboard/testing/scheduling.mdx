@@ -101,8 +101,35 @@ Go to **Testing > Settings** and configure:
 
 ### Notification Channels
 
-- **Email** - Sent to your account email
-- **Slack** - Post to a channel (requires integration)
+Configure integrations in **Settings > Alerts** to receive notifications:
+
+| Channel | Description |
+|---------|-------------|
+| **Email** | Send alerts directly to any email address |
+| **Slack** | Post to a Slack channel via incoming webhook |
+| **Discord** | Post to a Discord channel via webhook |
+| **Microsoft Teams** | Post to a Teams channel via connector webhook |
+
+#### Setting Up Integrations
+
+<Steps>
+  <Step title="Go to Settings > Alerts">
+    Navigate to the alert settings page
+  </Step>
+  <Step title="Click Add Integration">
+    Select your preferred platform
+  </Step>
+  <Step title="Configure Webhook">
+    For Slack/Discord/Teams, paste your webhook URL. For email, enter the recipient address.
+  </Step>
+  <Step title="Test the Integration">
+    Click "Test" to verify the connection works
+  </Step>
+</Steps>
+
+<Tip>
+  You can add multiple integrations. For example, send critical failures to Slack and a summary email to the team lead.
+</Tip>
 
 ## Best Practices
 

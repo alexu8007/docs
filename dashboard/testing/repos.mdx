@@ -63,6 +63,95 @@ Common examples:
   Never commit secrets to your repository. Use environment variables instead.
 </Warning>
 
+### Authentication for E2E Tests
+
+Most applications require login before testing protected pages. Configure authentication so Paragon can access authenticated areas of your app.
+
+| Method | Description | Best For |
+|--------|-------------|----------|
+| **Credentials** | Email/password for a test account | Apps with standard login forms |
+| **Session Token** | Pre-authenticated session cookie | Apps with complex auth flows |
+| **OAuth** | Automated OAuth flow handling | Apps using Google, GitHub, etc. |
+
+#### Credentials
+
+Provide a test account email and password. Paragon logs in before each E2E test run.
+
+```
+Test Email: test@example.com
+Test Password: ••••••••
+Login URL: /login
+```
+
+<Tip>
+  Create a dedicated test account with appropriate permissions. Avoid using real user accounts.
+</Tip>
+
+#### Session Token
+
+For apps with MFA, SSO, or complex authentication, provide a pre-authenticated session token instead.
+
+1. Log in to your app manually
+2. Copy the session cookie from your browser
+3. Paste it in the Session Token field
+
+Paragon injects this cookie before running tests, bypassing the login flow entirely.
+
+#### OAuth Configuration
+
+For OAuth-based authentication (Google, GitHub, etc.), Paragon can automate the OAuth flow:
+
+1. Select the OAuth provider
+2. Enter test account credentials for that provider
+3. Paragon handles the redirect flow automatically
+
+<Note>
+  OAuth credentials are encrypted and only used during test execution.
+</Note>
+
+### Automatic Test Triggers
+
+Configure when tests run automatically for this repository.
+
+| Trigger | Description | Default |
+|---------|-------------|---------|
+| **Run on Pull Request** | Run tests when a PR is opened or updated | Enabled |
+| **Run on Push to Production** | Run tests when code is pushed or merged to production | Disabled |
+
+#### Run on Pull Request
+
+When enabled, tests automatically run whenever:
+
+- A new pull request is opened
+- New commits are pushed to an existing PR
+- A PR is reopened
+
+Results appear as a GitHub check on the PR, blocking merge if tests fail (when configured as a required check).
+
+#### Run on Push to Production
+
+When enabled, tests run whenever code is pushed or merged to your production branch.
+
+1. Enable the "Run on Push to Production" toggle
+2. Select your production branch from the dropdown (e.g., `main`, `master`, `production`)
+3. Tests run automatically after each push or merge to that branch
+
+<Tip>
+  Use this to catch issues that slip through PR reviews or to verify the final merged state.
+</Tip>
+
+#### Per-Suite Triggers
+
+Control which test suites run for each trigger. When you enable triggers, a table appears letting you select which suites run on PR vs. push:
+
+| Suite | Run on PR | Run on Push |
+|-------|-----------|-------------|
+| Authentication | ✓ | ✓ |
+| Checkout Flow | ✓ | ✓ |
+| Performance | ✗ | ✓ |
+
+This lets you run fast tests on every PR while reserving slower tests for post-merge.
+
 ## Auto-Detection
 
 When you add a repository, Paragon scans it to detect:

@@ -28,13 +28,14 @@ You describe what to test → AI generates test code → Tests run automatically
 
 ## Test Types
 
-Paragon supports three types of AI-generated tests:
+Paragon supports four types of tests:
 
 | Type | What It Tests | When to Use |
 |------|---------------|-------------|
 | **Unit** | Individual functions or components | Testing a single function like `calculateTotal()` |
 | **Integration** | Multiple parts working together | Testing API endpoints, database queries, service interactions |
 | **E2E** | Full user flows in a browser | Testing login flow, checkout process, form submissions |
+| **Performance** | Page load speed and Core Web Vitals | Monitoring LCP, FCP, CLS, and other performance metrics |
 
 ### Unit Tests
 
@@ -65,6 +66,17 @@ Prompt: "Test that a user can log in, add an item to cart, and complete checkout
 ```
 
 Paragon controls a real browser (Chrome, Firefox, Safari) to simulate user actions.
+
+### Performance Tests
+
+Measure page load performance and Core Web Vitals.
+
+```
+URLs: https://myapp.com, https://myapp.com/dashboard
+Budget: LCP < 2.5s, FCP < 1.8s, CLS < 0.1
+```
+
+Paragon loads your pages under various network conditions and measures key metrics against your performance budgets.
 
 ## Regression Detection
 
