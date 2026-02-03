@@ -48,10 +48,12 @@
             "group": "Testing",
             "pages": [
               "dashboard/testing/overview",
+              "dashboard/testing/quickstart",
               "dashboard/testing/repos",
-              "dashboard/testing/creating",
-              "dashboard/testing/running",
-              "dashboard/testing/scheduling",
+              "dashboard/testing/importing",
+              "dashboard/testing/generating",
+              "dashboard/testing/runner",
+              "dashboard/testing/evolving",
               "dashboard/testing/analytics"
             ]
           },

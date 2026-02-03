@@ -1,0 +1,334 @@
+---
+title: "Generating Tests"
+description: "Create tests with AI using the E2E Builder or code generation."
+---
+
+Paragon generates tests using AI. Describe what you want to test, and Paragon writes the code. There are two ways to generate tests depending on the type.
+
+## Test Generation Methods
+
+| Test Type | Method | What It Creates |
+|-----------|--------|-----------------|
+| **E2E Tests** | E2E Builder | Step-based browser tests |
+| **Code Tests** | AI Agent | Unit/integration test files |
+| **Performance** | Inline Config | Performance test with budgets |
+
+---
+
+## E2E Builder (Step-Based Tests)
+
+The E2E Builder creates browser-based tests that run against your deployed application.
+
+### Creating an E2E Test
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to the Tests page
+  </Step>
+  <Step title="Click New Test">
+    Click "New Test" button
+  </Step>
+  <Step title="Select Repository">
+    Choose the repository for this test
+  </Step>
+  <Step title="Choose E2E">
+    Select "E2E" as the test type
+  </Step>
+  <Step title="Open E2E Builder">
+    You're redirected to the visual builder
+  </Step>
+</Steps>
+
+### Building Steps
+
+The E2E Builder provides a visual interface to create test flows:
+
+#### Navigation Steps
+
+| Step | Description | Example |
+|------|-------------|---------|
+| **Navigate** | Go to a URL | `https://myapp.com/login` |
+| **Refresh** | Reload current page | — |
+| **New Tab** | Open URL in new tab | — |
+| **Switch Tab** | Switch between tabs | — |
+
+#### Interaction Steps
+
+| Step | Description | Example |
+|------|-------------|---------|
+| **Click** | Click an element | Button, link, checkbox |
+| **Type** | Enter text in input | Form fields |
+| **Select** | Choose dropdown option | Select menus |
+| **Hover** | Hover over element | Dropdown triggers |
+| **Scroll** | Scroll to element | Lazy-loaded content |
+| **Drag and Drop** | Drag element | Kanban boards |
+| **File Upload** | Upload file | File inputs |
+
+#### AI Steps
+
+Use natural language for complex interactions:
+
+| Step | Description | Example |
+|------|-------------|---------|
+| **Paragon Action** | AI performs action | "Fill in the login form with test credentials" |
+| **Paragon Check** | AI verifies state | "Verify the user is logged in" |
+| **Paragon Extract** | AI extracts data | "Get the order ID from the confirmation" |
+
+<Tip>
+AI steps are powerful for complex flows. Instead of specifying exact selectors, describe what you want in plain English.
+</Tip>
+
+#### Assertion Steps
+
+| Step | Description | Example |
+|------|-------------|---------|
+| **Wait** | Wait for time/element | Wait 2 seconds |
+| **Wait for URL** | Wait for navigation | `/dashboard` appears in URL |
+| **Element Check** | Verify element state | Button is visible/enabled |
+| **Page Check** | Verify page content | Text appears on page |
+
+#### Data Steps
+
+| Step | Description | Example |
+|------|-------------|---------|
+| **Set Cookie** | Inject cookie | Auth cookies |
+| **Local Storage** | Set localStorage | Feature flags |
+| **Set Header** | Add request header | Auth tokens |
+
+### Authentication in E2E Tests
+
+If your tests need to access protected pages, you can record your login flow directly in the E2E builder.
+
+#### Setting Up Auth
+
+In the E2E builder:
+
+1. Click the **key icon** to start recording authentication
+2. Log in to your app in the browser
+3. Paragon captures your auth session
+4. Save your test - the auth is saved with it
+
+Future test runs will use the captured session to authenticate automatically.
+
+<Tip>
+Use a dedicated test account when recording authentication.
+</Tip>
+
+### Running E2E Tests
+
+E2E tests run against your deployed application (production, staging, or preview URL).
+
+<Note>
+E2E tests **cannot** run on PR events because there's no deployed app yet. They run:
+- **Manually**: Click run button
+- **On Schedule**: Daily, weekly, custom
+- **On Push**: After merge to production (if base URL is production)
+</Note>
+
+### E2E Test Results
+
+After running, view:
+
+- **Step-by-step breakdown**: Each step with pass/fail and duration
+- **Screenshots**: Captured at each step
+- **Video recording**: Full test playback
+- **Console logs**: Browser console output
+- **Network requests**: API calls made during test
+- **Accessibility violations**: WCAG issues detected
+
+---
+
+## Code Test Generation (Unit & Integration)
+
+Generate unit and integration tests that live in your repository.
+
+### Creating Code Tests
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to the Tests page
+  </Step>
+  <Step title="Click New Test">
+    Click "New Test" button
+  </Step>
+  <Step title="Select Repository">
+    Choose the repository for this test
+  </Step>
+  <Step title="Choose Unit or Integration">
+    Select the test type
+  </Step>
+  <Step title="Click Generate Tab">
+    Switch to "Generate New" tab
+  </Step>
+  <Step title="Open Agent">
+    You're redirected to the AI agent
+  </Step>
+  <Step title="Describe Your Test">
+    Tell the agent what to test in natural language
+  </Step>
+  <Step title="Review Generated Code">
+    Agent creates the test file
+  </Step>
+  <Step title="Create or PR">
+    Save directly or create a PR with the test
+  </Step>
+</Steps>
+
+### Writing Good Prompts
+
+The better your prompt, the better the generated test.
+
+#### Unit Test Prompts
+
+Be specific about the function and expected behavior:
+
+```text
+Test the calculateDiscount function:
+- Returns 0 for orders under $50
+- Returns 10% off for orders $50-$100
+- Returns 20% off for orders over $100
+- Throws error for negative amounts
+```
+
+#### Integration Test Prompts
+
+Specify the endpoint, inputs, and expected outputs:
+
+```text
+Test POST /api/users/register:
+- Returns 201 and user object for valid email/password
+- Returns 400 for invalid email format
+- Returns 409 if email already exists
+- Password is not included in response
+```
+
+### Supported Frameworks
+
+Paragon generates tests in your preferred framework:
+
+| Language | Frameworks |
+|----------|------------|
+| **JavaScript/TypeScript** | vitest, jest, mocha |
+| **Python** | pytest, unittest |
+| **Go** | go test |
+| **Rust** | cargo test |
+| **Ruby** | rspec, minitest |
+| **Java** | junit, testng |
+| **C#** | xunit, nunit, mstest |
+| **C++** | gtest, catch2, ctest |
+
+Framework is detected from your project config or can be manually specified.
+
+### Code Test Results
+
+After running, view:
+
+- **Test output**: Standard framework output
+- **Assertion results**: Each assertion with pass/fail
+- **Coverage** (if enabled): Lines covered by test
+- **Duration**: Time to run each test
+
+---
+
+## Performance Tests
+
+Create tests that measure page load performance.
+
+### Creating Performance Tests
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to the Tests page
+  </Step>
+  <Step title="Click New Test">
+    Click "New Test" button
+  </Step>
+  <Step title="Select Repository">
+    Choose the repository
+  </Step>
+  <Step title="Choose Performance">
+    Select "Performance" test type
+  </Step>
+  <Step title="Add URLs">
+    Enter pages to test
+  </Step>
+  <Step title="Set Budgets">
+    Configure performance thresholds
+  </Step>
+  <Step title="Configure Conditions">
+    Set network and CPU throttling
+  </Step>
+  <Step title="Run Test">
+    Execute the performance test
+  </Step>
+</Steps>
+
+### Performance Budgets
+
+Set thresholds for key metrics:
+
+| Metric | Description | Good Target |
+|--------|-------------|-------------|
+| **LCP** | Largest Contentful Paint | < 2.5s |
+| **FCP** | First Contentful Paint | < 1.8s |
+| **CLS** | Cumulative Layout Shift | < 0.1 |
+| **TTFB** | Time to First Byte | < 0.8s |
+
+### Test Conditions
+
+Simulate real-world conditions:
+
+**Network Throttling:**
+- 4G (typical mobile)
+- Fast 3G
+- Slow 3G
+- No throttling
+
+**CPU Throttling:**
+- No throttle
+- 2x slowdown
+- 4x slowdown
+- 6x slowdown
+
+**Iterations:**
+- Run 1-10 times for consistent results
+
+---
+
+## Test Organization
+
+### Suites
+
+Tests are organized into suites (folders):
+
+```
+Repository: my-app
+├── Suite: Authentication
+│   ├── Test: Login flow (E2E)
+│   ├── Test: Registration (E2E)
+│   └── Test: validateEmail (Unit)
+├── Suite: API
+│   ├── Test: GET /users (Integration)
+│   └── Test: POST /orders (Integration)
+└── Suite: Performance
+    └── Test: Homepage load
+```
+
+When creating a test:
+- Add to an existing suite
+- Create a new suite
+
+### Editing Tests
+
+Click any test to:
+
+- Update name or description
+- Regenerate code with new prompt
+- Move to different suite
+- Delete test
+
+## Next Steps
+
+<Card title="Test Runner" icon="play" href="/dashboard/testing/runner">
+  Learn how tests run on PRs and pushes
+</Card>

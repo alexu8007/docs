@@ -1,105 +1,80 @@
 ---
 title: "Overview"
-description: "AI-powered test generation and execution for your repositories."
+description: "AI-powered test generation, execution, and evolution for your repositories."
 ---
 
-Paragon Testing lets you generate, run, and monitor tests for your repositories using AI. Describe what you want to test in plain English, and Paragon generates the test code for you.
+Paragon Testing lets you generate, run, and evolve tests for your repositories. Import existing tests, generate new ones with AI, and let Paragon automatically propose test updates when your code changes.
 
 ## How It Works
 
 ```
-You describe what to test → AI generates test code → Tests run automatically → Results appear in dashboard
+Add a repository → Import or generate tests → Tests run automatically → Evolve tests keep them updated
 ```
 
 <Steps>
   <Step title="Add a Repository">
-    Connect a GitHub repository to the testing dashboard
+    Connect a GitHub repository and configure test settings
   </Step>
-  <Step title="Generate Tests">
-    Describe what you want to test, AI writes the code
+  <Step title="Import or Generate Tests">
+    Import existing tests or generate new ones with AI
   </Step>
   <Step title="Run Tests">
     Execute manually, on schedule, or automatically on PR/push
   </Step>
-  <Step title="View Results">
-    See pass/fail status, errors, and execution details
+  <Step title="Evolve Tests">
+    Paragon proposes test updates when your code changes
   </Step>
 </Steps>
 
 ## Test Types
 
-Paragon supports four types of tests:
+Paragon supports two modes of testing:
 
-| Type | What It Tests | When to Use |
-|------|---------------|-------------|
-| **Unit** | Individual functions or components | Testing a single function like `calculateTotal()` |
-| **Integration** | Multiple parts working together | Testing API endpoints, database queries, service interactions |
-| **E2E** | Full user flows in a browser | Testing login flow, checkout process, form submissions |
-| **Performance** | Page load speed and Core Web Vitals | Monitoring LCP, FCP, CLS, and other performance metrics |
+### Code Tests (Unit & Integration)
 
-### Unit Tests
+Tests that live in your repository and run via your test framework.
 
-Test a single function or component in isolation.
+- **Unit Tests**: Test individual functions or components in isolation
+- **Integration Tests**: Test multiple parts working together (APIs, databases)
+- **Frameworks**: vitest, jest, mocha, pytest, go test, cargo test, and more
 
-```
-Prompt: "Test the validateEmail function returns true for valid emails and false for invalid ones"
-```
+Code tests can run automatically on PRs and pushes.
 
-Paragon generates test code using your framework (vitest, jest, pytest, etc.) that tests just that function.
+### E2E Tests (Step-Based)
 
-### Integration Tests
+Browser-based tests that run against a deployed URL.
 
-Test how multiple parts of your app work together.
+- **Step-Based Builder**: Visual interface to create test flows
+- **AI Actions**: Natural language steps like "fill in the login form"
+- **Multi-Platform**: Chrome, Firefox, Safari, Mobile
 
-```
-Prompt: "Test the /api/users endpoint returns user data and handles 404 for missing users"
-```
-
-Tests API routes, database interactions, or service-to-service calls.
-
-### E2E Tests
-
-Test real user workflows in a browser.
-
-```
-Prompt: "Test that a user can log in, add an item to cart, and complete checkout"
-```
-
-Paragon controls a real browser (Chrome, Firefox, Safari) to simulate user actions.
+E2E tests run against your production or staging URL.
 
 ### Performance Tests
 
-Measure page load performance and Core Web Vitals.
+Measure page load speed and Core Web Vitals.
 
-```
-URLs: https://myapp.com, https://myapp.com/dashboard
-Budget: LCP < 2.5s, FCP < 1.8s, CLS < 0.1
-```
+- **Metrics**: LCP, FCP, CLS, TTFB
+- **Budgets**: Set thresholds and get alerts when exceeded
+- **Conditions**: Test under various network and CPU throttling
 
-Paragon loads your pages under various network conditions and measures key metrics against your performance budgets.
+## Key Features
 
-## Regression Detection
-
-Every test run is compared against previous runs. If something that used to pass now fails, or if behavior changes unexpectedly, Paragon flags it as a regression.
-
-This happens automatically—you don't configure it separately. Just run your tests, and regressions are detected.
-
-## Supported Frameworks
-
-Paragon auto-detects your test framework or lets you choose:
-
-- **JavaScript/TypeScript**: vitest, jest, mocha, playwright
-- **Python**: pytest, unittest
-- **Go**: go test
-- **Rust**: cargo test
+| Feature | Description |
+|---------|-------------|
+| **Test Runner** | Run code tests on PR/push, E2E tests on prod URLs |
+| **Evolving Tests** | Auto-propose test updates when code changes |
+| **Multi-Platform** | Run E2E tests across browsers and devices |
+| **Regression Detection** | Automatically flag tests that start failing |
+| **GitHub Integration** | Results on PRs, blocking status checks |
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Add Repository" icon="plus" href="/dashboard/testing/repos">
-    Connect your first repository
+  <Card title="Quickstart" icon="bolt" href="/dashboard/testing/quickstart">
+    Get tests running on PRs in 5 minutes
   </Card>
-  <Card title="Create Tests" icon="wand-magic-sparkles" href="/dashboard/testing/creating">
-    Generate tests with AI
+  <Card title="Generate Tests" icon="wand-magic-sparkles" href="/dashboard/testing/generating">
+    Create tests with AI
   </Card>
 </CardGroup>

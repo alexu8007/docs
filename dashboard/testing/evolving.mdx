@@ -1,0 +1,312 @@
+---
+title: "Evolving Tests"
+description: "Automatically update tests when your code changes."
+---
+
+Evolving Tests keeps your test suite in sync with your code. When you make changes, Paragon analyzes the PR and proposes test additions, updates, or removals.
+
+## How It Works
+
+```
+Code changes in PR → Paragon analyzes impact → Proposes test changes → You review and accept
+```
+
+<Steps>
+  <Step title="You Open a PR">
+    Make code changes and open a pull request
+  </Step>
+  <Step title="Paragon Analyzes">
+    AI analyzes your changes and existing tests
+  </Step>
+  <Step title="Proposes Updates">
+    Paragon posts a GitHub comment with proposed test changes
+  </Step>
+  <Step title="You Review">
+    Review proposals in the dashboard
+  </Step>
+  <Step title="Accept or Reject">
+    Accept to apply changes, reject to ignore
+  </Step>
+</Steps>
+
+---
+
+## Enable Evolving Tests
+
+<Steps>
+  <Step title="Go to Testing > Repos">
+    Navigate to your repositories
+  </Step>
+  <Step title="Click Repository">
+    Select the repository to configure
+  </Step>
+  <Step title="Find Evolving Tests Section">
+    Scroll to the Evolving Tests settings
+  </Step>
+  <Step title="Enable Toggle">
+    Turn on "Enable Evolving Tests"
+  </Step>
+  <Step title="Configure Settings">
+    Set auto-run, open access, and excluded branches
+  </Step>
+  <Step title="Save">
+    Save your settings
+  </Step>
+</Steps>
+
+---
+
+## Configuration Options
+
+### Auto-Run on PR
+
+| Setting | Behavior |
+|---------|----------|
+| **Enabled** | Paragon automatically analyzes every PR |
+| **Disabled** | Manually trigger with `@paragon-evolve` comment |
+
+When disabled, comment `@paragon-evolve` on any PR to trigger analysis.
+
+### Open Access
+
+Allow external contributors (outside your organization) to trigger `@paragon-evolve` on their PRs.
+
+<Warning>
+Only enable for public repositories where you trust community contributions.
+</Warning>
+
+### Include Draft PRs
+
+By default, evolving tests only run on non-draft PRs. Enable this to also analyze draft PRs.
+
+### Excluded Branches
+
+Skip evolving tests for certain branches. Supports wildcards:
+
+```
+main
+develop
+release/*
+hotfix/*
+dependabot/*
+```
+
+Use cases:
+- Skip main branch (no PR to a branch you're already on)
+- Skip release branches (tests should be stable)
+- Skip automated dependency updates
+
+---
+
+## Proposal Types
+
+Paragon proposes three types of changes:
+
+### Add New Tests
+
+When you add new code that isn't covered by tests:
+
+```markdown
+### New Tests Proposed
+
+**Add test for `calculateShipping` function**
+- Reason: New function added with no test coverage
+- Confidence: 95%
+- Tests:
+  - Returns $5 for orders under $25
+  - Returns $0 for orders over $25 (free shipping)
+  - Handles international addresses with higher rate
+```
+
+### Update Existing Tests
+
+When code changes affect existing tests:
+
+```markdown
+### Test Updates Proposed
+
+**Update test for `calculateDiscount` function**
+- Reason: Function signature changed, added `memberType` parameter
+- Confidence: 88%
+- Changes:
+  - Add test cases for "gold" member type (30% discount)
+  - Add test cases for "silver" member type (20% discount)
+  - Update existing tests to include memberType parameter
+```
+
+### Remove Obsolete Tests
+
+When code is removed and tests are no longer needed:
+
+```markdown
+### Tests to Remove
+
+**Remove test for `legacyCalculator` function**
+- Reason: Function deleted in this PR
+- Confidence: 100%
+```
+
+---
+
+## Reviewing Proposals
+
+### GitHub Comment
+
+When Paragon analyzes a PR, it posts a comment:
+
+```markdown
+## 🧪 Evolving Tests Analysis
+
+I analyzed your changes and have **3 proposals**:
+
+| Type | Test | Confidence |
+|------|------|------------|
+| ➕ Add | calculateShipping tests | 95% |
+| ✏️ Update | calculateDiscount tests | 88% |
+| 🗑️ Remove | legacyCalculator tests | 100% |
+
+[Review proposals →](https://home.polarity.cc/testing/proposals/abc123)
+```
+
+### Dashboard Review
+
+Go to **Testing > Proposals** to see all pending proposals:
+
+1. **Filter by repository** - Focus on one repo
+2. **Filter by type** - Added, Updated, Removed
+3. **Preview changes** - See proposed code inline
+4. **View analysis** - Understand why changes are proposed
+
+### Proposal Details
+
+Click any proposal to see:
+
+- **Analysis Summary**: Why Paragon thinks this change is needed
+- **Confidence Score**: How certain Paragon is (0-100%)
+- **Proposed Code**: The actual test code to be added/updated
+- **Affected Files**: Which test files will change
+
+---
+
+## Accepting Proposals
+
+### Accept Single Proposal
+
+1. Click the proposal
+2. Review the changes
+3. Click **"Accept"**
+4. Choose: Push to PR or create new PR
+
+### Accept All Proposals
+
+1. Go to **Testing > Proposals**
+2. Select proposals with checkboxes
+3. Click **"Accept Selected"**
+
+### What Happens on Accept
+
+When you accept a proposal:
+
+1. Paragon generates the test code
+2. Commits to the PR branch (or creates new PR)
+3. Posts a GitHub comment confirming changes
+4. Proposal marked as accepted
+
+```markdown
+## ✅ Tests Updated
+
+Applied 3 test changes:
+- Added `calculateShipping.test.ts`
+- Updated `calculateDiscount.test.ts`
+- Removed `legacyCalculator.test.ts`
+
+[View commit →](https://github.com/org/repo/commit/abc123)
+```
+
+---
+
+## Rejecting Proposals
+
+### Reject Single Proposal
+
+1. Click the proposal
+2. Click **"Reject"**
+3. (Optional) Add reason
+
+Rejected proposals won't be proposed again for this PR.
+
+### When to Reject
+
+- **False positive**: Paragon misunderstood the change
+- **Already covered**: Existing tests cover this case
+- **Not needed**: Intentionally not testing this code
+- **Low confidence**: Proposal doesn't look right
+
+---
+
+## Best Practices
+
+### Start with Auto-Run Disabled
+
+When first enabling evolving tests:
+
+1. Disable auto-run initially
+2. Manually trigger on a few PRs with `@paragon-evolve`
+3. Review proposal quality
+4. Enable auto-run once satisfied
+
+### Review Before Accepting
+
+Always review proposals before accepting:
+
+- Check the generated test code makes sense
+- Verify assertions match expected behavior
+- Ensure test follows your conventions
+
+### Exclude Noisy Branches
+
+Add patterns for branches that don't need test evolution:
+
+```
+dependabot/*
+renovate/*
+*.md-only
+```
+
+### Trust Confidence Scores
+
+| Confidence | Meaning |
+|------------|---------|
+| 90%+ | Highly confident, likely accurate |
+| 70-90% | Good confidence, review recommended |
+| 50-70% | Medium confidence, careful review needed |
+| Below 50% | Low confidence, skeptical review |
+
+---
+
+## Troubleshooting
+
+### Proposals Not Appearing
+
+1. **Check evolving tests is enabled** in repository settings
+2. **Check auto-run setting** - if disabled, use `@paragon-evolve`
+3. **Check excluded branches** - branch might be excluded
+4. **Check draft PR setting** - draft PRs off by default
+
+### Low Quality Proposals
+
+- Make your PR description detailed
+- Include context about what changed and why
+- Link to related issues
+
+### Too Many Proposals
+
+- Add excluded branches for automated PRs
+- Adjust test type filters in settings
+- Review and reject false positives (Paragon learns)
+
+## Next Steps
+
+<Card title="Analytics" icon="chart-line" href="/dashboard/testing/analytics">
+  Track test performance and pass rates
+</Card>

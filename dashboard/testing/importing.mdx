@@ -1,0 +1,153 @@
+---
+title: "Importing Tests"
+description: "Import existing tests from your repository into Paragon."
+---
+
+Already have tests in your repository? Import them into Paragon to track results, run automatically on PRs, and enable evolving tests.
+
+## Why Import Tests?
+
+When you import existing tests:
+
+- **Track Results**: See pass/fail status in the Paragon dashboard
+- **Automate Runs**: Tests run automatically on PRs and pushes
+- **Enable Evolving**: Paragon can propose updates when code changes
+- **Unified View**: See all test results in one place
+
+<Note>
+Importing tests doesn't copy code into Paragon. Tests remain in your repository and run using your existing framework.
+</Note>
+
+## How to Import
+
+<Steps>
+  <Step title="Go to Testing > Tests">
+    Navigate to the Tests page
+  </Step>
+  <Step title="Click New Test">
+    Click "New Test" button
+  </Step>
+  <Step title="Select Repository">
+    Choose the repository containing your tests
+  </Step>
+  <Step title="Choose Code Test">
+    Select "Unit" or "Integration" test type
+  </Step>
+  <Step title="Click Import Tab">
+    Switch to the "Import Existing" tab
+  </Step>
+  <Step title="Browse Tests">
+    Paragon scans your repo and lists all detected tests
+  </Step>
+  <Step title="Select Tests">
+    Check the tests you want to import (supports multi-select)
+  </Step>
+  <Step title="Import">
+    Click "Import Selected" to add tests to your dashboard
+  </Step>
+</Steps>
+
+## Supported Frameworks
+
+Paragon detects tests based on your project configuration:
+
+### JavaScript/TypeScript
+
+| Framework | Config Files | Test Patterns |
+|-----------|--------------|---------------|
+| **Vitest** | `vitest.config.ts` | `*.test.ts`, `*.spec.ts` |
+| **Jest** | `jest.config.js` | `*.test.js`, `__tests__/*` |
+| **Mocha** | `.mocharc.js` | `test/*.js` |
+| **Playwright** | `playwright.config.ts` | `*.spec.ts` |
+
+### Python
+
+| Framework | Config Files | Test Patterns |
+|-----------|--------------|---------------|
+| **Pytest** | `pytest.ini`, `pyproject.toml` | `test_*.py`, `*_test.py` |
+| **Unittest** | — | `test_*.py` |
+
+### Other Languages
+
+| Language | Framework | Test Patterns |
+|----------|-----------|---------------|
+| **Go** | go test | `*_test.go` |
+| **Rust** | cargo test | `tests/*.rs`, `#[test]` |
+| **Ruby** | RSpec, Minitest | `spec/*.rb`, `test/*.rb` |
+| **Java** | JUnit, TestNG | `*Test.java` |
+| **C#** | xUnit, NUnit, MSTest | `*Tests.cs` |
+| **C++** | GTest, Catch2 | `*_test.cpp` |
+
+## Organizing Imported Tests
+
+### Suites
+
+Tests are organized into suites (folders). When importing:
+
+- Add to an existing suite
+- Create a new suite
+
+### Test Types
+
+| Detected As | Mode | Behavior |
+|-------------|------|----------|
+| Unit test | Code-based | Runs via test framework |
+| Integration test | Code-based | Runs via test framework |
+| E2E test | Step-based | Runs in browser |
+
+## After Importing
+
+Once imported, your tests appear in the Tests list with:
+
+- **File Path**: Location in your repository
+- **Framework**: Detected test framework
+- **Test Names**: Individual test cases extracted from the file
+- **Status**: Pass/fail from last run
+
+### Run Imported Tests
+
+Click the play button next to any test to run it immediately, or:
+
+- **Run All**: Execute all tests in a suite
+- **Run on PR**: Tests run automatically when PRs are opened
+- **Schedule**: Set up recurring test runs
+
+### Edit Test Settings
+
+Click any test to:
+
+- Move to a different suite
+- Update the framework if needed
+- Configure which triggers run this test
+
+## Troubleshooting
+
+### Tests Not Detected
+
+If your tests aren't found:
+
+1. **Check framework config**: Ensure your config file is in the repo root
+2. **Check test patterns**: Tests must follow framework conventions
+3. **Check file location**: Tests should be in expected directories
+
+### Wrong Framework Detected
+
+You can manually override the detected framework:
+
+1. Click on the imported test
+2. Change the framework in settings
+3. Save changes
+
+### Missing Test Cases
+
+If individual test cases aren't listed:
+
+- Paragon extracts test names from `describe`/`it` blocks
+- Deeply nested tests may show as a single entry
+- Run the test to see full breakdown
+
+## Next Steps
+
+<Card title="Generate Tests" icon="wand-magic-sparkles" href="/dashboard/testing/generating">
+  Create new tests with AI
+</Card>
