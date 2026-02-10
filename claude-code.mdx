@@ -1,144 +1,114 @@
 ---
 title: "Claude Code"
-description: "Enable Claude Code to use Paragon CLI commands by creating a skill."
+description: "Connect Paragon to Claude Code via MCP"
 icon: "/logo/claude-circle.png"
 ---
 
-## Why Use a Skill?
+Add Paragon as an MCP server in Claude Code to get code review, testing, and analysis tools directly in your terminal.
 
-Skills are the recommended way to give Claude Code access to Paragon commands. Unlike adding to `CLAUDE.md`, skills are:
+## Prerequisites
 
-- **On-demand** - Only loaded when you invoke `/paragon`
-- **Context-efficient** - Doesn't consume tokens until needed
-- **Organized** - Keeps your CLAUDE.md clean for project-specific info
+- Active Claude subscription (Pro, Max, or API access)
+- [Paragon CLI installed](/paragon/overview)
 
-## Quick Setup
+## Get your API key
 
-### Option 1: Let Claude Create It
+1. Go to [app.paragon.run](https://app.paragon.run)
+2. Sign in or create an account
+3. Navigate to **Settings** → **API Keys**
+4. Copy your API key
 
-Run Claude Code in your project and paste this prompt:
+<Note>
+Some tools like `generate_tests`, `run_paragon`, `list_test_suites`, and `save_to_suite` require an API key. Other tools work without one.
+</Note>
 
-```text
-Create a skill file at .claude/skills/paragon.md with the Paragon CLI reference.
-Include all commands: paragon run, paragon context, paragon submit, paragon branch,
-and stack navigation (sync, next, prev, top, bottom). Include flags and examples.
+## Setup
+
+<Steps>
+<Step title="Install Claude Code">
+
+```bash
+npm install -g @anthropic-ai/claude-code
 ```
 
-Claude will create the skill file automatically.
+</Step>
+<Step title="Add Paragon as an MCP server">
 
-### Option 2: Manual Setup
+Run the following command to register Paragon with Claude Code:
 
-1. Create the directory: `mkdir -p .claude/skills`
-2. Create `.claude/skills/paragon.md`
-3. Copy the CLI reference below into the file
+```bash
+claude mcp add-json paragon '{"command":"paragon","args":["mcp-server"],"env":{"POLARITY_API_KEY":"your-api-key-here"}}'
+```
+
+Replace `your-api-key-here` with your API key from [app.paragon.run](https://app.paragon.run).
+
+</Step>
+<Step title="Verify the server is connected">
+
+```bash
+claude mcp list
+```
+
+You should see `paragon` listed as a configured MCP server.
+
+</Step>
+</Steps>
+
+## Available tools
+
+Once connected, Paragon exposes 12 tools to Claude Code:
+
+### Code review
+
+| Tool | Description |
+|------|-------------|
+| `run_paragon` | Run a Paragon AI prompt — reads/writes files, runs shell commands, and performs complex coding tasks. Requires API key. |
+| `list_reviewed_prs` | List pull requests with Paragon review comments in the current repository. Supports filtering by state (`open`, `closed`, `all`). |
+| `get_review_comments` | Get parsed review findings from a PR, including severity, descriptions, file locations, and suggested fixes. Auto-detects PR from current branch if omitted. |
+| `resolve_review_comment` | Reply to a review comment and optionally resolve the thread. |
+
+### Testing
+
+| Tool | Description |
+|------|-------------|
+| `detect_test_framework` | Scan the repository and detect test frameworks in use. Returns framework details, run commands, file patterns, and confidence level. |
+| `find_tests` | Discover existing test files using framework-aware file patterns. Returns file paths and count. |
+| `run_tests` | Execute unit/integration tests using the detected or specified framework. Returns pass/fail status and full output. |
+| `run_e2e_tests` | Run Playwright E2E tests locally. Installs browsers if needed, optionally starts a dev server, and captures results. |
+| `generate_tests` | Generate unit, integration, or E2E tests using Paragon AI. Detects patterns, writes tests, verifies compilation, runs them, and fixes failures. Requires API key. |
+
+### Test suite management
+
+| Tool | Description |
+|------|-------------|
+| `list_test_suites` | List your test repositories and suites from the Paragon cloud dashboard. Requires API key. |
+| `save_to_suite` | Save locally generated test files to a Paragon cloud test suite. Requires API key. |
+
+### Utility
+
+| Tool | Description |
+|------|-------------|
+| `check_setup` | Check if the MCP server is properly configured. Reports the status of the API key, Paragon binary, and GitHub CLI. |
 
 ## Usage
 
-Once the skill is created, type `/paragon` in Claude Code to load the Paragon CLI reference into context. Claude will then know how to use all Paragon commands.
+After setup, Claude Code can automatically use Paragon tools when relevant. You can also request them directly:
 
-## CLI Reference
+```
+> Review the comments on my current PR and fix the issues
 
-<Note>
-Copy the content below into `.claude/skills/paragon.md`
-</Note>
+> Generate unit tests for src/auth.ts
 
-```markdown .claude/skills/paragon.md
-# Paragon CLI Commands
+> Run the test suite and show me what's failing
 
-> Use Paragon CLI for enhanced code analysis, reviews, and git workflows.
-
-## Quick Start
-
-paragon run -q "Review this code for security issues"    # Analyze code with a prompt
-git diff | paragon run -q "Review these changes"         # Pipe code for analysis
-
-## Code Analysis Commands
-
-### paragon run
-
-Run a prompt in non-interactive mode. Accepts input via arguments or stdin.
-
-paragon run "Explain the authentication flow in this codebase"
-paragon run -q "Find potential bugs in the error handling"           # Quiet mode (hide spinner)
-paragon run --feature "Add input validation to the API endpoints"    # Feature implementation mode
-paragon run --json "List all security issues"                        # JSON output for structured parsing
-cat src/auth.go | paragon run "Explain this code"                    # Pipe stdin
-git diff HEAD~3 | paragon run -q "Review these changes"
-paragon run -m paragon-max "Complex architectural analysis"          # Select model
-
-Flags:
-  -q, --quiet     Hide spinner/progress output
-  --feature       Use feature implementation mode (vs code review)
-  --json          Output structured JSON findings
-  --concise       Results-only, no reasoning
-  -m, --model     Model selection (paragon-max, paragon-high, paragon-fast)
-
-### paragon context
-
-Specialized context-aware queries using semantic search and AI analysis.
-
-paragon context issue "Database updates not persisting"      # Diagnose and find root causes
-paragon context search "authentication logic"                # Semantic code search
-paragon context knowledge "How does the caching layer work?" # Query project architecture
-
-## Git Workflow Commands
-
-### paragon submit
-
-Push branch and create/update GitHub PR with AI-generated description.
-
-paragon submit --ai                               # AI-generated title and description
-paragon submit --title "Add user authentication"  # With custom title
-paragon submit --draft --ai                       # As draft PR
-
-### paragon branch create
-
-Create a new stacked branch with optional AI naming.
-
-paragon branch create --ai         # AI-generated branch name based on changes
-paragon branch create feature/auth # Explicit name
-
-### Stack Navigation
-
-paragon stack      # Show branch stack tree
-paragon sync       # Rebase current branch on parent
-paragon next       # Move to child branch
-paragon prev       # Move to parent branch
-paragon top        # Jump to top of stack
-paragon bottom     # Jump to bottom of stack
-
-## Global Flags
-
-Available on all commands:
-  -q, --quiet    Hide spinners and progress output
-  -y, --yolo     Auto-approve all permission requests (dangerous)
-  -d, --debug    Enable debug logging
-  -c, --cwd      Set working directory
-
-## Integration Examples
-
-git diff main | paragon run -q "Review for bugs and security issues"     # Code Review on Diff
-gh pr diff 123 | paragon run -q --json "Comprehensive code review"       # Automated PR Review
-paragon context issue "Tests failing after recent merge"                 # Find Root Cause
-git diff --staged | paragon run -q "Check for issues before commit"      # Pre-commit Analysis
-cat src/complex-algorithm.go | paragon run "Explain this step by step"   # Explain Complex Code
-
-## Tips
-
-1. Use -q flag for cleaner output in scripts
-2. Pipe code via stdin for targeted analysis
-3. Use --json when parsing results programmatically
-4. Use context issue for debugging problems
-5. Use context search to find code patterns
+> Find all Playwright tests and run them in headed mode
 ```
 
-## Why Skills Over CLAUDE.md?
+## Configuration
 
-| CLAUDE.md | Skills |
-|-----------|--------|
-| Always loaded into context | Loaded on-demand with `/paragon` |
-| Uses tokens on every message | Only uses tokens when invoked |
-| Best for essential project info | Best for reference documentation |
-| Can get cluttered | Organized by topic |
+To update your API key or other environment variables, remove and re-add the server:
 
-Keep your `CLAUDE.md` focused on project-specific context (architecture, conventions, important files). Use skills for tool references like Paragon that you only need occasionally.
+```bash
+claude mcp remove paragon
+claude mcp add-json paragon '{"command":"paragon","args":["mcp-server"],"env":{"POLARITY_API_KEY":"your-new-api-key"}}'
+```

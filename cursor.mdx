@@ -1,116 +1,111 @@
 ---
 title: "Cursor"
-description: "Enable Cursor to use Paragon CLI commands by adding context to your project."
+description: "Connect Paragon to Cursor via MCP"
 icon: "/logo/cursor-circle.png"
 ---
 
-## Why Add Context?
+Add Paragon as an MCP server in Cursor to get code review, testing, and analysis tools directly in your editor.
 
-Cursor works best when it knows what tools are available. By adding the Paragon CLI reference to your project's `.cursorrules` file, Cursor can:
+## Prerequisites
 
-- Automatically use `paragon run` for code analysis
-- Pipe diffs and code through Paragon for review
-- Use semantic search with `paragon context`
-- Manage branches and stacks efficiently
+- Cursor editor installed
+- [Paragon CLI installed](/paragon/overview)
+
+## Get your API key
+
+1. Go to [app.paragon.run](https://app.paragon.run)
+2. Sign in or create an account
+3. Navigate to **Settings** → **API Keys**
+4. Copy your API key
+
+<Note>
+Some tools like `generate_tests`, `run_paragon`, `list_test_suites`, and `save_to_suite` require an API key. Other tools work without one.
+</Note>
 
 ## Setup
 
-1. Open or create `.cursorrules` in your project root
-2. Copy the CLI reference below and paste it into the file
-3. Cursor will now use Paragon commands for code analysis
+<Steps>
+<Step title="Open MCP settings">
 
-## CLI Reference
+Open Cursor and go to **Settings** → **MCP**. Click **+ Add new MCP server**.
 
-<Note>
-Copy the content below into your `.cursorrules` file.
-</Note>
+</Step>
+<Step title="Configure Paragon">
 
-```text .cursorrules
-# Paragon CLI Commands
+Select **Type: command** and add the following configuration:
 
-> Use Paragon CLI for enhanced code analysis, reviews, and git workflows.
+```json
+{
+  "mcpServers": {
+    "paragon": {
+      "command": "paragon",
+      "args": ["mcp-server"],
+      "env": {
+        "POLARITY_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
+```
 
-## Quick Start
+Replace `your-api-key-here` with your API key from [app.paragon.run](https://app.paragon.run).
 
-paragon run -q "Review this code for security issues"    # Analyze code with a prompt
-git diff | paragon run -q "Review these changes"         # Pipe code for analysis
+Alternatively, create a `.cursor/mcp.json` file in your project root with the same configuration.
 
-## Code Analysis Commands
+</Step>
+<Step title="Verify the connection">
 
-### paragon run
+After saving, you should see **paragon** listed in your MCP servers with a green status indicator.
 
-Run a prompt in non-interactive mode. Accepts input via arguments or stdin.
+</Step>
+</Steps>
 
-paragon run "Explain the authentication flow in this codebase"
-paragon run -q "Find potential bugs in the error handling"           # Quiet mode (hide spinner)
-paragon run --feature "Add input validation to the API endpoints"    # Feature implementation mode
-paragon run --json "List all security issues"                        # JSON output for structured parsing
-cat src/auth.go | paragon run "Explain this code"                    # Pipe stdin
-git diff HEAD~3 | paragon run -q "Review these changes"
-paragon run -m paragon-max "Complex architectural analysis"          # Select model
+## Available tools
 
-Flags:
-  -q, --quiet     Hide spinner/progress output
-  --feature       Use feature implementation mode (vs code review)
-  --json          Output structured JSON findings
-  --concise       Results-only, no reasoning
-  -m, --model     Model selection (paragon-max, paragon-high, paragon-fast)
+Once connected, Paragon exposes 12 tools to Cursor:
 
-### paragon context
+### Code review
 
-Specialized context-aware queries using semantic search and AI analysis.
+| Tool | Description |
+|------|-------------|
+| `run_paragon` | Run a Paragon AI prompt — reads/writes files, runs shell commands, and performs complex coding tasks. Requires API key. |
+| `list_reviewed_prs` | List pull requests with Paragon review comments in the current repository. Supports filtering by state (`open`, `closed`, `all`). |
+| `get_review_comments` | Get parsed review findings from a PR, including severity, descriptions, file locations, and suggested fixes. Auto-detects PR from current branch if omitted. |
+| `resolve_review_comment` | Reply to a review comment and optionally resolve the thread. |
 
-paragon context issue "Database updates not persisting"      # Diagnose and find root causes
-paragon context search "authentication logic"                # Semantic code search
-paragon context knowledge "How does the caching layer work?" # Query project architecture
+### Testing
 
-## Git Workflow Commands
+| Tool | Description |
+|------|-------------|
+| `detect_test_framework` | Scan the repository and detect test frameworks in use. Returns framework details, run commands, file patterns, and confidence level. |
+| `find_tests` | Discover existing test files using framework-aware file patterns. Returns file paths and count. |
+| `run_tests` | Execute unit/integration tests using the detected or specified framework. Returns pass/fail status and full output. |
+| `run_e2e_tests` | Run Playwright E2E tests locally. Installs browsers if needed, optionally starts a dev server, and captures results. |
+| `generate_tests` | Generate unit, integration, or E2E tests using Paragon AI. Detects patterns, writes tests, verifies compilation, runs them, and fixes failures. Requires API key. |
 
-### paragon submit
+### Test suite management
 
-Push branch and create/update GitHub PR with AI-generated description.
+| Tool | Description |
+|------|-------------|
+| `list_test_suites` | List your test repositories and suites from the Paragon cloud dashboard. Requires API key. |
+| `save_to_suite` | Save locally generated test files to a Paragon cloud test suite. Requires API key. |
 
-paragon submit --ai                               # AI-generated title and description
-paragon submit --title "Add user authentication"  # With custom title
-paragon submit --draft --ai                       # As draft PR
+### Utility
 
-### paragon branch create
+| Tool | Description |
+|------|-------------|
+| `check_setup` | Check if the MCP server is properly configured. Reports the status of the API key, Paragon binary, and GitHub CLI. |
 
-Create a new stacked branch with optional AI naming.
+## Usage
 
-paragon branch create --ai         # AI-generated branch name based on changes
-paragon branch create feature/auth # Explicit name
+After setup, Cursor's agent mode can automatically use Paragon tools when relevant. You can also request them directly in chat:
 
-### Stack Navigation
+```
+Review the comments on my current PR and fix the issues
 
-paragon stack      # Show branch stack tree
-paragon sync       # Rebase current branch on parent
-paragon next       # Move to child branch
-paragon prev       # Move to parent branch
-paragon top        # Jump to top of stack
-paragon bottom     # Jump to bottom of stack
+Generate unit tests for src/auth.ts
 
-## Global Flags
+Run the test suite and show me what's failing
 
-Available on all commands:
-  -q, --quiet    Hide spinners and progress output
-  -y, --yolo     Auto-approve all permission requests (dangerous)
-  -d, --debug    Enable debug logging
-  -c, --cwd      Set working directory
-
-## Integration Examples
-
-git diff main | paragon run -q "Review for bugs and security issues"     # Code Review on Diff
-gh pr diff 123 | paragon run -q --json "Comprehensive code review"       # Automated PR Review
-paragon context issue "Tests failing after recent merge"                 # Find Root Cause
-git diff --staged | paragon run -q "Check for issues before commit"      # Pre-commit Analysis
-cat src/complex-algorithm.go | paragon run "Explain this step by step"   # Explain Complex Code
-
-## Tips
-
-1. Use -q flag for cleaner output in scripts
-2. Pipe code via stdin for targeted analysis
-3. Use --json when parsing results programmatically
-4. Use context issue for debugging problems
-5. Use context search to find code patterns
+Find all Playwright tests and run them in headed mode
 ```
