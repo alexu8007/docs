@@ -1,0 +1,137 @@
+---
+title: "Paragon MCP"
+description: "Connect Paragon to your AI coding tools via MCP"
+icon: "plug"
+---
+
+The Paragon MCP server gives your AI coding tools access to code review, testing, and analysis capabilities. Connect it to Claude Code, Cursor, or Windsurf to use Paragon directly from your development environment.
+
+## Prerequisites
+
+- [Paragon CLI installed](/paragon/overview)
+- An API key from [app.paragon.run](https://app.paragon.run)
+
+## Get your API key
+
+1. Go to [app.paragon.run](https://app.paragon.run)
+2. Sign in or create an account
+3. Navigate to **Settings** → **API Keys**
+4. Copy your API key
+
+<Note>
+Some tools like `generate_tests`, `run_paragon`, `list_test_suites`, and `save_to_suite` require an API key. Other tools work without one.
+</Note>
+
+## Connect to your tool
+
+<Tabs>
+<Tab title="Claude Code">
+
+```bash
+claude mcp add-json paragon '{"command":"paragon","args":["mcp-server"],"env":{"POLARITY_API_KEY":"your-api-key-here"}}'
+```
+
+Replace `your-api-key-here` with your API key. Verify with:
+
+```bash
+claude mcp list
+```
+
+[Full Claude Code setup guide →](/claude-code)
+
+</Tab>
+<Tab title="Cursor">
+
+Open **Settings** → **MCP** → **+ Add new MCP server**, or add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "paragon": {
+      "command": "paragon",
+      "args": ["mcp-server"],
+      "env": {
+        "POLARITY_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
+```
+
+Replace `your-api-key-here` with your API key. A green status indicator confirms the connection.
+
+[Full Cursor setup guide →](/cursor)
+
+</Tab>
+<Tab title="Windsurf">
+
+Open **Cascade** → **Plugins (MCP)** → **Add custom server**, or add to `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "paragon": {
+      "command": "paragon",
+      "args": ["mcp-server"],
+      "env": {
+        "POLARITY_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
+```
+
+Replace `your-api-key-here` with your API key. Restart Windsurf and check for a green status indicator.
+
+</Tab>
+</Tabs>
+
+## Available tools
+
+Once connected, Paragon exposes 12 tools to your AI coding assistant:
+
+### Code review
+
+| Tool | Description |
+|------|-------------|
+| `run_paragon` | Run a Paragon AI prompt — reads/writes files, runs shell commands, and performs complex coding tasks. Requires API key. |
+| `list_reviewed_prs` | List pull requests with Paragon review comments in the current repository. Supports filtering by state (`open`, `closed`, `all`). |
+| `get_review_comments` | Get parsed review findings from a PR, including severity, descriptions, file locations, and suggested fixes. Auto-detects PR from current branch if omitted. |
+| `resolve_review_comment` | Reply to a review comment and optionally resolve the thread. |
+
+### Testing
+
+| Tool | Description |
+|------|-------------|
+| `detect_test_framework` | Scan the repository and detect test frameworks in use. Returns framework details, run commands, file patterns, and confidence level. |
+| `find_tests` | Discover existing test files using framework-aware file patterns. Returns file paths and count. |
+| `run_tests` | Execute unit/integration tests using the detected or specified framework. Returns pass/fail status and full output. |
+| `run_e2e_tests` | Run Playwright E2E tests locally. Installs browsers if needed, optionally starts a dev server, and captures results. |
+| `generate_tests` | Generate unit, integration, or E2E tests using Paragon AI. Detects patterns, writes tests, verifies compilation, runs them, and fixes failures. Requires API key. |
+
+### Test suite management
+
+| Tool | Description |
+|------|-------------|
+| `list_test_suites` | List your test repositories and suites from the Paragon cloud dashboard. Requires API key. |
+| `save_to_suite` | Save locally generated test files to a Paragon cloud test suite. Requires API key. |
+
+### Utility
+
+| Tool | Description |
+|------|-------------|
+| `check_setup` | Check if the MCP server is properly configured. Reports the status of the API key, Paragon binary, and GitHub CLI. |
+
+## Example prompts
+
+After setup, your AI tool can automatically use Paragon when relevant. You can also request tools directly:
+
+```
+Review the comments on my current PR and fix the issues
+
+Generate unit tests for src/auth.ts
+
+Run the test suite and show me what's failing
+
+Find all Playwright tests and run them in headed mode
+```

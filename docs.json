@@ -23,7 +23,8 @@
           {
             "group": "Getting started",
             "pages": [
-              "index"
+              "index",
+              "paragon-mcp"
             ]
           },
           {
