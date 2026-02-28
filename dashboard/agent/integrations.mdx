@@ -1,0 +1,122 @@
+---
+title: "Integrations"
+description: "Trigger and interact with the agent from GitHub pull requests and Slack."
+---
+
+The Paragon Agent integrates with GitHub and Slack so you can trigger sessions and receive updates without leaving your existing workflows.
+
+## GitHub
+
+### Mentioning the Agent on PRs
+
+Comment `@paragon-run` followed by an instruction on any pull request to trigger the agent:
+
+```
+@paragon-run Write tests for the new authentication middleware and fix any bugs you find
+```
+
+The agent will:
+
+1. Clone the repository at the PR's branch
+2. Execute your instruction
+3. Commit and push changes to the branch
+4. Reply with a summary on the PR
+
+### Plan Approval via GitHub
+
+When the agent produces a plan (in Grind mode), it posts the plan as a PR comment. Approve or reject directly from GitHub:
+
+```
+@paragon-run approve
+```
+
+```
+@paragon-run reject
+```
+
+### Auto-Fix on Review
+
+When a reviewer submits a "changes requested" review, the agent can automatically address the feedback. Enable this per repository:
+
+1. Go to **Agent** in the dashboard
+2. Open repository settings
+3. Toggle **Auto-fix on review**
+
+The agent reads the review comments and pushes fixes to the PR branch.
+
+### Repository Settings
+
+Configure agent behavior per repository:
+
+| Setting | Description |
+|---------|-------------|
+| **Agent monitoring** | Enable `@paragon-run` mentions on PRs |
+| **Auto-fix on review** | Automatically address "changes requested" reviews |
+| **Push as PR** | Create a new PR instead of pushing to the existing branch |
+
+## Slack
+
+### Connecting Slack
+
+Add the Paragon bot to your Slack workspace directly from the dashboard.
+
+<Steps>
+  <Step title="Open the Agent Page">
+    Go to the **Agent** page in the dashboard. At the bottom of the sidebar you'll see an **Add to Slack** button.
+  </Step>
+  <Step title="Authorize the App">
+    Click **Add to Slack**. You'll be redirected to Slack's OAuth consent screen. Select the workspace you want to install to and click **Allow**.
+  </Step>
+  <Step title="Confirm Connection">
+    After authorizing, you'll be redirected back to the dashboard. The sidebar will show "Connected to {workspace name}" once the installation is complete.
+  </Step>
+  <Step title="Invite to a Channel">
+    In any Slack channel where you want to use the agent, type `/invite @paragon-run` to add the bot.
+  </Step>
+</Steps>
+
+<Note>
+  Only team admins can connect or disconnect Slack. Team members will see the connection status but cannot modify it.
+</Note>
+
+#### Disconnecting
+
+To remove the Slack integration, click **Disconnect** next to the workspace name in the agent sidebar. This revokes the bot token and removes the connection from your team.
+
+### Triggering the Agent
+
+Mention `@paragon-run` in any channel the bot has been added to:
+
+```
+@paragon-run Review this PR for security issues and missing test coverage
+```
+
+The agent processes your request and posts status updates as replies in the thread.
+
+### Notifications
+
+Configure Slack as an alert destination to receive notifications for:
+
+- Agent session completions and failures
+- Monitoring alerts (URL downtime, dependency issues)
+- Test results (failures, flaky tests, suite completions)
+
+#### Alert Webhook Setup
+
+1. Go to **Settings > Alerts** in the dashboard
+2. Click **Add Integration**
+3. Select **Slack**
+4. Paste your Slack [incoming webhook URL](https://api.slack.com/messaging/webhooks)
+5. Save
+
+<Note>
+  Alert webhooks are separate from the Slack bot. The bot lets you trigger the agent from Slack. Alert webhooks send one-way notifications to a channel.
+</Note>
+
+### Other Notification Channels
+
+In addition to Slack, Paragon supports:
+
+- **Discord** — Via Discord webhook URL
+- **Microsoft Teams** — Via Teams incoming webhook
+- **Email** — Via configured email addresses
