@@ -1,0 +1,106 @@
+---
+title: "Auto Test"
+description: "Spawn AI agents to autonomously explore and test a live web application."
+---
+
+Spawn parallel AI agents that navigate a live web application using a real browser, find bugs, take screenshots, and optionally create GitHub issues or PRs with their findings.
+
+```bash
+paragon autotest [description] [flags]
+```
+
+Unlike `paragon test` which runs pre-written Playwright tests, `autotest` uses AI agents that explore your app autonomously — no test files needed. Each agent gets its own isolated browser instance.
+
+## How It Works
+
+1. **Planning** — A planning agent analyzes the target app and distributes testing work across agents.
+2. **Exploration** — Each agent navigates the app in a real browser, performing actions like clicking, typing, scrolling, and navigating between pages.
+3. **Reporting** — Findings are compiled into a report with screenshots, reproduction steps, and severity ratings. Playwright test code is auto-generated from the agent's actions.
+4. **GitHub integration** (optional) — Findings are filed as GitHub issues or bundled into a PR.
+
+## Flags
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--url` | `string` | **(required)** | Target URL to test. |
+| `--prompt` | `string` | — | What to test (e.g. `"test the checkout flow"`). |
+| `--agents` | `int` | `1` | Number of parallel agents (1–8). Each agent gets its own browser. |
+| `--model` | `string` | `paragon-max` | Model to use for the agents. |
+| `--timeout` | `int` | `15` | Per-agent timeout in minutes. |
+| `--auth` | `string` | — | Path to a cookies JSON file (browser-use export format) for pre-authenticated sessions. |
+| `--login` | `string` | — | Login instructions for the agent in plain English (e.g. `"click Login, type user@test.com into email, type pass123 into password, click Submit"`). |
+| `--session` | `string` | — | Team auth session name or ID stored in Supabase. |
+| `--repo` | `string` | — | GitHub repo for issue/PR creation (`owner/repo`). |
+| `--pr` | `bool` | `false` | Create a PR with findings instead of an issue. Defaults to `true` when `--repo` is set. |
+| `--skip-github` | `bool` | `false` | Skip GitHub issue/PR creation even if `--repo` is set. |
+| `--json` | `bool` | `false` | Output results as structured JSON. |
+| `-q, --quiet` | `bool` | `false` | Minimal output. |
+
+## Examples
+
+```bash
+# Basic: test a local app
+paragon autotest --url http://localhost:3000 --prompt "make sure the page loads"
+
+# Run against production with multiple agents
+paragon autotest --url https://yourapp.com --prompt "test the checkout flow" --agents 4
+
+# Test with login instructions
+paragon autotest --url https://yourapp.com --login "click Login, type user@test.com into email, type pass123 into password, click Submit" --prompt "test the dashboard"
+
+# Use a cookies file for auth
+paragon autotest --url https://yourapp.com --auth ./cookies.json --prompt "test account settings"
+
+# Use a shared team auth session
+paragon autotest --url https://yourapp.com --session "staging-admin" --prompt "test admin panel"
+
+# File findings as a GitHub PR
+paragon autotest --url https://yourapp.com --prompt "test user registration" --repo acme/webapp --pr
+
+# Skip GitHub, just see findings locally
+paragon autotest --url http://localhost:3000 --prompt "test login" --skip-github
+
+# JSON output for CI pipelines
+paragon autotest --url https://yourapp.com --prompt "smoke test" --json --quiet
+```
+
+## Authentication
+
+Autotest supports three ways to authenticate agents with your app:
+
+| Method | Flag | When to use |
+|--------|------|-------------|
+| **Login instructions** | `--login` | Simple login forms. Describe the steps in plain English. |
+| **Cookies file** | `--auth` | Export cookies from browser-use and pass the JSON file. |
+| **Team session** | `--session` | Shared, encrypted auth sessions stored in Supabase for team reuse. |
+
+## Managing Team Auth Sessions
+
+Use `paragon autotest auth` to manage shared authentication sessions:
+
+```bash
+# List all team auth sessions
+paragon autotest auth list
+
+# Capture a new session (opens a browser — log in manually, then close)
+paragon autotest auth capture https://yourapp.com --name "staging-admin"
+
+# Use the captured session
+paragon autotest --url https://yourapp.com --session "staging-admin" --prompt "test dashboard"
+
+# Delete a session
+paragon autotest auth delete "staging-admin"
+```
+
+## Output
+
+Each finding includes:
+
+- **Title and description** of the bug
+- **Severity** rating (`critical`, `high`, `medium`, `low`)
+- **Screenshots** captured during the session
+- **Reproduction steps** from the agent's browser actions
+- **URL** where the issue was found
+- **Auto-generated Playwright code** to reproduce the bug
+
+When `--repo` is set, findings are automatically filed as GitHub issues or bundled into a PR with the generated Playwright tests.

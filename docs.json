@@ -65,6 +65,7 @@
               "paragon/commands",
               "paragon/tools",
               "paragon/e2e-testing",
+              "paragon/auto-test",
               "paragon/configuration"
             ]
           },
