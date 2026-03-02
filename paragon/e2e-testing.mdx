@@ -34,3 +34,124 @@ Once a scenario is saved, run it anytime:
 | **CLI** | `paragon tests run <scenario-id>` |
 | **Chat** | "run my e2e tests" |
 | **TUI** | `ctrl+p` → Automation Scenarios |
+
+## `paragon test`
+
+Run exported Playwright E2E tests locally from the terminal. This command wraps `npx playwright test` with your `paragon-tests/` configuration and handles authentication with Polarity for AI-powered test steps.
+
+```bash
+paragon test [file-pattern] [flags]
+```
+
+### Prerequisites
+
+Before running `paragon test`, make sure:
+
+1. **You're authenticated** — run `paragon auth login` if you haven't already. AI-powered test steps require a valid Polarity session.
+2. **You have a `paragon-tests/` directory** in your project root containing a `playwright.config.ts`. Export your tests from the [Paragon Dashboard](https://home.polarity.cc/app/testing/e2e) to generate this directory.
+3. **Playwright is available** — the command runs via `npx`, so Playwright will be resolved from your project's `node_modules` or fetched automatically.
+
+<Warning>
+If the `paragon-tests/` directory or `playwright.config.ts` is missing, the command will exit with an error and point you to the dashboard to export your tests.
+</Warning>
+
+### Basic Usage
+
+```bash
+# Run all tests in paragon-tests/
+paragon test
+
+# Run a specific test file
+paragon test login.spec.ts
+
+# Run multiple files or use glob patterns
+paragon test auth.spec.ts checkout.spec.ts
+paragon test **/*.spec.ts
+```
+
+The optional `[file-pattern]` argument accepts one or more file paths or glob patterns. When omitted, all tests in the `paragon-tests/` directory are run.
+
+### Flags
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--url` | `string` | — | Base URL for tests. Sets the `PARAGON_TEST_URL` environment variable, overriding the URL configured in `playwright.config.ts`. Also overridable via the `PARAGON_TEST_URL` env var directly. |
+| `--headed` | `bool` | `false` | Run tests with a visible browser window instead of headless mode. Useful for watching tests execute in real time. |
+| `--grep` | `string` | — | Filter tests by name or pattern. Only tests whose name matches the pattern will run. Passed directly to Playwright's `--grep` flag. |
+| `--workers` | `int` | `0` (auto) | Number of parallel worker processes. When set to `0`, Playwright chooses automatically. Set to `1` to run tests sequentially. |
+| `--retries` | `int` | `0` | Number of times to retry failed tests. Useful for flaky tests or unstable environments. |
+| `--timeout` | `int` | `0` | Test timeout in milliseconds. Overrides the timeout set in your Playwright config. When `0`, the config default is used (typically 300,000ms / 5 minutes). |
+| `--project` | `string` | — | Run tests for a specific browser project defined in your Playwright config (e.g. `chromium`, `chrome`, `firefox`). |
+| `--debug` | `bool` | `false` | Launch Playwright in debug mode. Opens the Playwright Inspector, allowing you to step through tests, inspect selectors, and view logs interactively. |
+| `--ui` | `bool` | `false` | Open Playwright's interactive UI mode. Provides a visual interface for browsing, running, and debugging tests with a built-in trace viewer. |
+
+### Examples
+
+```bash
+# Run all tests against your local dev server
+paragon test --url http://localhost:3000
+
+# Watch tests run in a visible browser
+paragon test --headed
+
+# Filter to only run tests with "login" in the name
+paragon test --grep "login"
+
+# Run a single file in Chrome only
+paragon test checkout.spec.ts --project chromium
+
+# Retry flaky tests up to 3 times with a longer timeout
+paragon test --retries 3 --timeout 120000
+
+# Step through a test interactively with the Playwright Inspector
+paragon test --debug --headed
+
+# Open the full Playwright UI for exploring all tests
+paragon test --ui
+
+# Combine flags for a targeted local run
+paragon test --url http://localhost:3000 --headed --grep "checkout" --workers 4
+```
+
+### Running Against Production
+
+Use the `--url` flag to point tests at a deployed environment:
+
+```bash
+# Run against a staging environment
+paragon test --url https://staging.yourapp.com
+
+# Run against production
+paragon test --url https://yourapp.com --project chromium --retries 2
+```
+
+You can also set the `PARAGON_TEST_URL` environment variable instead of passing `--url` each time:
+
+```bash
+export PARAGON_TEST_URL=https://staging.yourapp.com
+paragon test
+```
+
+When `--url` is provided, it takes precedence over the env var.
+
+### Default Playwright Configuration
+
+Exported tests come with a pre-configured `playwright.config.ts` that includes sensible defaults:
+
+| Setting | Default |
+|---------|---------|
+| Timeout | 300,000ms (5 minutes) |
+| Expect timeout | 30,000ms |
+| Workers | 1 (sequential) |
+| Retries | 0 |
+| Video recording | Enabled |
+| Trace collection | Enabled |
+| Screenshots | Enabled |
+| Viewport | 1280 x 720 |
+| Browsers | Chromium, Chrome |
+
+Test results including videos, traces, and screenshots are written to a `test-results/` directory.
+
+<Tip>
+Use `--ui` mode for the best local debugging experience — it gives you a visual test explorer with a built-in trace viewer, video playback, and DOM snapshots.
+</Tip>
